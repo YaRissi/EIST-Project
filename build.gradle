@@ -30,6 +30,14 @@ sourceSets {
             srcDir 'src/main/resources'
         }
     }
+    reservationsystem {
+        java {
+            srcDir 'src/reservationsystem/java'
+        }
+        resources {
+            srcDir 'src/reservationsystem/resources'
+        }
+    }
     test {
         java {
             srcDir 'src/test/java'
