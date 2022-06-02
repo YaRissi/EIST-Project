@@ -31,13 +31,13 @@ public class Restaurant {
 
     }
 
-    public void reserveTable(Table table, TimeSlot timeSlot) {
+    public void reserveTable(String name, Table table, TimeSlot timeSlot, int NumberOfPeople) {
         if (table.isReserved()) {
             throw new IllegalArgumentException("This table is already reserved, please pick another!");
         } else {
             table.setReserved(true);
             //TODO: add more specific reservation once class is implemented
-            addReservation(new Reservation());
+            addReservation(new Reservation(name,timeSlot,table,NumberOfPeople));
         }
     }
 
