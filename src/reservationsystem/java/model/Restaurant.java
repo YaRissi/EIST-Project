@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.*;
+import java.sql.Time;
 import java.time.*;
 import java.util.*;
 import java.util.List;
@@ -19,11 +20,12 @@ public class Restaurant {
 
     public Restaurant(Point location, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<TimeSlot>[] openingTimes) {
         this.location = location;
+        this.restaurantType = new ArrayList<>();
         this.restaurantType.add(restaurantType);
         this.priceCategory = priceCategory;
         this.tables = tables;
-        if (openingTimes.length > 7) {
-            throw new IllegalArgumentException("There are only 7 days in a week!");
+        if (openingTimes.length != 7) {
+            throw new IllegalArgumentException("There are 7 days in a week!");
         } else {
             this.openingTimes = openingTimes;
         }
@@ -38,7 +40,6 @@ public class Restaurant {
             throw new IllegalArgumentException("There are to many people for this Table. Please choose another one or lower the number of people for this table");
         else {
             table.setReserved(true);
-            //TODO: add more specific reservation once class is implemented
             addReservation(new Reservation(name,timeSlot,table,NumberOfPeople));
         }
     }
@@ -120,7 +121,16 @@ public class Restaurant {
         return openingTimes;
     }
 
-    public void setOpeningTimes(LocalTime start, LocalTime stop, DayOfWeek dayOfWeek) {
+    public void setOpeningTimes(List<TimeSlot>[] openingTimes) {
+        this.openingTimes = openingTimes;
+    }
+
+    public void addOpeningTimes(LocalTime start, LocalTime stop, DayOfWeek dayOfWeek) {
+        for (int i = 0; i < 7; i++) {
+            if (openingTimes[i] == null) {
+                openingTimes[i] = new ArrayList<>();
+            }
+        }
         switch (dayOfWeek) {
             case MONDAY -> openingTimes[0].add(new TimeSlot(start, stop));
             case TUESDAY -> openingTimes[1].add(new TimeSlot(start, stop));
