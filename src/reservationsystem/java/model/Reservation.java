@@ -13,7 +13,7 @@ public class Reservation {
         this.name = people;
         timeslot = timeSlot;
         this.table = table;
-        setNumberOfPeople(numberOfPeople);
+        this.numberOfPeople = numberOfPeople;
     }
 
     public int getNumberOfPeople() {
@@ -21,10 +21,6 @@ public class Reservation {
     }
 
     public void setNumberOfPeople(int numberOfPeople) {
-        //Ich hab diesen check erstmal in dieser Klasse implementiert
-        //Im Nachhinein kann man ihn auch in die Restaurant-Klasse übertragen
-        if(numberOfPeople > table.getMaxNumberOfPeople())
-            throw new IllegalArgumentException("There are to many people for this Table. Please choose another one or lower the number of people for this table");
         this.numberOfPeople = numberOfPeople;
     }
 

@@ -34,7 +34,9 @@ public class Restaurant {
     public void reserveTable(String name, Table table, TimeSlot timeSlot, int NumberOfPeople) {
         if (table.isReserved()) {
             throw new IllegalArgumentException("This table is already reserved, please pick another!");
-        } else {
+        }else if(NumberOfPeople > table.getMaxNumberOfPeople())
+            throw new IllegalArgumentException("There are to many people for this Table. Please choose another one or lower the number of people for this table");
+        else {
             table.setReserved(true);
             //TODO: add more specific reservation once class is implemented
             addReservation(new Reservation(name,timeSlot,table,NumberOfPeople));
