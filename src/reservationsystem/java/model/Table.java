@@ -3,14 +3,15 @@ package model;
 public class Table {
     private boolean reserved;
 
-    private int MaxNumberOfPeople;
+    private final int maxNumberOfPeople;
 
-    public int getMaxNumberOfPeople() {
-        return MaxNumberOfPeople;
+    public Table(int maxNumberOfPeople) {
+        this.maxNumberOfPeople = maxNumberOfPeople;
+        this.reserved = false;
     }
 
-    public void setMaxNumberOfPeople(int maxNumberOfPeople) {
-        MaxNumberOfPeople = maxNumberOfPeople;
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
     }
 
     public boolean isReserved() {

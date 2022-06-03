@@ -22,11 +22,13 @@ public class RestaurantService {
         return restaurants.remove(restaurant);
     }
 
-    public List<Restaurant> search(String eingabe){
-        String[] searched = eingabe.toLowerCase(Locale.ROOT).split(" ");
+    //---------------------------------- Suche nach Restaurants -------------------------------------------
+
+    public List<Restaurant> search(String input){
+        String[] searched = input.toLowerCase(Locale.ROOT).split(" ");
         List<RestaurantType> toSearch = new ArrayList<>();
         List<Restaurant> results = new ArrayList<>();
-        for(int i = 0; i < searched.length;i++) {
+        for(int i = 0; i < searched.length; i++) {
             switch (searched[i]) {
                 case "italian" -> toSearch.add(RestaurantType.ITALIAN);
                 case "german" -> toSearch.add(RestaurantType.GERMAN);
@@ -59,7 +61,7 @@ public class RestaurantService {
         return results;
     }
 
-    public void filterControl(SortingOptions sortingOptions){
+    private void filterControl(SortingOptions sortingOptions){
         switch (sortingOptions.getSortField()) {
             case RESTAURANT_TYPE -> filterType(sortingOptions.getSortingOrder());
             case DISTANCE -> filterDistance(sortingOptions.getSortingOrder());
@@ -90,6 +92,6 @@ public class RestaurantService {
         return null;
     }
 
-
+    //---------------------------------- Weitere Funktionen -------------------------------------------
 
 }

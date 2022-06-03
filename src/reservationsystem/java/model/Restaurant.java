@@ -1,5 +1,7 @@
 package model;
 
+import user.User;
+
 import java.awt.*;
 import java.time.*;
 import java.util.*;
@@ -31,14 +33,14 @@ public class Restaurant {
         reservations = new ArrayList<>();
     }
 
-    public void reserveTable(String name, Table table, TimeSlot timeSlot, int NumberOfPeople) {
+    public void reserveTable(User user, Table table, TimeSlot timeSlot, int NumberOfPeople) {
         if (table.isReserved()) {
             throw new IllegalArgumentException("This table is already reserved, please pick another!");
         }else if(NumberOfPeople > table.getMaxNumberOfPeople())
             throw new IllegalArgumentException("There are to many people for this Table. Please choose another one or lower the number of people for this table");
         else {
             table.setReserved(true);
-            addReservation(new Reservation(name,timeSlot,table,NumberOfPeople));
+            addReservation(new Reservation(user,timeSlot,table,NumberOfPeople));
         }
     }
 

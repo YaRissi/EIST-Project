@@ -1,20 +1,25 @@
 package model;
 
+import user.User;
+
 public class Reservation {
 
-    private String name;
-
+    private User user;
     private int numberOfPeople;
-
     private TimeSlot timeslot;
-
     private Table table;
-    public Reservation(String people, TimeSlot timeSlot, Table table,int numberOfPeople) {
-        this.name = people;
+
+    public Reservation(User user, TimeSlot timeSlot, Table table, int numberOfPeople) {
+        this.user = user;
         timeslot = timeSlot;
         this.table = table;
         this.numberOfPeople = numberOfPeople;
     }
+
+    // Weitere Methoden
+
+
+    // Benötige Getter und Setter
 
     public int getNumberOfPeople() {
         return numberOfPeople;
@@ -24,12 +29,12 @@ public class Reservation {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public String getName() {
-        return name;
+    public User getUser() {
+        return user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public TimeSlot getTimeslot() {
