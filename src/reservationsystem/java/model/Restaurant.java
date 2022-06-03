@@ -29,7 +29,6 @@ public class Restaurant {
             this.openingTimes = openingTimes;
         }
         reservations = new ArrayList<>();
-
     }
 
     public void reserveTable(String name, Table table, TimeSlot timeSlot, int NumberOfPeople) {
