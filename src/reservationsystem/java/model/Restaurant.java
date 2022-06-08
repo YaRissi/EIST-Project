@@ -8,24 +8,30 @@ import java.util.*;
 import java.util.List;
 
 public class Restaurant {
+    String name;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
     private Point location;
+    private String address;
     private List<String> reviews;
     private List<Integer> ratings;
     private PriceCategory priceCategory;
-    private List<TimeSlot>[] openingTimes; //openingTimes[0] = opening times on Monday, e.g. 11-14 & 17-21
+    private ArrayList<ArrayList<TimeSlot>> openingTimes;
     private String website;
     private Collection<Reservation> reservations;
     private boolean open;
 
-    public Restaurant(Point location, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<TimeSlot>[] openingTimes) {
+    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, ArrayList<ArrayList<TimeSlot>> openingTimes) {
+        this.name = name;
         this.location = location;
+        this.address = address;
         this.restaurantType = new ArrayList<>();
         this.restaurantType.add(restaurantType);
         this.priceCategory = priceCategory;
         this.tables = tables;
-        if (openingTimes.length != 7) {
+        if (openingTimes == null) {
+            this.openingTimes = new ArrayList<>(7);
+        } else if (openingTimes.size() != 7) {
             throw new IllegalArgumentException("There are 7 days in a week!");
         } else {
             this.openingTimes = openingTimes;
@@ -44,13 +50,21 @@ public class Restaurant {
         }
     }
 
-    public Integer getAverageRating(List<Integer> ratings) {
+    public Float getAverageRating(List<Integer> ratings) {
         int size = ratings.size();
         if (size == 0) {
-            return 0;
+            return Float.NaN;
         }
-        int allRatings = ratings.stream().reduce(Integer::sum).get();
+        float allRatings = ratings.stream().reduce(Integer::sum).get();
         return allRatings / size;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<RestaurantType> getRestaurantType() {
@@ -117,28 +131,83 @@ public class Restaurant {
         this.priceCategory = priceCategory;
     }
 
-    public List<TimeSlot>[] getOpeningTimes() {
+    public ArrayList<ArrayList<TimeSlot>> getOpeningTimes() {
         return openingTimes;
     }
 
-    public void setOpeningTimes(List<TimeSlot>[] openingTimes) {
+    public void setOpeningTimes(ArrayList<ArrayList<TimeSlot>> openingTimes) {
         this.openingTimes = openingTimes;
     }
 
     public void addOpeningTimes(LocalTime start, LocalTime stop, DayOfWeek dayOfWeek) {
         for (int i = 0; i < 7; i++) {
-            if (openingTimes[i] == null) {
-                openingTimes[i] = new ArrayList<>();
+            if (openingTimes.get(i) == null) {
+                openingTimes.add(new ArrayList<>());
             }
         }
         switch (dayOfWeek) {
-            case MONDAY -> openingTimes[0].add(new TimeSlot(start, stop));
-            case TUESDAY -> openingTimes[1].add(new TimeSlot(start, stop));
-            case WEDNESDAY -> openingTimes[2].add(new TimeSlot(start, stop));
-            case THURSDAY -> openingTimes[3].add(new TimeSlot(start, stop));
-            case FRIDAY -> openingTimes[4].add(new TimeSlot(start, stop));
-            case SATURDAY -> openingTimes[5].add(new TimeSlot(start, stop));
-            case SUNDAY -> openingTimes[6].add(new TimeSlot(start, stop));
+            case MONDAY -> {
+                if (!timesCoinciding(start, stop, dayOfWeek)) {
+                    openingTimes.get(0).add(new TimeSlot(start, stop));
+                }
+            }
+            case TUESDAY -> {
+                if (!timesCoinciding(start, stop, dayOfWeek)) {
+                    openingTimes.get(1).add(new TimeSlot(start, stop));
+                }
+            }
+            case WEDNESDAY -> {
+                if (!timesCoinciding(start, stop, dayOfWeek)) {
+                    openingTimes.get(2).add(new TimeSlot(start, stop));
+                }
+            }
+            case THURSDAY -> {
+                if (!timesCoinciding(start, stop, dayOfWeek)) {
+                    openingTimes.get(3).add(new TimeSlot(start, stop));
+                }
+            }
+            case FRIDAY -> {
+                if (!timesCoinciding(start, stop, dayOfWeek)) {
+                    openingTimes.get(4).add(new TimeSlot(start, stop));
+                }
+            }
+            case SATURDAY -> {
+                if (!timesCoinciding(start, stop, dayOfWeek)) {
+                    openingTimes.get(5).add(new TimeSlot(start, stop));
+                }
+            }
+            case SUNDAY -> {
+                if (!timesCoinciding(start, stop, dayOfWeek)) {
+                    openingTimes.get(6).add(new TimeSlot(start, stop));
+                }
+            }
+        }
+    }
+
+    public boolean timesCoinciding(LocalTime start, LocalTime stop, DayOfWeek dayOfWeek) {
+        switch (dayOfWeek) {
+            case MONDAY -> {
+                return openingTimes.get(0).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(0)));
+            }
+            case TUESDAY -> {
+                return openingTimes.get(1).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(1)));
+            }
+            case WEDNESDAY -> {
+                return openingTimes.get(2).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(2)));
+            }
+            case THURSDAY -> {
+                return openingTimes.get(3).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(3)));
+            }
+            case FRIDAY -> {
+                return openingTimes.get(4).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(4)));
+            }
+            case SATURDAY -> {
+                return openingTimes.get(5).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(5)));
+            }
+            case SUNDAY -> {
+                return openingTimes.get(6).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(6)));
+            }
+            default -> throw new IllegalArgumentException("Please choose a day of the week!");
         }
     }
 
@@ -168,5 +237,13 @@ public class Restaurant {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
