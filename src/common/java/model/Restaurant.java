@@ -1,6 +1,6 @@
 package model;
 
-import user.User;
+import model.user.User;
 
 import java.awt.*;
 import java.time.*;
