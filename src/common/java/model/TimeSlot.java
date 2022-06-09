@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalTime;
+import java.util.List;
 
 public class TimeSlot {
     private LocalTime open;
@@ -39,5 +40,21 @@ public class TimeSlot {
         if (timeIsValid(hour, minute)) {
             closed = LocalTime.of(hour, minute);
         }
+    }
+
+    public boolean isCoinciding(LocalTime start, LocalTime stop, List<TimeSlot> timeSlots) {
+        for (int i = 0; i < timeSlots.size(); i++) {
+            TimeSlot currentSlot = timeSlots.get(i);
+            if (currentSlot.getOpen().equals(start)) {
+                return false;
+            } else if (currentSlot.getClosed().equals(stop)) {
+                return false;
+            } else if (currentSlot.getOpen().compareTo(start) < 0 && currentSlot.getClosed().compareTo(stop) > 0) {
+                return false;
+            } else if (currentSlot.getOpen().compareTo(start) > 0 && currentSlot.getClosed().compareTo(stop) < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
