@@ -2,18 +2,22 @@ package model;
 
 import model.user.User;
 
+import java.util.GregorianCalendar;
+
 public class Reservation {
 
     private User user;
     private int numberOfPeople;
     private TimeSlot timeslot;
     private Table table;
+    private GregorianCalendar date;
 
-    public Reservation(User user, TimeSlot timeSlot, Table table, int numberOfPeople) {
+    public Reservation(User user, TimeSlot timeSlot, Table table, int numberOfPeople, GregorianCalendar date) {
         this.user = user;
         timeslot = timeSlot;
         this.table = table;
         this.numberOfPeople = numberOfPeople;
+        this.date = date;
     }
 
     // Weitere Methoden
@@ -51,6 +55,14 @@ public class Reservation {
 
     public void setTable(Table table) {
         this.table = table;
+    }
+
+    public GregorianCalendar getDate() {
+        return date;
+    }
+
+    public void setDate(GregorianCalendar date) {
+        this.date = date;
     }
 }
 

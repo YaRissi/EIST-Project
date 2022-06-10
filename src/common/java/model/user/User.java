@@ -10,8 +10,9 @@ public class User {
     private String name;
     private Reservation reservation;
     private RestaurantService restaurantService; // User ruft Methoden des RestaurantService auf
+    private String email;
 
-    public User(String name, RestaurantService restaurantService) {
+    public User(String name, RestaurantService restaurantService,String email) {
         this.name = name;
         this.restaurantService = restaurantService;
     }
@@ -42,5 +43,13 @@ public class User {
 
     public void setRestaurantService(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
