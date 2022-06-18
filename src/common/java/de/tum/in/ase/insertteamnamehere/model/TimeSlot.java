@@ -1,4 +1,4 @@
-package model;
+package de.tum.in.ase.insertteamnamehere.model;
 
 import java.time.LocalTime;
 import java.util.List;

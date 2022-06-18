@@ -1,4 +1,4 @@
-package model;
+package de.tum.in.ase.insertteamnamehere.model;
 
 public enum RestaurantType {
     ITALIAN, GERMAN, CHINESE, INDIAN, JAPANESE, GREEK, THAI, TURKISH, MEXICAN,

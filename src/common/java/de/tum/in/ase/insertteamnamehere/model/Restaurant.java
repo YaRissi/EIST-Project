@@ -1,6 +1,6 @@
-package model;
+package de.tum.in.ase.insertteamnamehere.model;
 
-import model.user.User;
+import de.tum.in.ase.insertteamnamehere.user.User;
 
 import java.awt.*;
 import java.time.*;
@@ -39,14 +39,14 @@ public class Restaurant {
         reservations = new ArrayList<>();
     }
 
-    public void reserveTable(User user, Table table, TimeSlot timeSlot, int NumberOfPeople,GregorianCalendar date) {
+    public void reserveTable(User user, Table table, TimeSlot timeSlot, int NumberOfPeople, UUID ID) {
         if (table.isReserved()) {
             throw new IllegalArgumentException("This table is already reserved, please pick another!");
         }else if(NumberOfPeople > table.getMaxNumberOfPeople())
             throw new IllegalArgumentException("There are to many people for this Table. Please choose another one or lower the number of people for this table");
         else {
             table.setReserved(true);
-            addReservation(new Reservation(user,timeSlot,table,NumberOfPeople,date));
+            addReservation(new Reservation(user,timeSlot,table,NumberOfPeople, ID));
         }
     }
 

@@ -1,4 +1,4 @@
-package util;
+package de.tum.in.ase.insertteamnamehere.util;
 
 public class SortingOptions {
     private SortingOrder sortingOrder;

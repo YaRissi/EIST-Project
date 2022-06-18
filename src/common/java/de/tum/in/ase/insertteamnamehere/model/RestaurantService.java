@@ -1,6 +1,6 @@
-package model;
+package de.tum.in.ase.insertteamnamehere.model;
 
-import util.SortingOptions;
+import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 
 
 import java.util.ArrayList;

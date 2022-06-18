@@ -1,38 +1,36 @@
 package de.tum.in.ase.insertteamnamehere.controller;
 
-import de.tum.in.ase.insertteamnamehere.model.Restaurant;
-import org.springframework.core.ParameterizedTypeReference;
+import de.tum.in.ase.insertteamnamehere.model.Reservation;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantController {
-
+public class ReservationController {
     private final WebClient webClient;
-    private final List<Restaurant> RestaurtList;
+    private final List<Reservation> reservationList;
 
-    public RestaurantController(){
+    public ReservationController() {
         this.webClient = WebClient.builder()
                 .baseUrl("http://localhost:8080/")
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
-        this.RestaurtList = new ArrayList<>();
-
+        this.reservationList = new ArrayList<>();
     }
 
-    public void addRestaurant(){
+    public void addReservation(){
 
     }
-    public void updateRestaurant(){
+    public void updateReservation(){
 
     }
-    public void deleteRestaurant(){
+    public void deleteReservation(){
 
     }
-    public void getAllRestaurants(){
+    public void getAllReservations(){
 
     }
 }

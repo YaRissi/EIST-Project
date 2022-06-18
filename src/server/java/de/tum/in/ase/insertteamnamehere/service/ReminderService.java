@@ -1,9 +1,9 @@
-package service;
+package de.tum.in.ase.insertteamnamehere.service;
 
+import de.tum.in.ase.insertteamnamehere.user.User;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import model.user.User;
 
 public class ReminderService {
 

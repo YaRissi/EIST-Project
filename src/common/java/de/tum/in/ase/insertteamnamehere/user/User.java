@@ -1,8 +1,8 @@
-package model.user;
+package de.tum.in.ase.insertteamnamehere.user;
 
-import model.Reservation;
-import model.Restaurant;
-import model.RestaurantService;
+import de.tum.in.ase.insertteamnamehere.model.Reservation;
+import de.tum.in.ase.insertteamnamehere.model.Restaurant;
+import de.tum.in.ase.insertteamnamehere.model.RestaurantService;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class User {
     private RestaurantService restaurantService; // User ruft Methoden des RestaurantService auf
     private String email;
 
-    public User(String name, RestaurantService restaurantService,String email) {
+    public User(String name, RestaurantService restaurantService) {
         this.name = name;
         this.restaurantService = restaurantService;
     }
@@ -45,11 +45,11 @@ public class User {
         this.restaurantService = restaurantService;
     }
 
-    public String getEmail() {
-        return email;
+    public void setEmail(String email){
+        this.email = email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getEmail() {
+        return this.email;
     }
 }

@@ -1,4 +1,4 @@
-package model;
+package de.tum.in.ase.insertteamnamehere.model;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

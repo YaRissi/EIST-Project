@@ -1,4 +1,4 @@
-package model;
+package de.tum.in.ase.insertteamnamehere.model;
 
 public class Table {
     private boolean reserved;
