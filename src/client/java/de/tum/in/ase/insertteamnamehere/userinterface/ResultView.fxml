@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox prefHeight="90.0" prefWidth="874.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="97.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox prefHeight="89.0" prefWidth="738.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation System">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="30.0" left="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <HBox prefHeight="28.0" prefWidth="738.0">
+                           <children>
+                              <Region prefHeight="26.0" prefWidth="143.0" />
+                              <TextField prefHeight="30.0" prefWidth="447.0" promptText="Search for restaurant">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="Search">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" text="Back">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <VBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="589.0" prefWidth="122.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text lineSpacing="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Options">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Restaurant">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <CheckBox mnemonicParsing="false" text="Bar Restaurant">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" top="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Burger">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Café">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Chinese">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="German">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Greek">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Indian">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Italian">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Japanese">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Mexican">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Noodle Bar">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Pizza">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Sushi Bar">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Thai">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Turkish">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <CheckBox mnemonicParsing="false" text="Vegeterian">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </VBox.margin>
+            </CheckBox>
+            <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="131.0" text="Apply">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="17.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <center>
+      <Pane prefHeight="529.0" prefWidth="725.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
