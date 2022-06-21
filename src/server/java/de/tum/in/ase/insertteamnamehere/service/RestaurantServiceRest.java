@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class RestaurantService {
+public class RestaurantServiceRest {
 
     private final List<Restaurant> RestaurantList;
 
-    public RestaurantService() {
+    public RestaurantServiceRest() {
         this.RestaurantList = new ArrayList<>();
 
     }

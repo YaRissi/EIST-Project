@@ -42,7 +42,7 @@ public class ReservationResource {
         return ResponseEntity.ok(reservationService.saveReservation(updatedReservation));
     }
 
-    @DeleteMapping("reservations/{noteID}")
+    @DeleteMapping("reservations/{reservationID}")
     public ResponseEntity<Void> deleteReservation(@PathVariable("reservationID") UUID reservationID) {
         reservationService.deleteReservation(reservationID);
         return ResponseEntity.noContent().build();

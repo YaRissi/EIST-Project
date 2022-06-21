@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.List;
 
 public class Restaurant {
+    public boolean getID;
     String name;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
