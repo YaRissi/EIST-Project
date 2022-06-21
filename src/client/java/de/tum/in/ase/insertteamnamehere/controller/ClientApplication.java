@@ -3,7 +3,7 @@ package de.tum.in.ase.insertteamnamehere.controller;
 import de.tum.in.ase.insertteamnamehere.view.DetailedView;
 import de.tum.in.ase.insertteamnamehere.view.HomeScene;
 import de.tum.in.ase.insertteamnamehere.view.MapView;
-import de.tum.in.ase.insertteamnamehere.view.ReservationVIew;
+import de.tum.in.ase.insertteamnamehere.view.ReservationView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -32,11 +32,11 @@ public class ClientApplication extends Application {
 
     }
     public void showMapView(){
-        stage.setScene(new MapView(null));
+        stage.setScene(new MapView(this));
 
     }
     public void showReservationView(){
-        stage.setScene(new ReservationView(null));
+        stage.setScene(new ReservationView(this));
 
     }
 }

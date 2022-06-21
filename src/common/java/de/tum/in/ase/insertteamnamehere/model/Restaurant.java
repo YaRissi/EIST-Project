@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Restaurant {
     public boolean getID;
+    private UUID restaurantID;
     String name;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
@@ -30,6 +31,7 @@ public class Restaurant {
         this.restaurantType.add(restaurantType);
         this.priceCategory = priceCategory;
         this.tables = tables;
+
         if (openingTimes == null) {
             this.openingTimes = new ArrayList<>(7);
         } else if (openingTimes.size() != 7) {
@@ -246,5 +248,9 @@ public class Restaurant {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setRestaurantID(UUID ID){
+        this.restaurantID = ID;
     }
 }
