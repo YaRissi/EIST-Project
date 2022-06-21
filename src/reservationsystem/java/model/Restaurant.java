@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.List;
 
 public class Restaurant {
-    String name;
+    private String name;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
     private Point location;
@@ -20,6 +20,8 @@ public class Restaurant {
     private String website;
     private Collection<Reservation> reservations;
     private boolean open;
+
+    private User admin;
 
     public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, ArrayList<ArrayList<TimeSlot>> openingTimes) {
         this.name = name;
@@ -245,5 +247,13 @@ public class Restaurant {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public User getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(User admin) {
+        this.admin = admin;
     }
 }
