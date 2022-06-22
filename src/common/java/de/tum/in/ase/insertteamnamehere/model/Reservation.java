@@ -2,6 +2,7 @@ package de.tum.in.ase.insertteamnamehere.model;
 
 import de.tum.in.ase.insertteamnamehere.user.User;
 
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 public class Reservation {
@@ -11,13 +12,15 @@ public class Reservation {
     private TimeSlot timeslot;
     private Table table;
     private UUID ID;
+    private GregorianCalendar date;
 
-    public Reservation(User user, TimeSlot timeSlot, Table table, int numberOfPeople, UUID ID) {
+    public Reservation(User user, TimeSlot timeSlot, Table table, int numberOfPeople, UUID ID, GregorianCalendar date) {
         this.user = user;
         timeslot = timeSlot;
         this.table = table;
         this.numberOfPeople = numberOfPeople;
         this.ID = ID;
+        this.date = date;
     }
 
     // Weitere Methoden
@@ -64,5 +67,10 @@ public class Reservation {
     public void setID(UUID ID) {
         this.ID = ID;
     }
+
+    public GregorianCalendar getDate() {
+        return date;
+    }
+
 }
 
