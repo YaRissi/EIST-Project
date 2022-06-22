@@ -20,7 +20,6 @@ public class RestaurantResource {
         this.restaurantService = restaurantService;
     }
 
-
     @GetMapping("restaurant")
     public ResponseEntity<List<Restaurant>> getAllRestaurants(@RequestParam("secret") String secret) {
         if (!"SecretKey".equals(secret)) {
@@ -40,6 +39,5 @@ public class RestaurantResource {
         restaurantService.deleteRestaurant(restaurantID);
         return ResponseEntity.noContent().build();
     }
-
-
 }
+
