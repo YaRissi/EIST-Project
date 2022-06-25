@@ -1,4 +1,10 @@
 package de.tum.in.ase.insertteamnamehere.userinterface;
 
-public class RestaurantObject {
+import javafx.scene.layout.Pane;
+
+
+public class RestaurantObject extends Pane {
+    // TODO Create Restaurant Object for the ResultView
+
 }
+

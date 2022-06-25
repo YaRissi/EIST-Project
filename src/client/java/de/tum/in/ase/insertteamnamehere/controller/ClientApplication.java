@@ -1,11 +1,12 @@
 package de.tum.in.ase.insertteamnamehere.controller;
 
-import de.tum.in.ase.insertteamnamehere.view.DetailedView;
-import de.tum.in.ase.insertteamnamehere.view.HomeScene;
-import de.tum.in.ase.insertteamnamehere.view.MapView;
-import de.tum.in.ase.insertteamnamehere.view.ReservationView;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class ClientApplication extends Application {
     private final RestaurantController restaurantController = new RestaurantController();
@@ -16,27 +17,11 @@ public class ClientApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.stage = primaryStage;
-        primaryStage.setScene(new HomeScene(this));
-        primaryStage.setTitle("Willkommen beim Restaurant- Reservierungssystem");
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ResultView.fxml")));
+        primaryStage.setTitle("Reservation System");
+        primaryStage.setScene(new Scene(root, 880.0, 673.0));
         primaryStage.show();
     }
-
-    public void showHomeScene(){
-        stage.setScene(new HomeScene(this));
-
-
     }
-    public void showDetailedView(){
-        stage.setScene(new DetailedView());
 
-    }
-    public void showMapView(){
-        stage.setScene(new MapView(this));
 
-    }
-    public void showReservationView(){
-        stage.setScene(new ReservationView(this));
-
-    }
-}
