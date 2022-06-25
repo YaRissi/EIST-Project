@@ -72,5 +72,8 @@ public class Reservation {
         return date;
     }
 
+    public String getStringId() {
+        return ID.toString();
+    }
 }
 

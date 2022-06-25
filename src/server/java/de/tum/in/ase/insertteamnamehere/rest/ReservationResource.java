@@ -18,6 +18,7 @@ public class ReservationResource {
     public ReservationResource(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
+
     @GetMapping("reservations")
     public ResponseEntity<List<Reservation>> getAllReservations(@RequestParam("secret") String secret) {
         if (!"SecretKey".equals(secret)) {

@@ -39,7 +39,7 @@ public class RestaurantController {
 
     }
     public void updateRestaurant(){
-        webClient.put().uri("www.de");
+        webClient.put().uri("");
 
     }
     public void deleteRestaurant(){

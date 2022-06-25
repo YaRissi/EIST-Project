@@ -1,2 +1,4 @@
-package de.tum.in.ase.insertteamnamehere.userinterface;public class RestaurantObject {
+package de.tum.in.ase.insertteamnamehere.userinterface;
+
+public class RestaurantObject {
 }

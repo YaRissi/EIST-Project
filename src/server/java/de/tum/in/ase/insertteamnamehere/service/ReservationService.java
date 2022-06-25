@@ -14,16 +14,29 @@ public class ReservationService {
         this.reservations = new ArrayList<>();
     }
 
-    public Reservation saveReservation(Reservation reservation){
-        return null;
-    }
-    public Reservation deleteReservation(UUID ID){
-        return null;
+    public Reservation saveReservation(Reservation reservation) {
+        var optionalReservation = reservations.stream().filter(existingReservation -> existingReservation.getID().equals(reservation.getID())).findFirst();
+        if (optionalReservation.isEmpty()) {
+            reservation.setID(UUID.randomUUID());
+            reservations.add(reservation);
+            return reservation;
+        } else {
+            var existingReservation = optionalReservation.get();
+            //existingReservation.setTable(reservation.setTable());
+            return existingReservation;
+        }
+
 
     }
 
-    public List<Reservation> getAllReservations(){
-        return null;
+    public void deleteReservation(UUID ID) {
+        this.reservations.removeIf(q -> q.getStringId().equals(ID.toString()));
+
+
+    }
+
+    public List<Reservation> getAllReservations() {
+        return reservations.stream().toList();
     }
 
 }
