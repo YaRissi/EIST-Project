@@ -253,4 +253,9 @@ public class Restaurant {
     public void setRestaurantID(UUID ID){
         this.restaurantID = ID;
     }
+
+
+    public Object getRestaurantID() {
+        return restaurantID;
+    }
 }

@@ -2,26 +2,39 @@ package de.tum.in.ase.insertteamnamehere.service;
 
 import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class RestaurantServiceRest {
 
-    private final List<Restaurant> RestaurantList;
+    private final List<Restaurant> restaurantList;
 
     public RestaurantServiceRest() {
-        this.RestaurantList = new ArrayList<>();
+        this.restaurantList = new ArrayList<>();
 
     }
     public Restaurant saveRestaurant(Restaurant restaurant){
-        return null;
+        var optionalRestaurant = restaurantList.stream().filter(existingRestaurant -> existingRestaurant.getID().equals(restaurant.getID)).findFirst();
+        if (optionalRestaurant.isEmpty()){
+            restaurant.setRestaurantID(UUID.randomUUID());
+            restaurantList.add(restaurant);
+            return restaurant;
+        }else {
+            var existingRestaurant = optionalRestaurant.get();
+            existingRestaurant.setName(restaurant.getName());
+            // hier müssen glaube ich noch die ganzen attribute des Restaurants hinzugefügt werden (Name, Offnungszeiten, Tische etc)
+            return existingRestaurant;
+        }
     }
     public void deleteRestaurant(UUID restaurantID){
+        this.restaurantList.removeIf(restaurant -> restaurant.getID().equals(restaurantID));
 
     }
     public List<Restaurant> getAllRestaurants(){
-        return null;
+        //return restaurantList.stream().toList();
+        return Collections.unmodifiableList(this.restaurantList);
     }
 
 

@@ -5,9 +5,11 @@ import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 import de.tum.in.ase.insertteamnamehere.model.RestaurantService;
 
 import java.util.List;
+import java.util.UUID;
 
 public class User {
     private String name;
+    private UUID userID;
     private Reservation reservation;
     private RestaurantService restaurantService; // User ruft Methoden des RestaurantService auf
     private String email;
@@ -51,5 +53,13 @@ public class User {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public UUID getUserID() {
+        return userID;
+    }
+
+    public void setUserID(UUID userID) {
+        this.userID = userID;
     }
 }

@@ -1,7 +1,10 @@
 package de.tum.in.ase.insertteamnamehere.model;
 
+import java.util.UUID;
+
 public class Table {
     private boolean reserved;
+    private UUID tableID;
 
     private final int maxNumberOfPeople;
 
@@ -20,5 +23,13 @@ public class Table {
 
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
+    }
+
+    public UUID getTableID() {
+        return tableID;
+    }
+
+    public void setTableID(UUID tableID) {
+        this.tableID = tableID;
     }
 }

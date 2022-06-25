@@ -23,9 +23,9 @@ public class ReservationController {
         this.reservationList = new ArrayList<>();
     }
 
-    public void addReservation(Reservation r, Consumer<List<Reservation>> reservationConsumer){
+    public void addReservation(Reservation r, Consumer<List<Reservation>> reservationConsumer) {
         webClient.post()
-                .uri("reservation")
+                .uri("reservations")
                 .bodyValue(r)
                 .retrieve()
                 .bodyToMono(Reservation.class)
@@ -36,9 +36,10 @@ public class ReservationController {
                 });
 
     }
-    public void updateReservation(Reservation r, Consumer<List<Reservation>> reservationConsumer){
+
+    public void updateReservation(Reservation r, Consumer<List<Reservation>> reservationConsumer) {
         webClient.put()
-                .uri("reservation/" + r.getStringId())
+                .uri("reservations/" + r.getStringId())
                 .bodyValue(r)
                 .retrieve()
                 .bodyToMono(Reservation.class)
@@ -49,9 +50,10 @@ public class ReservationController {
                 });
 
     }
-    public void deleteReservation(Reservation r, Consumer<List<Reservation>> reservationConsumer){
+
+    public void deleteReservation(Reservation r, Consumer<List<Reservation>> reservationConsumer) {
         webClient.delete()
-                .uri("reservation/" + r.getStringId())
+                .uri("reservations/" + r.getStringId())
                 .retrieve()
                 .toBodilessEntity()
                 .onErrorStop()
@@ -61,14 +63,16 @@ public class ReservationController {
                 });
 
     }
-    public void getAllReservations(Consumer<List<Reservation>> reservationConsumer){
+
+    public void getAllReservations(Consumer<List<Reservation>> reservationConsumer) {
         webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("reservation")
+                        .path("reservations")
                         .queryParam("secret", "SecretKey")
                         .build())
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Reservation>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<Reservation>>() {
+                })
                 .onErrorStop()
                 .subscribe(newNotes -> {
                     reservationList.clear();

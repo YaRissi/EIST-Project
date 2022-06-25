@@ -2,10 +2,11 @@ package de.tum.in.ase.insertteamnamehere.service;
 
 import de.tum.in.ase.insertteamnamehere.model.Reservation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ReservationService {
 
     private final List<Reservation> reservations;
@@ -22,7 +23,10 @@ public class ReservationService {
             return reservation;
         } else {
             var existingReservation = optionalReservation.get();
-            //existingReservation.setTable(reservation.setTable());
+            existingReservation.setTable(existingReservation.getTable());
+            existingReservation.setNumberOfPeople(existingReservation.getNumberOfPeople());
+            existingReservation.setTimeslot(existingReservation.getTimeslot());
+            existingReservation.setUser(existingReservation.getUser());
             return existingReservation;
         }
 
@@ -30,13 +34,15 @@ public class ReservationService {
     }
 
     public void deleteReservation(UUID ID) {
-        this.reservations.removeIf(q -> q.getStringId().equals(ID.toString()));
+        this.reservations.removeIf(q -> q.getID().equals(ID));
 
 
     }
 
     public List<Reservation> getAllReservations() {
-        return reservations.stream().toList();
+        //
+        //return reservations.stream().toList();
+        return Collections.unmodifiableList(this.reservations);
     }
 
 }

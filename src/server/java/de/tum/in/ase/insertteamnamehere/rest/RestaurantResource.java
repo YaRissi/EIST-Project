@@ -28,8 +28,17 @@ public class RestaurantResource {
         return ResponseEntity.ok(restaurantService.getAllRestaurants());
     }
 
-    @PutMapping("restaurant")
-    public ResponseEntity<Restaurant> saveRestaurant(@RequestBody Restaurant restaurant){
+
+    @PostMapping("restaurants")
+    public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
+        if (restaurant.getID() != null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(restaurantService.saveRestaurant(restaurant));
+    }
+
+    @PutMapping("restaurant/{restaurantID}")
+    public ResponseEntity<Restaurant> updateRestaurant(@RequestBody Restaurant restaurant){
 
         return ResponseEntity.ok(restaurantService.saveRestaurant(restaurant));
     }
