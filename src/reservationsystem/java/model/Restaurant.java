@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Restaurant {
     private String name;
+
+    private String restaurantId;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
     private Point location;
@@ -23,8 +25,9 @@ public class Restaurant {
 
     private User admin;
 
-    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
+    public Restaurant(String name, String restaurantId, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
+        this.restaurantId = restaurantId;
         this.location = location;
         this.address = address;
         this.restaurantType = new ArrayList<>();
@@ -78,8 +81,8 @@ public class Restaurant {
     }
 
     public void addRestaurantType(RestaurantType restaurantType) {
-        if (this.restaurantType.size() > 3) {
-            throw new IllegalArgumentException("You cannot set more than three restaurant types!");
+        if (this.restaurantType.size() > 2) {
+            throw new IllegalArgumentException("You cannot set more than two restaurant types!");
         } else {
             this.restaurantType.add(restaurantType);
         }
@@ -219,6 +222,14 @@ public class Restaurant {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public Collection<Reservation> getReservations() {
