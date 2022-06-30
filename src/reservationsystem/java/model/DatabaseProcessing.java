@@ -134,7 +134,7 @@ public class DatabaseProcessing {
 
         int i = 0;
         while (i < resultSet.getFetchSize()) {
-            Table currentTable = new Table(resultSet.getInt("max_people"));
+            Table currentTable = new Table(resultSet.getInt("max_people"), resultSet.getString("table_id"));
             tables.add(currentTable);
         }
 
@@ -237,6 +237,25 @@ public class DatabaseProcessing {
     public PriceCategory getPriceCategory(Restaurant restaurant) throws SQLException {
         ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
         return PriceCategory.valueOf(resultSet.getString("pricecategory").toUpperCase());
+    }
+
+    public String getWebsite(Restaurant restaurant) throws SQLException {
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        return resultSet.getString("website");
+    }
+
+    public void setWebsite(String website, Restaurant restaurant) throws SQLException {
+        connection.createStatement().execute("UPDATE restaurantdatabase.restaurants \n SET website = " +
+                website + "\n WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+    }
+
+    public Set<Table> getTables(Restaurant restaurant) throws SQLException {
+        Set<Table> tables = new HashSet<>();
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        for (int i = 0; i < resultSet.getFetchSize(); i++) {
+            tables.add(new Table(resultSet.getInt("max_people"), resultSet.getString("table_id")));
+        }
+        return tables;
     }
 
 

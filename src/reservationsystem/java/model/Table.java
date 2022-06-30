@@ -5,9 +5,12 @@ public class Table {
 
     private final int maxNumberOfPeople;
 
-    public Table(int maxNumberOfPeople) {
+    private final String tableId;
+
+    public Table(int maxNumberOfPeople, String tableId) {
         this.maxNumberOfPeople = maxNumberOfPeople;
         this.reserved = false;
+        this.tableId = tableId;
     }
 
     public int getMaxNumberOfPeople() {
@@ -20,5 +23,9 @@ public class Table {
 
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
+    }
+
+    public String getTableId() {
+        return tableId;
     }
 }
