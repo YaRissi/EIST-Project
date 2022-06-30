@@ -161,7 +161,7 @@ public class DatabaseProcessing {
 
         try {
             connection.createStatement().execute("INSERT INTO restaurantdatabase.restaurants \n VALUES (" + "'" + name + "' , " +
-                    "'" + id + "' , " + "'" + location + "' , " + "'" + address + "' , " + "'" + restaurantType + "' , " + "'" + priceCategory + "';");
+                    "'" + id + "' , " + "'" + location + "' , " + "'" + address + "' , " + "'" + restaurantType + "' , " + "'" + priceCategory + "'" + null + ";");
             return true;
         } catch (SQLException sqlException) {
             return false;
@@ -258,6 +258,28 @@ public class DatabaseProcessing {
         return tables;
     }
 
+    public boolean addTable(Restaurant restaurant, Table table) {
+        String tableId = table.getTableId();
+        String restaurantId = restaurant.getRestaurantId();
+        int maxPeople = table.getMaxNumberOfPeople();
+
+        try {
+            connection.createStatement().execute("INSERT INTO restaurantdatabase.tables \n VALUES (" + "'" + tableId + "' , " +
+                    "'" + restaurantId + "' , '" + maxPeople + "' ;");
+            return true;
+        } catch (SQLException sqlException) {
+            return false;
+        }
+    }
+
+    public boolean deleteTable(Restaurant restaurant, Table table) {
+        try {
+            connection.createStatement().execute("DELETE FROM restaurantdatabase.tables WHERE table_id = " + table.getTableId() + ";");
+            return true;
+        } catch (SQLException sqlException) {
+            return false;
+        }
+    }
 
     //TODO
     public Connection establishConnection() {
