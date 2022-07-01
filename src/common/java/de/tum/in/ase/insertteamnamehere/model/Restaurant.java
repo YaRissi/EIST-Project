@@ -14,6 +14,7 @@ public class Restaurant {
 
     private String name;
 
+    private String restaurantId;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
     private Point location;
@@ -21,15 +22,16 @@ public class Restaurant {
     private List<String> reviews;
     private List<Integer> ratings;
     private PriceCategory priceCategory;
-    private ArrayList<ArrayList<TimeSlot>> openingTimes;
+    private List<List<TimeSlot>> openingTimes;
     private String website;
     private Collection<Reservation> reservations;
     private boolean open;
 
     private User admin;
 
-    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, ArrayList<ArrayList<TimeSlot>> openingTimes) {
+    public Restaurant(String name, String restaurantId, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
+        this.restaurantId = restaurantId;
         this.location = location;
         this.address = address;
         this.restaurantType = new ArrayList<>();
@@ -84,8 +86,8 @@ public class Restaurant {
     }
 
     public void addRestaurantType(RestaurantType restaurantType) {
-        if (this.restaurantType.size() > 3) {
-            throw new IllegalArgumentException("You cannot set more than three restaurant types!");
+        if (this.restaurantType.size() > 2) {
+            throw new IllegalArgumentException("You cannot set more than two restaurant types!");
         } else {
             this.restaurantType.add(restaurantType);
         }
@@ -139,11 +141,11 @@ public class Restaurant {
         this.priceCategory = priceCategory;
     }
 
-    public ArrayList<ArrayList<TimeSlot>> getOpeningTimes() {
+    public List<List<TimeSlot>> getOpeningTimes() {
         return openingTimes;
     }
 
-    public void setOpeningTimes(ArrayList<ArrayList<TimeSlot>> openingTimes) {
+    public void setOpeningTimes(List<List<TimeSlot>> openingTimes) {
         this.openingTimes = openingTimes;
     }
 
@@ -225,6 +227,14 @@ public class Restaurant {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public Collection<Reservation> getReservations() {
