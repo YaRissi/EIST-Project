@@ -31,7 +31,7 @@ public class RestaurantResource {
 
     @PostMapping("restaurants")
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
-        if (restaurant.getID() != null) {
+        if (restaurant.getRestaurantID() != null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(restaurantService.saveRestaurant(restaurant));
@@ -43,7 +43,7 @@ public class RestaurantResource {
         return ResponseEntity.ok(restaurantService.saveRestaurant(restaurant));
     }
 
-    @DeleteMapping("restaurant/{restaurantID")
+    @DeleteMapping("restaurant/{restaurantID}")
     public ResponseEntity<Void> deleteRestaurant (@PathVariable("restaurantID")UUID restaurantID){
         restaurantService.deleteRestaurant(restaurantID);
         return ResponseEntity.noContent().build();

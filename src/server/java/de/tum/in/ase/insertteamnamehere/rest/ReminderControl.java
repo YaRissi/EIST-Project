@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import de.tum.in.ase.insertteamnamehere.service.ReminderService;
 
-@RestController
+    /*@RestController
 public class ReminderControl {
 
-    @Autowired
-    private ReminderService reminderService;
+@Autowired
+    //private ReminderService reminderService;
 
     @Autowired
     private User user;
@@ -24,4 +24,4 @@ public class ReminderControl {
         return "Success!";
     }
 
-}
+}*/
