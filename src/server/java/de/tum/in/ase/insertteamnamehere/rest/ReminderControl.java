@@ -10,10 +10,9 @@ import de.tum.in.ase.insertteamnamehere.service.ReminderService;
 @RestController
 public class ReminderControl {
 
-    @Autowired
+
     private ReminderService reminderService;
 
-    @Autowired
     private User user;
 
     @RequestMapping("send-reminder")

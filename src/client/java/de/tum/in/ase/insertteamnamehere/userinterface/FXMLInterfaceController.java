@@ -3,15 +3,22 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 import de.tum.in.ase.insertteamnamehere.model.PriceCategory;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -70,6 +77,8 @@ public class FXMLInterfaceController implements Initializable {
     private Button backButton;
     @FXML
     private Button applyButton;
+    @FXML
+    private Button mapViewButton;
 
     @FXML
     private void handleSearchButtonEvent(ActionEvent event) {
@@ -81,6 +90,16 @@ public class FXMLInterfaceController implements Initializable {
 
     public void handleApplyButtonEvent() {
         // TODO Applies filter options
+    }
+
+    public void switchToMapView(ActionEvent event) throws IOException {
+        URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
+        FXMLLoader loader = new FXMLLoader(myFXML);
+        Parent root = (Parent) loader.load();
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override

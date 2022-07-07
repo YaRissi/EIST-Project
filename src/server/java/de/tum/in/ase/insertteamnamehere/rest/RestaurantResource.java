@@ -31,7 +31,7 @@ public class RestaurantResource {
 
     @PostMapping("restaurants")
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
-        if (restaurant.getID() != null) {
+        if (restaurant.getRestaurantID() != null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(restaurantService.saveRestaurant(restaurant));

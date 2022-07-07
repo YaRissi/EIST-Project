@@ -23,11 +23,13 @@ configurations {
 
 dependencies {
 
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     serverImplementation 'org.springframework.boot:spring-boot-starter-web'
 
     clientImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     implementation('org.springframework.boot:spring-boot-starter-mail')
+    implementation('org.springframework.boot:spring-boot-starter-test')
 
 }
 
@@ -79,7 +81,12 @@ sourceSets {
     }
 }
 
+
 processServerResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+processClientResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 

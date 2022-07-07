@@ -4,6 +4,7 @@ import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,26 +62,48 @@ public class RestaurantService {
         return results;
     }
 
-    private void filterControl(SortingOptions sortingOptions){
+    private void filterControl(SortingOptions sortingOptions, int maxDistance, int maxPrice){
         switch (sortingOptions.getSortField()) {
             case RESTAURANT_TYPE -> filterType(sortingOptions.getSortingOrder());
-            case DISTANCE -> filterDistance(sortingOptions.getSortingOrder());
-            case PRIZE_CATEGORY -> filterPrize(sortingOptions.getSortingOrder());
+            case DISTANCE -> filterDistance(sortingOptions.getSortingOrder(), maxDistance);
+            case PRIZE_CATEGORY -> filterPrize(sortingOptions.getSortingOrder(), maxPrice);
             case AVERAGE_RATING -> filterRating(sortingOptions.getSortingOrder());
             case FREE_TIME_SLOTS -> filterTimeSlots(sortingOptions.getSortingOrder());
         }
     }
 
     //Location Parameter benötigt
-    public List<Restaurant> filterDistance(SortingOptions.SortingOrder sortingOrder){
-        return null;
+    public List<Restaurant> filterDistance(SortingOptions.SortingOrder sortingOrder, int maxDistance){
+        List<Restaurant> resultList = new ArrayList<>();
+        for(Restaurant r : restaurants){
+            if(r.getDistanceToUser() <= maxDistance){
+                resultList.add(r);
+            }
+        }
+        if(sortingOrder == SortingOptions.SortingOrder.ASCENDING){
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return r1.getDistanceToUser() - r2.getDistanceToUser();
+                }
+            });
+        }
+        else{
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return r2.getDistanceToUser() - r1.getDistanceToUser();
+                }
+            });
+        }
+        return resultList;
     }
 
     public List<Restaurant> filterType(SortingOptions.SortingOrder sortingOrder){
         return null;
     }
 
-    public List<Restaurant> filterPrize(SortingOptions.SortingOrder sortingOrder){
+    public List<Restaurant> filterPrize(SortingOptions.SortingOrder sortingOrder, int maxPrice){
         return null;
     }
 

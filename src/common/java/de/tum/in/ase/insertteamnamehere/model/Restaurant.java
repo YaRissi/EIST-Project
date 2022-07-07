@@ -214,6 +214,10 @@ public class Restaurant {
         }
     }
 
+    public int getDistanceToUser(){
+        return 0;
+    }
+
     public String getWebsite() {
         return website;
     }

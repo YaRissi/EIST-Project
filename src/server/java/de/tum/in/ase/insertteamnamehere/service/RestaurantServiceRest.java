@@ -16,7 +16,7 @@ public class RestaurantServiceRest {
 
     }
     public Restaurant saveRestaurant(Restaurant restaurant){
-        var optionalRestaurant = restaurantList.stream().filter(existingRestaurant -> existingRestaurant.getID().equals(restaurant.getID)).findFirst();
+        var optionalRestaurant = restaurantList.stream().filter(existingRestaurant -> existingRestaurant.getRestaurantID().equals(restaurant.getRestaurantID())).findFirst();
         if (optionalRestaurant.isEmpty()){
             restaurant.setRestaurantID(UUID.randomUUID());
             restaurantList.add(restaurant);
@@ -29,7 +29,7 @@ public class RestaurantServiceRest {
         }
     }
     public void deleteRestaurant(UUID restaurantID){
-        this.restaurantList.removeIf(restaurant -> restaurant.getID().equals(restaurantID));
+        this.restaurantList.removeIf(restaurant -> restaurant.getRestaurantID().equals(restaurantID));
 
     }
     public List<Restaurant> getAllRestaurants(){
