@@ -20,10 +20,8 @@ public class UserResource {
     }
 
     @GetMapping("users")
-    public ResponseEntity<List<User>> getAllUsers(@RequestParam("secret") String secret) {
-        if (!"SecretKey".equals(secret)) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<List<User>> getAllUsers() {
+
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
