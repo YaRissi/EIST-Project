@@ -23,6 +23,8 @@ public class Restaurant {
     private Collection<Reservation> reservations;
     private boolean open;
 
+    private int correspondence;
+
     public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, ArrayList<ArrayList<TimeSlot>> openingTimes) {
         this.name = name;
         this.location = location;
@@ -261,5 +263,13 @@ public class Restaurant {
 
     public Object getRestaurantID() {
         return restaurantID;
+    }
+
+    public void incrementCorrespondence() {
+        this.correspondence++;
+    }
+
+    public int getCorrespondence(){
+        return correspondence;
     }
 }
