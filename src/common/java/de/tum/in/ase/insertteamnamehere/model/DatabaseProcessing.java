@@ -1,6 +1,4 @@
-package model;
-
-import de.tum.in.ase.insertteamnamehere.model.*;
+package de.tum.in.ase.insertteamnamehere.model;
 
 import java.io.FileNotFoundException;
 import java.sql.*;

@@ -22,6 +22,13 @@ public class RestaurantService {
         return restaurants.remove(restaurant);
     }
 
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
+
     //---------------------------------- Suche nach Restaurants -------------------------------------------
 
     public List<Restaurant> search(String input){
@@ -94,6 +101,12 @@ public class RestaurantService {
 
     //---------------------------------- Weitere Funktionen -------------------------------------------
 
+    public List<Restaurant> sortAscending(List<Restaurant> listOfRestaurants) {
+        return new ArrayList<>();
+    }
+    public List<Restaurant> sortDescending(List<Restaurant> listOfRestaurants) {
+        return new ArrayList<>();
+    }
 
 
 }

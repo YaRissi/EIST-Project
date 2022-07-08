@@ -26,6 +26,7 @@ public class Restaurant {
     private String website;
     private Collection<Reservation> reservations;
     private boolean open;
+    private double averageRating;
 
     private User admin;
 
@@ -139,6 +140,13 @@ public class Restaurant {
 
     public void setPriceCategory(PriceCategory priceCategory) {
         this.priceCategory = priceCategory;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     public List<List<TimeSlot>> getOpeningTimes() {
