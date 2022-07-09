@@ -56,8 +56,12 @@ public class RestaurantService {
         }
         else {
             for (Restaurant r : restaurants) {
-                if (r.getRestaurantType().equals(toSearch)) {
-                    results.add(r);
+                for(RestaurantType tr : r.getRestaurantType()){
+                    for(RestaurantType ts : toSearch) {
+                        if(tr.equals(ts)){
+                            results.add(r);
+                        }
+                    }
                 }
             }
         }
