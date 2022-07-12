@@ -3,7 +3,11 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -12,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -69,10 +74,27 @@ public class FXMLInterfaceController implements Initializable {
     @FXML
     private Button applyButton;
     @FXML
+    private Button mapViewButton;
+
+    @FXML
     private VBox resultView;
     private final RestaurantService interfaceService = new RestaurantService();
 
     // --------------------------------------- Methoden ----------------------------------------------
+
+    public void switchToMapView(ActionEvent event) throws IOException {
+        URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
+        FXMLLoader loader = new FXMLLoader(myFXML);
+        Parent root = (Parent) loader.load();
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    // <Image url="@../../../../resources/large-detailed-map-of-munich-with-other-marks.jpg" />
+
+
     @FXML
     public void handleSearchButtonEvent(ActionEvent event) {
         resultView.getChildren().clear();
