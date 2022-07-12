@@ -286,4 +286,5 @@ public class Restaurant {
     public String getRestaurantId() {
         return restaurantId;
     }
+
 }

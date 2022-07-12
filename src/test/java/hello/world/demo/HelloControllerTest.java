@@ -1,6 +1,6 @@
 package hello.world.demo;
 
-/* import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,9 +23,8 @@ class HelloControllerTest {
     @Test
     public void testSayHello() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/sayHello/");
-        String result = mockMvc.perform(requestBuilder).andReturn().getResponse().getContentAsString();
-
+        String result = null;
         assertEquals("Hello World!", result);
     }
 
-} */
+}
