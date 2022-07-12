@@ -4,9 +4,10 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.12'
+
 }
 
-group = 'hello.world'
+group = 'de.tum.insertteamnamehere'
 version = '1.0.0'
 sourceCompatibility = '17'
 compileJava.options.encoding = 'UTF-8'
@@ -15,36 +16,59 @@ compileTestJava.options.encoding = 'UTF-8'
 repositories {
     mavenCentral()
 }
+configurations {
+    serverImplementation.extendsFrom(implementation)
+    clientImplementation.extendsFrom(implementation)
+}
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    serverImplementation 'org.springframework.boot:spring-boot-starter-web'
+
+    clientImplementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    implementation('org.springframework.boot:spring-boot-starter-mail')
+
 }
 
 javafx {
     version = '17.0.2'
     modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.media' ]
+    configuration = 'clientImplementation'
 }
 
 sourceSets {
-    main {
+
+    common {
         java {
-            srcDir 'src/main/java'
+            srcDir 'src/common/java'
+        }
+
+    }
+    client {
+        java {
+            srcDir 'src/client/java'
         }
         resources {
-            srcDir 'src/main/resources'
+            srcDir 'src/client/resources'
         }
+        compileClasspath += common.output
+        runtimeClasspath += common.output
+
     }
-    reservationsystem {
+    server {
         java {
-            srcDir 'src/reservationsystem/java'
+            srcDir 'src/reservationsystem/server/java'
         }
         resources {
-            srcDir 'src/reservationsystem/resources'
+            srcDir 'src/reservationsystem/server/resources'
         }
+        compileClasspath += common.output
+        runtimeClasspath += common.output
+
     }
+
+
     test {
         java {
             srcDir 'src/test/java'
@@ -55,11 +79,7 @@ sourceSets {
     }
 }
 
-processResources {
+processServerResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-test {
-    defaultCharacterEncoding = 'UTF-8'
-    useJUnitPlatform()
-}
