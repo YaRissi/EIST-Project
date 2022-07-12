@@ -83,7 +83,7 @@ public class FXMLInterfaceController implements Initializable {
     // --------------------------------------- Methoden ----------------------------------------------
 
     public void switchToMapView(ActionEvent event) throws IOException {
-        URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
+        URL myFXML = getClass().getClassLoader().getResource("MapView.fxml");
         FXMLLoader loader = new FXMLLoader(myFXML);
         Parent root = (Parent) loader.load();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -1,11 +1,18 @@
 package de.tum.in.ase.insertteamnamehere.userinterface;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.util.Objects;
+
 public class InterfaceApplication extends Application {
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ResultView.fxml")));

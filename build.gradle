@@ -82,7 +82,3 @@ sourceSets {
     }
 }
 
-processServerResources {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
