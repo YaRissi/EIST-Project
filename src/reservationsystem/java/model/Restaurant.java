@@ -20,7 +20,7 @@ public class Restaurant {
     private PriceCategory priceCategory;
     private List<List<TimeSlot>> openingTimes;
     private String website;
-    private Collection<Reservation> reservations;
+    private List<Reservation> reservations;
     private boolean open;
 
     private User admin;
@@ -55,12 +55,12 @@ public class Restaurant {
         }
     }
 
-    public Float getAverageRating(List<Integer> ratings) {
+    public Double getAverageRating(List<Integer> ratings) {
         int size = ratings.size();
         if (size == 0) {
-            return Float.NaN;
+            return Double.NaN;
         }
-        float allRatings = ratings.stream().reduce(Integer::sum).get();
+        double allRatings = ratings.stream().reduce(Integer::sum).get();
         return allRatings / size;
     }
 
@@ -125,6 +125,9 @@ public class Restaurant {
     }
 
     public void addRating(Integer rating) {
+        if (rating > 5 || rating < 1) {
+            throw new IllegalArgumentException("Ratings must be between 1 and 5!");
+        }
         ratings.add(rating);
     }
 
@@ -232,11 +235,11 @@ public class Restaurant {
         this.restaurantId = restaurantId;
     }
 
-    public Collection<Reservation> getReservations() {
+    public List<Reservation> getReservations() {
         return reservations;
     }
 
-    public void setReservations(Collection<Reservation> reservations) {
+    public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }
 

@@ -20,8 +20,8 @@ public class TimeSlot {
         return closed;
     }
 
-    private boolean timeIsValid(int hour, int minute) {
-        if (hour > 24 || hour < 0) {
+    public static boolean timeIsValid(int hour, int minute) {
+        if (hour > 24 || hour < 0 || (hour == 24 && minute > 0)) {
             throw new IllegalArgumentException("This hour does not exist!");
         }
         if (minute > 60 || minute < 0) {
@@ -31,15 +31,23 @@ public class TimeSlot {
     }
 
     public void setOpen(int hour, int minute) {
-        if (timeIsValid(hour, minute)) {
-            open = LocalTime.of(hour, minute);
-        }
+        open = determineTime(hour, minute);
     }
 
     public void setClosed(int hour, int minute) {
+        closed = determineTime(hour, minute);
+    }
+
+    private LocalTime determineTime(int hour, int minute) {
         if (timeIsValid(hour, minute)) {
-            closed = LocalTime.of(hour, minute);
+            if (hour == 24 && minute == 0) {
+                hour = 0;
+            } else if (minute == 60) {
+                hour = hour + 1;
+                minute = 0;
+            }
         }
+        return LocalTime.of(hour, minute);
     }
 
     public boolean isCoinciding(LocalTime start, LocalTime stop, List<TimeSlot> timeSlots) {
