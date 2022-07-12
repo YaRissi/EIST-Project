@@ -170,42 +170,36 @@ public class FXMLInterfaceController implements Initializable {
             restaurantTypesToSearch.add(RestaurantType.TURKISH);
         }
 
-        List<Restaurant> listOfRestaurants = interfaceService.filterType(null);
+        List<Restaurant> listOfRestaurants = interfaceService.filterType(null, null);
         // Als Eingabe Liste von RestaurantTypes benötigt
 
         PriceCategory priceCategory = priceClassChoiceBox.getValue();
         if (priceCategory.equals(PriceCategory.AVERAGE)) {
-            listOfRestaurants = interfaceService.filterPrize(null);
+            listOfRestaurants = interfaceService.filterPrize(null, null);
             // Als Eingabe Liste von Restaurants und eine PriceCategory benötigt
         }
         if (priceCategory.equals(PriceCategory.EXPENSIVE)) {
-            listOfRestaurants = interfaceService.filterPrize(null);
+            listOfRestaurants = interfaceService.filterPrize(null, null);
         }
         if (priceCategory.equals(PriceCategory.AFFORDABLE)) {
-            listOfRestaurants = interfaceService.filterPrize(null);
+            listOfRestaurants = interfaceService.filterPrize(null, null);
         }
 
         SortingOptions.SortField sortField = sortingFieldChoiceBox.getValue();
         if (sortField.equals(SortingOptions.SortField.AVERAGE_RATING)) {
-            listOfRestaurants = interfaceService.filterRating(null);
+            listOfRestaurants = interfaceService.filterRating(null, 0);
         }
         if (sortField.equals(SortingOptions.SortField.DISTANCE)) {
-            listOfRestaurants = interfaceService.filterRating(null);
+            listOfRestaurants = interfaceService.filterRating(null, 0);
         }
         if (sortField.equals(SortingOptions.SortField.FREE_TIME_SLOTS)) {
-            listOfRestaurants = interfaceService.filterRating(null);
+            listOfRestaurants = interfaceService.filterRating(null, 0);
         }
         if (sortField.equals(SortingOptions.SortField.RESTAURANT_TYPE)) {
-            listOfRestaurants = interfaceService.filterRating(null);
+            listOfRestaurants = interfaceService.filterRating(null, 0);
         }
 
         SortingOptions.SortingOrder sortingOrder = sortingOrderChoiceBox.getValue();
-        if (sortingOrder.equals(SortingOptions.SortingOrder.ASCENDING)) {
-            listOfRestaurants = interfaceService.sortAscending(listOfRestaurants);
-        }
-        if (sortingOrder.equals(SortingOptions.SortingOrder.DESCENDING)) {
-            listOfRestaurants = interfaceService.sortDescending(listOfRestaurants);
-        }
 
         resultView.getChildren().clear();
         for (Restaurant restaurant : listOfRestaurants) {
@@ -235,8 +229,7 @@ public class FXMLInterfaceController implements Initializable {
         List<Restaurant> dummyList = new ArrayList<>();
         for (int i = 0; i < numberOfRestaurants; i++) {
             List<RestaurantType> restaurantTypes = createRandomRestaurantType();
-            Restaurant dummy = new Restaurant(createRandomRestaurantName(restaurantTypes), "" + i, null, null,
-                    null, createRandomPriceCategory(), createRandomTables(), null);
+            Restaurant dummy = new Restaurant(createRandomRestaurantName(restaurantTypes), null,"" + i, null, createRandomPriceCategory(), createRandomTables(), null);
             dummy.setAverageRating(createRandomRating());
             dummy.setRestaurantType(restaurantTypes);
             dummyList.add(dummy);

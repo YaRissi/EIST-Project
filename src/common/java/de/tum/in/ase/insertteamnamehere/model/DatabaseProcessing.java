@@ -83,7 +83,7 @@ public class DatabaseProcessing {
             Set<Table> tables = getTablesForId(restaurantId);
             List<List<TimeSlot>> timeSlots = getTimeSlotsForId(restaurantId);
 
-            Restaurant restaurant = new Restaurant(name, restaurantId, null, address, restaurantType, priceCategory, tables, timeSlots);
+            Restaurant restaurant = new Restaurant(restaurantId, null, address, restaurantType, priceCategory, tables, timeSlots);
 
             restaurants.add(restaurant);
         }

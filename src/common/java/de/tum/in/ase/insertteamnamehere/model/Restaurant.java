@@ -8,13 +8,10 @@ import java.util.*;
 import java.util.List;
 
 public class Restaurant {
-
     public boolean getID;
     private UUID restaurantID;
-
-    private String name;
-
     private String restaurantId;
+    String name;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
     private Point location;
@@ -26,13 +23,12 @@ public class Restaurant {
     private String website;
     private Collection<Reservation> reservations;
     private boolean open;
-    private double averageRating;
 
-    private User admin;
+    private int correspondence;
+    private int averageRating;
 
-    public Restaurant(String name, String restaurantId, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
+    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
-        this.restaurantId = restaurantId;
         this.location = location;
         this.address = address;
         this.restaurantType = new ArrayList<>();
@@ -87,8 +83,8 @@ public class Restaurant {
     }
 
     public void addRestaurantType(RestaurantType restaurantType) {
-        if (this.restaurantType.size() > 2) {
-            throw new IllegalArgumentException("You cannot set more than two restaurant types!");
+        if (this.restaurantType.size() > 3) {
+            throw new IllegalArgumentException("You cannot set more than three restaurant types!");
         } else {
             this.restaurantType.add(restaurantType);
         }
@@ -140,13 +136,6 @@ public class Restaurant {
 
     public void setPriceCategory(PriceCategory priceCategory) {
         this.priceCategory = priceCategory;
-    }
-
-    public double getAverageRating() {
-        return averageRating;
-    }
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
     }
 
     public List<List<TimeSlot>> getOpeningTimes() {
@@ -229,20 +218,16 @@ public class Restaurant {
         }
     }
 
+    public int getDistanceToUser(){
+        return 0;
+    }
+
     public String getWebsite() {
         return website;
     }
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public String getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
     }
 
     public Collection<Reservation> getReservations() {
@@ -281,12 +266,24 @@ public class Restaurant {
     public Object getRestaurantID() {
         return restaurantID;
     }
-        public User getAdmin () {
-            return admin;
-        }
 
+    public void incrementCorrespondence() {
+        this.correspondence++;
+    }
 
-    public void setAdmin(User admin) {
-        this.admin = admin;
+    public int getCorrespondence(){
+        return correspondence;
+    }
+
+    public int getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(int averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
     }
 }
