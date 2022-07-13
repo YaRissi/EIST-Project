@@ -1,6 +1,6 @@
 package reservationsystem.testing;
 
-import model.TimeSlot;
+import de.tum.in.ase.insertteamnamehere.model.TimeSlot;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
@@ -48,7 +48,8 @@ public class TimeSlotTesting {
     public void testDetermineTimeHour24() {
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(20, 30), LocalTime.of(23, 15));
         timeSlot.setClosed(24, 0);
-        assertEquals(LocalTime.of(0, 0), timeSlot.getOpen());
+        assertEquals(0, timeSlot.getClosed().getHour());
+        assertEquals(0, timeSlot.getClosed().getMinute());
     }
 
     @Test
@@ -109,6 +110,6 @@ public class TimeSlotTesting {
         List<TimeSlot> list = new ArrayList<>();
         list.add(timeSlot);
 
-        assertTrue(timeSlot.isCoinciding(start1, stop1, list));
+        assertFalse(timeSlot.isCoinciding(start1, stop1, list));
     }
 }

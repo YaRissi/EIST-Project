@@ -54,15 +54,19 @@ public class TimeSlot {
         for (int i = 0; i < timeSlots.size(); i++) {
             TimeSlot currentSlot = timeSlots.get(i);
             if (currentSlot.getOpen().equals(start)) {
-                return false;
+                return true;
             } else if (currentSlot.getClosed().equals(stop)) {
-                return false;
+                return true;
             } else if (currentSlot.getOpen().compareTo(start) < 0 && currentSlot.getClosed().compareTo(stop) > 0) {
-                return false;
+                return true;
             } else if (currentSlot.getOpen().compareTo(start) > 0 && currentSlot.getClosed().compareTo(stop) < 0) {
-                return false;
+                return true;
+            } else if (start.compareTo(currentSlot.getClosed()) < 0 && stop.compareTo(currentSlot.getOpen()) > 0) {
+                return true;
+            } else if (currentSlot.getOpen().compareTo(stop) < 0 && currentSlot.getClosed().compareTo(start) > 0) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
