@@ -38,7 +38,8 @@ public class Restaurant {
         this.restaurantType.add(restaurantType);
         this.priceCategory = priceCategory;
         this.tables = tables;
-
+        this.reviews = new ArrayList<>();
+        this.ratings = new ArrayList<>();
         if (openingTimes == null) {
             this.openingTimes = new ArrayList<>(7);
         } else if (openingTimes.size() != 7) {
@@ -86,7 +87,7 @@ public class Restaurant {
     }
 
     public void addRestaurantType(RestaurantType restaurantType) {
-        if (this.restaurantType.size() > 2) {
+        if (this.restaurantType.size() >= 2) {
             throw new IllegalArgumentException("You cannot set more than two restaurant types!");
         } else {
             this.restaurantType.add(restaurantType);
@@ -153,11 +154,18 @@ public class Restaurant {
     }
 
     public void addOpeningTimes(LocalTime start, LocalTime stop, DayOfWeek dayOfWeek) {
-        for (int i = 0; i < 7; i++) {
-            if (openingTimes.get(i) == null) {
-                openingTimes.add(new ArrayList<>());
+        if (openingTimes.size() < 7) {
+            for (int i = 0; i < 7; i++) {
+                try {
+                    if (openingTimes.get(i) == null) {
+                        openingTimes.add(i, new ArrayList<>());
+                    }
+                } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                    openingTimes.add(i, new ArrayList<>());
+                }
             }
         }
+
         switch (dayOfWeek) {
             case MONDAY -> {
                 if (!timesCoinciding(start, stop, dayOfWeek)) {
@@ -198,6 +206,9 @@ public class Restaurant {
     }
 
     public boolean timesCoinciding(LocalTime start, LocalTime stop, DayOfWeek dayOfWeek) {
+        if (dayOfWeek == null) {
+            throw new IllegalArgumentException("Please choose a day of the week.");
+        }
         switch (dayOfWeek) {
             case MONDAY -> {
                 return openingTimes.get(0).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(0)));
@@ -220,7 +231,7 @@ public class Restaurant {
             case SUNDAY -> {
                 return openingTimes.get(6).stream().anyMatch(timeSlot -> timeSlot.isCoinciding(start, stop, openingTimes.get(6)));
             }
-            default -> throw new IllegalArgumentException("Please choose a day of the week!");
+            default -> throw new IllegalArgumentException("Please choose a valid day of the week!");
         }
     }
 

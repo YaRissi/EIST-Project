@@ -1,14 +1,16 @@
 package reservationsystem.testing;
 
-import model.*;
+
+import de.tum.in.ase.insertteamnamehere.model.*;
+import de.tum.in.ase.insertteamnamehere.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import user.User;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,32 +65,37 @@ public class RestaurantTesting {
     //reserveTable ****************************************************************************************
     @Test
     public void testReserveTable() {
-        Table table = new Table(4, "TES-01");
+        UUID id = UUID.randomUUID();
+        Table table = new Table(4, id);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
-        testRestaurant.reserveTable(testUser, table, timeSlot, 4);
+        testRestaurant.reserveTable(testUser, table, timeSlot, 4, id, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
         assertTrue(table.isReserved());
-        assertEquals(new Reservation(testUser, timeSlot, table, 4), testRestaurant.getReservations().get(0));
+        assertEquals(GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())), testRestaurant.getReservations().get(0).getDate());
+        assertEquals(id, testRestaurant.getReservations().get(0).getID());
+        assertEquals(timeSlot, testRestaurant.getReservations().get(0).getTimeslot());
     }
 
     @Test
     public void testReserveReservedTable() {
-        Table table = new Table(4, "TES-01");
+        UUID id = UUID.randomUUID();
+        Table table = new Table(4, id);
         table.setReserved(true);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
-            testRestaurant.reserveTable(testUser, table, timeSlot, 4);
+            testRestaurant.reserveTable(testUser, table, timeSlot, 4, id, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
         });
-        assertNull(testRestaurant.getReservations().get(0));
+        assertEquals(0, testRestaurant.getReservations().size());
     }
 
     @Test
     public void testReserveTableTooManyPeople() {
-        Table table = new Table(5, "TES-01");
+        UUID id = UUID.randomUUID();
+        Table table = new Table(5, id);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
-            testRestaurant.reserveTable(testUser, table, timeSlot, 4);
+            testRestaurant.reserveTable(testUser, table, timeSlot, 6, id, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
         });
-        assertNull(testRestaurant.getReservations().get(0));
+        assertEquals(0, testRestaurant.getReservations().size());
     }
 
     //getAverageRating *************************************************************************************
@@ -131,17 +138,18 @@ public class RestaurantTesting {
     //addOpeningTimes ***************************************************************************************
     @Test
     public void testAddOpeningTimes() {
+        TimeSlot timeSlot1 = new TimeSlot(LocalTime.of(12, 0), LocalTime.of(14, 0));
         testRestaurant.addOpeningTimes(LocalTime.of(12, 0), LocalTime.of(14, 0), DayOfWeek.MONDAY);
         testRestaurant.addOpeningTimes(LocalTime.of(15, 0), LocalTime.of(17, 0), DayOfWeek.MONDAY);
         testRestaurant.addOpeningTimes(LocalTime.of(12, 0), LocalTime.of(14, 0), DayOfWeek.THURSDAY);
         testRestaurant.addOpeningTimes(LocalTime.of(12, 0), LocalTime.of(14, 0), DayOfWeek.FRIDAY);
         TimeSlot expected = new TimeSlot(LocalTime.of(12, 0), LocalTime.of(14, 0));
 
-        assertEquals(expected, testRestaurant.getOpeningTimes().get(0).get(0));
-        assertEquals(new TimeSlot(LocalTime.of(15, 0), LocalTime.of(17, 0)), testRestaurant.getOpeningTimes().get(0).get(1));
-        assertEquals(expected, testRestaurant.getOpeningTimes().get(3).get(0));
-        assertEquals(expected, testRestaurant.getOpeningTimes().get(4).get(0));
-        assertEquals(new ArrayList<TimeSlot>(), testRestaurant.getOpeningTimes().get(2));
+        assertEquals(expected.getOpen(), testRestaurant.getOpeningTimes().get(0).get(0).getOpen());
+        assertEquals(LocalTime.of(17, 0), testRestaurant.getOpeningTimes().get(0).get(1).getClosed());
+        assertEquals(expected.getClosed(), testRestaurant.getOpeningTimes().get(3).get(0).getClosed());
+        assertEquals(expected.getOpen(), testRestaurant.getOpeningTimes().get(4).get(0).getOpen());
+        assertEquals(0, testRestaurant.getOpeningTimes().get(2).size());
     }
 
     @Test
@@ -161,6 +169,7 @@ public class RestaurantTesting {
 
     @Test
     public void testTimesCoincidingNoDayOfWeek() {
+        testRestaurant.addOpeningTimes(LocalTime.of(12, 0), LocalTime.of(14, 0), DayOfWeek.MONDAY);
         assertThrows(IllegalArgumentException.class, () -> {
             testRestaurant.timesCoinciding(LocalTime.of(10, 0), LocalTime.of(13, 0), null);
         });
@@ -169,7 +178,7 @@ public class RestaurantTesting {
     @Test
     public void testTimesCoincidingSameTime() {
         testRestaurant.addOpeningTimes(LocalTime.of(12, 0), LocalTime.of(14, 0), DayOfWeek.MONDAY);
-        assertTrue(testRestaurant.timesCoinciding(LocalTime.of(14, 0), LocalTime.of(17, 0), DayOfWeek.MONDAY));
+        assertFalse(testRestaurant.timesCoinciding(LocalTime.of(14, 0), LocalTime.of(17, 0), DayOfWeek.MONDAY));
     }
 
     //addRating **********************************************************************************************
