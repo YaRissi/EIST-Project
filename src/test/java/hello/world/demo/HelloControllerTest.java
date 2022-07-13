@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(HelloController.class)
+@WebMvcTest(HelloController.class) 
 @ContextConfiguration(classes = HelloController.class)
 class HelloControllerTest {
 

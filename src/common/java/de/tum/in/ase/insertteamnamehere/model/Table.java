@@ -8,9 +8,12 @@ public class Table {
 
     private final int maxNumberOfPeople;
 
-    public Table(int maxNumberOfPeople) {
+    private final String tableId;
+
+    public Table(int maxNumberOfPeople, String tableId) {
         this.maxNumberOfPeople = maxNumberOfPeople;
         this.reserved = false;
+        this.tableId = tableId;
     }
 
     public int getMaxNumberOfPeople() {
@@ -25,11 +28,17 @@ public class Table {
         this.reserved = reserved;
     }
 
+
     public UUID getTableID() {
         return tableID;
     }
 
     public void setTableID(UUID tableID) {
         this.tableID = tableID;
+    }
+
+    public String getTableId() {
+        return tableId;
+
     }
 }

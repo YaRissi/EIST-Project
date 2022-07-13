@@ -43,7 +43,7 @@ public class RestaurantResource {
         return ResponseEntity.ok(restaurantService.saveRestaurant(restaurant));
     }
 
-    @DeleteMapping("restaurant/{restaurantID")
+    @DeleteMapping("restaurant/{restaurantID}")
     public ResponseEntity<Void> deleteRestaurant (@PathVariable("restaurantID")UUID restaurantID){
         restaurantService.deleteRestaurant(restaurantID);
         return ResponseEntity.noContent().build();
