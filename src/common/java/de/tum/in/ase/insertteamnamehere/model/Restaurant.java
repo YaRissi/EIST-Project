@@ -18,14 +18,14 @@ public class Restaurant {
     private List<String> reviews;
     private List<Integer> ratings;
     private PriceCategory priceCategory;
-    private ArrayList<ArrayList<TimeSlot>> openingTimes;
+    private List<List<TimeSlot>> openingTimes;
     private String website;
     private Collection<Reservation> reservations;
     private boolean open;
 
     private int correspondence;
 
-    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, ArrayList<ArrayList<TimeSlot>> openingTimes) {
+    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
         this.location = location;
         this.address = address;
@@ -136,11 +136,11 @@ public class Restaurant {
         this.priceCategory = priceCategory;
     }
 
-    public ArrayList<ArrayList<TimeSlot>> getOpeningTimes() {
+    public List<List<TimeSlot>> getOpeningTimes() {
         return openingTimes;
     }
 
-    public void setOpeningTimes(ArrayList<ArrayList<TimeSlot>> openingTimes) {
+    public void setOpeningTimes(List<List<TimeSlot>> openingTimes) {
         this.openingTimes = openingTimes;
     }
 
@@ -260,7 +260,6 @@ public class Restaurant {
         this.restaurantID = ID;
     }
 
-
     public Object getRestaurantID() {
         return restaurantID;
     }
@@ -272,4 +271,9 @@ public class Restaurant {
     public int getCorrespondence(){
         return correspondence;
     }
+
+    public float getAverageRating(){
+        return getAverageRating(ratings);
+    }
+
 }

@@ -184,7 +184,7 @@ public class RestaurantService {
         List<Restaurant> resultList = new ArrayList<>();
         TimeSlot timeslot = new TimeSlot(start, end);
         for(Restaurant r : restaurants){
-            for(ArrayList<TimeSlot> a : r.getOpeningTimes()){
+            for(List<TimeSlot> a : r.getOpeningTimes()){
                 for(TimeSlot t : a){
                     if(t.equals(timeslot)){
                         resultList.add(r);
