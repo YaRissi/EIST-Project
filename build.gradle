@@ -29,6 +29,8 @@ dependencies {
     clientImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     implementation('org.springframework.boot:spring-boot-starter-mail')
+    implementation('org.springframework.boot:spring-boot-starter-test')
+
 
 }
 
@@ -78,9 +80,5 @@ sourceSets {
             'src/test/resources'
         }
     }
-}
-
-processServerResources {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 

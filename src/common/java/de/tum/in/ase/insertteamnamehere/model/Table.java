@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public class Table {
     private boolean reserved;
-    private final UUID tableID;
+    private final String tableID;
 
     private final int maxNumberOfPeople;
 
-    public Table(int maxNumberOfPeople, UUID tableID) {
+    public Table(int maxNumberOfPeople, String tableID) {
         this.maxNumberOfPeople = maxNumberOfPeople;
         this.reserved = false;
         this.tableID = tableID;
@@ -27,7 +27,7 @@ public class Table {
     }
 
 
-    public UUID getTableID() {
+    public String getTableID() {
         return tableID;
     }
 

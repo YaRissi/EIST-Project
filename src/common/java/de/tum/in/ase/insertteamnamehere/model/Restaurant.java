@@ -27,9 +27,10 @@ public class Restaurant {
     private List<Reservation> reservations;
     private boolean open;
 
-    private User admin;
+    private int correspondence;
+    private int averageRating;
 
-    public Restaurant(String name, String restaurantId, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
+    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
         this.restaurantId = restaurantId;
         this.location = location;
@@ -165,7 +166,6 @@ public class Restaurant {
                 }
             }
         }
-
         switch (dayOfWeek) {
             case MONDAY -> {
                 if (!timesCoinciding(start, stop, dayOfWeek)) {
@@ -235,6 +235,10 @@ public class Restaurant {
         }
     }
 
+    public int getDistanceToUser() {
+        return 0;
+    }
+
     public String getWebsite() {
         return website;
     }
@@ -279,7 +283,7 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setRestaurantID(UUID ID){
+    public void setRestaurantID(UUID ID) {
         this.restaurantID = ID;
     }
 
@@ -287,12 +291,22 @@ public class Restaurant {
     public Object getRestaurantID() {
         return restaurantID;
     }
-        public User getAdmin () {
-            return admin;
-        }
 
-
-    public void setAdmin(User admin) {
-        this.admin = admin;
+    public void incrementCorrespondence() {
+        this.correspondence++;
     }
+
+    public int getCorrespondence() {
+        return correspondence;
+    }
+
+    public int getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(int averageRating) {
+        this.averageRating = averageRating;
+    }
+
+
 }

@@ -23,8 +23,7 @@ class HelloControllerTest {
     @Test
     public void testSayHello() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/sayHello/");
-        String result = mockMvc.perform(requestBuilder).andReturn().getResponse().getContentAsString();
-
+        String result = null;
         assertEquals("Hello World!", result);
     }
 

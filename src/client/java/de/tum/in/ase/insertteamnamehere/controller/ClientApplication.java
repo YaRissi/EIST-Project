@@ -17,7 +17,7 @@ public class ClientApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ResultView.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("de/tum/in/ase/insertteamnamehere/userinterface/ResultView.fxml")));
         primaryStage.setTitle("Reservation System");
         primaryStage.setScene(new Scene(root, 880.0, 673.0));
         primaryStage.show();
