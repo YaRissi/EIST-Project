@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLInterfaceController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLInterfaceController">
     <top>
         <VBox prefHeight="90.0" prefWidth="874.0" BorderPane.alignment="CENTER">
             <children>
@@ -41,7 +41,7 @@
                                                 <Insets right="5.0" />
                                             </HBox.margin>
                                         </Button>
-                              <Button fx:id="MapButton" mnemonicParsing="false" onAction="#switchToMapView" text="Show map" />
+                              <Button fx:id="MapButton" mnemonicParsing="false" onAction="#switchToMapView" text="Show on map" />
                                     </children>
                                     <VBox.margin>
                                         <Insets />

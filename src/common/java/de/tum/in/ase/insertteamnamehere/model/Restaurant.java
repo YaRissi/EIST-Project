@@ -1,6 +1,7 @@
 package de.tum.in.ase.insertteamnamehere.model;
 
 import de.tum.in.ase.insertteamnamehere.user.User;
+import de.tum.in.ase.insertteamnamehere.util.Coord;
 
 import java.awt.*;
 import java.time.*;
@@ -13,7 +14,7 @@ public class Restaurant {
     String name;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
-    private Point location;
+    private Coord location;
     private String address;
     private List<String> reviews;
     private List<Integer> ratings;
@@ -25,7 +26,7 @@ public class Restaurant {
 
     private int correspondence;
 
-    public Restaurant(String name, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
+    public Restaurant(String name, Coord location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
         this.location = location;
         this.address = address;
@@ -96,11 +97,11 @@ public class Restaurant {
         this.tables = tables;
     }
 
-    public Point getLocation() {
+    public Coord getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(Coord location) {
         this.location = location;
     }
 
@@ -216,8 +217,16 @@ public class Restaurant {
         }
     }
 
-    public int getDistanceToUser(){
-        return 0;
+    public double getDistanceTo(Coord p2){
+        var earthRadius = 6271;
+        var dLat = this.location.getLat() - p2.getLat();
+        var dLon = this.location.getLon() - p2.getLon();
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(this.location.getLat()*(Math.PI/180)) * Math.cos(p2.getLat() * (Math.PI/180)) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+        var distance = earthRadius * c;
+        return distance;
     }
 
     public String getWebsite() {

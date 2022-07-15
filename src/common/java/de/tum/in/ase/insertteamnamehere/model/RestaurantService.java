@@ -1,5 +1,5 @@
 package de.tum.in.ase.insertteamnamehere.model;
-
+import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 
 
@@ -11,9 +11,11 @@ import java.util.Locale;
 
 public class RestaurantService {
     private List<Restaurant> restaurants;
+    private User user;
 
-    public RestaurantService(){
+    public RestaurantService(User user){
         restaurants = new ArrayList<>();
+        this.user = user;
     }
 
     public boolean addRestaurant(Restaurant restaurant){
@@ -72,7 +74,7 @@ public class RestaurantService {
     public List<Restaurant> filterDistance(SortingOptions.SortingOrder sortingOrder, int maxDistance){
         List<Restaurant> resultList = new ArrayList<>();
         for(Restaurant r : restaurants){
-            if(r.getDistanceToUser() <= maxDistance){
+            if(r.getDistanceTo(user.getLocation()) <= maxDistance){
                 resultList.add(r);
             }
         }
@@ -80,7 +82,7 @@ public class RestaurantService {
             resultList.sort(new Comparator<Restaurant>() {
                 @Override
                 public int compare(Restaurant r1, Restaurant r2) {
-                    return r1.getDistanceToUser() - r2.getDistanceToUser();
+                    return (int)(r1.getDistanceTo(user.getLocation()) - r2.getDistanceTo(user.getLocation()));
                 }
             });
         }
@@ -88,7 +90,7 @@ public class RestaurantService {
             resultList.sort(new Comparator<Restaurant>() {
                 @Override
                 public int compare(Restaurant r1, Restaurant r2) {
-                    return r2.getDistanceToUser() - r1.getDistanceToUser();
+                    return (int)(r2.getDistanceTo(user.getLocation()) - r1.getDistanceTo(user.getLocation()));
                 }
             });
         }

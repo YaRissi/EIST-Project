@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
+<?import com.dlsc.gmapsfx.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="616.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLInterfaceController">
    <children>
-      <ImageView fitHeight="578.0" fitWidth="937.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../resources/large-detailed-map-of-munich-with-other-marks.jpg" />
-         </image></ImageView>
+      <GoogleMapView fx:id="MapView" prefHeight="750.0" prefWidth="761.0" AnchorPane.bottomAnchor="-185.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-441.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="backToResultView" mnemonicParsing="false" onAction="#switchToResultView" prefHeight="29.0" prefWidth="162.0" text="Back to Restaurant List" />
+         </children></GoogleMapView>
+      <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="26.0" layoutY="29.0" prefHeight="478.0" prefWidth="221.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="88.0" BorderPane.alignment="CENTER">
+      </VBox>
    </children>
-</StackPane>
+</AnchorPane>
