@@ -6,6 +6,7 @@ import com.dlsc.gmapsfx.javascript.object.*;
 import de.tum.in.ase.insertteamnamehere.model.PriceCategory;
 import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 import de.tum.in.ase.insertteamnamehere.model.RestaurantService;
+import de.tum.in.ase.insertteamnamehere.model.Table;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class FXMLInterfaceController implements Initializable, MapComponentInitializedListener {
@@ -171,11 +169,23 @@ public class FXMLInterfaceController implements Initializable, MapComponentIniti
             map.addMarker(newMarker);
 
             InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-            infoWindowOptions.content(r.getName()+ "\n" + r.getAddress() + "\n" +r.getWebsite() +"\n"+ r.getAverageRating());
+            infoWindowOptions.content(r.getName() + "\n" + r.getAddress() + "\n" + r.getWebsite() + "\n" + r.getAverageRating());
             InfoWindow fredWilkeInfoWindow = new InfoWindow(infoWindowOptions);
 
             fredWilkeInfoWindow.open(map, newMarker);
         }
     }
-}
 
+
+    public static Set<Table> createRandomTables() {
+        int min = 1;
+        int max = 10;
+        Random random = new Random();
+        int numberOfTables = random.nextInt(max + min) + min;
+        Set<Table> listOfTables = new HashSet<>();
+        for (int i = 0; i < numberOfTables; i++) {
+            listOfTables.add(new Table(random.nextInt(max + min) + min, "" + i));
+        }
+        return listOfTables;
+    }
+}
