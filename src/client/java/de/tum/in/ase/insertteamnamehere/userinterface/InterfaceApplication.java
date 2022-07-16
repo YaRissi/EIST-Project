@@ -6,17 +6,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Objects;
+import java.io.File;
+import java.net.URL;
 
-    public class InterfaceApplication extends Application {
+public class InterfaceApplication extends Application {
+        private Stage stage;
+        private Scene scene;
+        private Parent root;
         @Override
         public void start(Stage primaryStage) throws Exception {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ResultView.fxml")));
+            URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
+            FXMLLoader loader = new FXMLLoader(myFXML);
+            root = (Parent) loader.load();
             primaryStage.setTitle("Reservation System");
             primaryStage.setScene(new Scene(root, 880.0, 673.0));
             primaryStage.show();
         }
-
 
     }
 

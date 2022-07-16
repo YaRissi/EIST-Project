@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(HelloController.class)
+@WebMvcTest(HelloController.class) 
 @ContextConfiguration(classes = HelloController.class)
 class HelloControllerTest {
 
@@ -23,8 +23,7 @@ class HelloControllerTest {
     @Test
     public void testSayHello() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/sayHello/");
-        String result = mockMvc.perform(requestBuilder).andReturn().getResponse().getContentAsString();
-
+        String result = null;
         assertEquals("Hello World!", result);
     }
 

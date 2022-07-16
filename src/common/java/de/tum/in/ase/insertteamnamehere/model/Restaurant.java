@@ -1,6 +1,7 @@
 package de.tum.in.ase.insertteamnamehere.model;
 
 import de.tum.in.ase.insertteamnamehere.user.User;
+import de.tum.in.ase.insertteamnamehere.util.Coord;
 
 import java.awt.*;
 import java.time.*;
@@ -8,16 +9,12 @@ import java.util.*;
 import java.util.List;
 
 public class Restaurant {
-
     public boolean getID;
     private UUID restaurantID;
-
-    private String name;
-
-    private String restaurantId;
+    String name;
     private List<RestaurantType> restaurantType;
     private Set<Table> tables;
-    private Point location;
+    private Coord location;
     private String address;
     private List<String> reviews;
     private List<Integer> ratings;
@@ -27,11 +24,10 @@ public class Restaurant {
     private Collection<Reservation> reservations;
     private boolean open;
 
-    private User admin;
+    private int correspondence;
 
-    public Restaurant(String name, String restaurantId, Point location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
+    public Restaurant(String name, Coord location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
-        this.restaurantId = restaurantId;
         this.location = location;
         this.address = address;
         this.restaurantType = new ArrayList<>();
@@ -86,8 +82,8 @@ public class Restaurant {
     }
 
     public void addRestaurantType(RestaurantType restaurantType) {
-        if (this.restaurantType.size() > 2) {
-            throw new IllegalArgumentException("You cannot set more than two restaurant types!");
+        if (this.restaurantType.size() > 3) {
+            throw new IllegalArgumentException("You cannot set more than three restaurant types!");
         } else {
             this.restaurantType.add(restaurantType);
         }
@@ -101,11 +97,11 @@ public class Restaurant {
         this.tables = tables;
     }
 
-    public Point getLocation() {
+    public Coord getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(Coord location) {
         this.location = location;
     }
 
@@ -221,20 +217,24 @@ public class Restaurant {
         }
     }
 
+    public double getDistanceTo(Coord p2){
+        var earthRadius = 6271;
+        var dLat = this.location.getLat() - p2.getLat();
+        var dLon = this.location.getLon() - p2.getLon();
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(this.location.getLat()*(Math.PI/180)) * Math.cos(p2.getLat() * (Math.PI/180)) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+        var distance = earthRadius * c;
+        return distance;
+    }
+
     public String getWebsite() {
         return website;
     }
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public String getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
     }
 
     public Collection<Reservation> getReservations() {
@@ -269,16 +269,20 @@ public class Restaurant {
         this.restaurantID = ID;
     }
 
-
     public Object getRestaurantID() {
         return restaurantID;
     }
-        public User getAdmin () {
-            return admin;
-        }
 
-
-    public void setAdmin(User admin) {
-        this.admin = admin;
+    public void incrementCorrespondence() {
+        this.correspondence++;
     }
+
+    public int getCorrespondence(){
+        return correspondence;
+    }
+
+    public float getAverageRating(){
+        return getAverageRating(ratings);
+    }
+
 }

@@ -1,17 +1,21 @@
 package de.tum.in.ase.insertteamnamehere.model;
-
+import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 public class RestaurantService {
     private List<Restaurant> restaurants;
+    private User user;
 
-    public RestaurantService(){
+    public RestaurantService(User user){
         restaurants = new ArrayList<>();
+        this.user = user;
     }
 
     public boolean addRestaurant(Restaurant restaurant){
@@ -46,6 +50,7 @@ public class RestaurantService {
                 case "pizza" -> toSearch.add(RestaurantType.PIZZA);
                 case "sushi" -> toSearch.add(RestaurantType.SUSHI_BAR);
                 case "noodles" -> toSearch.add(RestaurantType.NOODLE_BAR);
+                case "vietnamese" -> toSearch.add(RestaurantType.VIETNAMESE);
             }
         }
         if(toSearch.isEmpty()){
@@ -53,43 +58,143 @@ public class RestaurantService {
         }
         else {
             for (Restaurant r : restaurants) {
-                if (r.getRestaurantType().equals(toSearch)) {
-                    results.add(r);
+                for(RestaurantType tr : r.getRestaurantType()){
+                    for(RestaurantType ts : toSearch) {
+                        if(tr.equals(ts)){
+                            results.add(r);
+                        }
+                    }
                 }
             }
         }
         return results;
     }
 
-    private void filterControl(SortingOptions sortingOptions){
-        switch (sortingOptions.getSortField()) {
-            case RESTAURANT_TYPE -> filterType(sortingOptions.getSortingOrder());
-            case DISTANCE -> filterDistance(sortingOptions.getSortingOrder());
-            case PRIZE_CATEGORY -> filterPrize(sortingOptions.getSortingOrder());
-            case AVERAGE_RATING -> filterRating(sortingOptions.getSortingOrder());
-            case FREE_TIME_SLOTS -> filterTimeSlots(sortingOptions.getSortingOrder());
-        }
-    }
-
     //Location Parameter benötigt
-    public List<Restaurant> filterDistance(SortingOptions.SortingOrder sortingOrder){
-        return null;
+    public List<Restaurant> filterDistance(SortingOptions.SortingOrder sortingOrder, int maxDistance){
+        List<Restaurant> resultList = new ArrayList<>();
+        for(Restaurant r : restaurants){
+            if(r.getDistanceTo(user.getLocation()) <= maxDistance){
+                resultList.add(r);
+            }
+        }
+        if(sortingOrder == SortingOptions.SortingOrder.ASCENDING){
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return (int)(r1.getDistanceTo(user.getLocation()) - r2.getDistanceTo(user.getLocation()));
+                }
+            });
+        }
+        else{
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return (int)(r2.getDistanceTo(user.getLocation()) - r1.getDistanceTo(user.getLocation()));
+                }
+            });
+        }
+        return resultList;
     }
 
-    public List<Restaurant> filterType(SortingOptions.SortingOrder sortingOrder){
-        return null;
+    public List<Restaurant> filterType(SortingOptions.SortingOrder sortingOrder, List<RestaurantType> types){
+        List<Restaurant> resultList = new ArrayList<>();
+        for(Restaurant r : restaurants){
+            for(RestaurantType t : r.getRestaurantType()){
+                for(RestaurantType type : types){
+                    if(t.equals(type)){
+                        r.incrementCorrespondence();
+                    }
+                }
+            }
+            if(r.getCorrespondence() > 0){
+                resultList.add(r);
+            }
+        }
+        if(sortingOrder == SortingOptions.SortingOrder.ASCENDING){
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return r1.getCorrespondence() - r2.getCorrespondence();
+                }
+            });
+        }
+        else{
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return r2.getCorrespondence() - r1.getCorrespondence();
+                }
+            });
+        }
+        return resultList;
     }
 
-    public List<Restaurant> filterPrize(SortingOptions.SortingOrder sortingOrder){
-        return null;
+    public List<Restaurant> filterPrize(SortingOptions.SortingOrder sortingOrder, PriceCategory priceCategory){
+        List<Restaurant> resultList = new ArrayList<>();
+        for(Restaurant r : restaurants){
+            if(r.getPriceCategory().equals(priceCategory)){
+                resultList.add(r);
+            }
+        }
+        if(sortingOrder == SortingOptions.SortingOrder.ASCENDING){
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return r1.getName().compareTo(r2.getName());
+                }
+            });
+        }
+        else{
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return r2.getName().compareTo(r1.getName());
+                }
+            });
+        }
+        return resultList;
     }
 
-    public List<Restaurant> filterRating(SortingOptions.SortingOrder sortingOrder){
-        return null;
+    public List<Restaurant> filterRating(SortingOptions.SortingOrder sortingOrder, int minRating){
+        List<Restaurant> resultList = new ArrayList<>();
+        for(Restaurant r: restaurants){
+            if(r.getAverageRating(r.getRatings()) >= minRating){
+                resultList.add(r);
+            }
+        }
+        if(sortingOrder == SortingOptions.SortingOrder.ASCENDING){
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return (int)(r1.getAverageRating(r1.getRatings()) - r2.getAverageRating(r2.getRatings()));
+                }
+            });
+        }
+        else{
+            resultList.sort(new Comparator<Restaurant>() {
+                @Override
+                public int compare(Restaurant r1, Restaurant r2) {
+                    return (int)(r2.getAverageRating(r2.getRatings()) - r1.getAverageRating(r1.getRatings()));
+                }
+            });
+        }
+        return resultList;
     }
 
-    public List<Restaurant> filterTimeSlots(SortingOptions.SortingOrder sortingOrder){
-        return null;
+    public List<Restaurant> filterTimeSlots(SortingOptions.SortingOrder sortingOrder, LocalTime start, LocalTime end ){
+        List<Restaurant> resultList = new ArrayList<>();
+        TimeSlot timeslot = new TimeSlot(start, end);
+        for(Restaurant r : restaurants){
+            for(List<TimeSlot> a : r.getOpeningTimes()){
+                for(TimeSlot t : a){
+                    if(t.equals(timeslot)){
+                        resultList.add(r);
+                    }
+                }
+            }
+        }
+        return resultList;
     }
 
     //---------------------------------- Weitere Funktionen -------------------------------------------

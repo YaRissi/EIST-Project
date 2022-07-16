@@ -1,6 +1,4 @@
-package model;
-
-import de.tum.in.ase.insertteamnamehere.model.*;
+package de.tum.in.ase.insertteamnamehere.model;
 
 import java.io.FileNotFoundException;
 import java.sql.*;
@@ -85,7 +83,7 @@ public class DatabaseProcessing {
             Set<Table> tables = getTablesForId(restaurantId);
             List<List<TimeSlot>> timeSlots = getTimeSlotsForId(restaurantId);
 
-            Restaurant restaurant = new Restaurant(name, restaurantId, null, address, restaurantType, priceCategory, tables, timeSlots);
+            Restaurant restaurant = new Restaurant(restaurantId, null, address, restaurantType, priceCategory, tables, timeSlots);
 
             restaurants.add(restaurant);
         }
@@ -145,7 +143,7 @@ public class DatabaseProcessing {
 
     public boolean addRestaurant(Restaurant restaurant) {
         String name = restaurant.getName();
-        String id = restaurant.getRestaurantId();
+        UUID id = (UUID) restaurant.getRestaurantID();
         String location = restaurant.getLocation().toString();
         String address = restaurant.getAddress();
 
@@ -172,7 +170,7 @@ public class DatabaseProcessing {
 
     public boolean deleteRestaurant(Restaurant restaurant) {
         try {
-            connection.createStatement().execute("DELETE FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+            connection.createStatement().execute("DELETE FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
             return true;
         } catch (SQLException sqlException) {
             return false;
@@ -181,11 +179,11 @@ public class DatabaseProcessing {
 
     public void setName(String name, Restaurant restaurant) throws SQLException {
         connection.createStatement().execute("UPDATE restaurantdatabase.restaurants \n SET name = " + name +
-                "\n WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+                "\n WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
     }
 
     public String getName(Restaurant restaurant) throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
         return resultSet.getString("name");
     }
 
@@ -195,17 +193,17 @@ public class DatabaseProcessing {
     }
 
     public String getRestaurantId(Restaurant restaurant) throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
         return resultSet.getString("restaurant_id");
     }
 
     public void setAddress(String address, Restaurant restaurant) throws SQLException {
         connection.createStatement().execute("UPDATE restaurantdatabase.restaurants \n SET address = " + address +
-                "\n WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+                "\n WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
     }
 
     public String getAddress(Restaurant restaurant) throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
         return resultSet.getString("address");
     }
 
@@ -217,11 +215,11 @@ public class DatabaseProcessing {
     public void setRestaurantType(RestaurantType restaurantType, Restaurant restaurant) throws SQLException {
         String restType = restaurantType.toString();
         connection.createStatement().execute("UPDATE restaurantdatabase.restaurants \n SET restauranttype = " + restType +
-                "\n WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+                "\n WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
     }
 
     public List<RestaurantType> getRestaurantType(Restaurant restaurant) throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
         String[] types = resultSet.getString("restauranttype").toUpperCase().split(", ");
         List<RestaurantType> typesList = new ArrayList<>();
         for (int i = 0; i < types.length; i++) {
@@ -233,27 +231,27 @@ public class DatabaseProcessing {
     public void setPriceCategory(PriceCategory priceCategory, Restaurant restaurant) throws SQLException {
         String priceCat = priceCategory.toString();
         connection.createStatement().execute("UPDATE restaurantdatabase.restaurants \n SET pricecategory = " + priceCat +
-                "\n WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+                "\n WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
     }
 
     public PriceCategory getPriceCategory(Restaurant restaurant) throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
         return PriceCategory.valueOf(resultSet.getString("pricecategory").toUpperCase());
     }
 
     public String getWebsite(Restaurant restaurant) throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
         return resultSet.getString("website");
     }
 
     public void setWebsite(String website, Restaurant restaurant) throws SQLException {
         connection.createStatement().execute("UPDATE restaurantdatabase.restaurants \n SET website = " +
-                website + "\n WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+                website + "\n WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
     }
 
     public Set<Table> getTables(Restaurant restaurant) throws SQLException {
         Set<Table> tables = new HashSet<>();
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantId() + ";");
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT FROM restaurantdatabase.restaurants WHERE restaurant_id = " + restaurant.getRestaurantID() + ";");
         for (int i = 0; i < resultSet.getFetchSize(); i++) {
             tables.add(new Table(resultSet.getInt("max_people"), resultSet.getString("table_id")));
         }
@@ -262,7 +260,7 @@ public class DatabaseProcessing {
 
     public boolean addTable(Restaurant restaurant, Table table) {
         String tableId = table.getTableId();
-        String restaurantId = restaurant.getRestaurantId();
+        UUID restaurantId = (UUID) restaurant.getRestaurantID();
         int maxPeople = table.getMaxNumberOfPeople();
 
         try {
