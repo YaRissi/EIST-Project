@@ -15,9 +15,10 @@ public class ClientApplication extends Application {
     private final  UserController userController = new UserController();
     private Stage stage;
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("de/tum/in/ase/insertteamnamehere/userinterface/ResultView.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/src/ResultView.fxml")));
         primaryStage.setTitle("Reservation System");
         primaryStage.setScene(new Scene(root, 880.0, 673.0));
         primaryStage.show();

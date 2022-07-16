@@ -23,10 +23,8 @@ public class TableResource {
    }
 
     @GetMapping("tables")
-    public ResponseEntity<List<Table>> getAllTables(@RequestParam("secret") String secret) {
-        if (!"SecretKey".equals(secret)) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<List<Table>> getAllTables() {
+
         return ResponseEntity.ok(tableService.getAllTables());
     }
 
@@ -38,7 +36,7 @@ public class TableResource {
         return ResponseEntity.ok(tableService.saveTable(table));
     }
 
-    @PutMapping("tables/{tableId}")
+    @PutMapping("tables/{tableID}")
     public ResponseEntity<Table> updateTable(@RequestBody Table updatedTable, @PathVariable("tableID") UUID tableID) {
         if (!updatedTable.getTableID().equals(tableID)) {
             return ResponseEntity.badRequest().build();
@@ -47,7 +45,7 @@ public class TableResource {
     }
 
     @DeleteMapping("tables/{tableID}")
-    public ResponseEntity<Void> deleteNote(@PathVariable("noteId") UUID tableID) {
+    public ResponseEntity<Void> deleteNote(@PathVariable("tableID") UUID tableID) {
         tableService.deleteTable(tableID);
         return ResponseEntity.noContent().build();
     }
