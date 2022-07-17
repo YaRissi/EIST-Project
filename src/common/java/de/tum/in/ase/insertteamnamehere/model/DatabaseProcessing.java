@@ -259,7 +259,7 @@ public class DatabaseProcessing {
     }
 
     public boolean addTable(Restaurant restaurant, Table table) {
-        String tableId = table.getTableId();
+        String tableId = table.getTableID();
         UUID restaurantId = (UUID) restaurant.getRestaurantID();
         int maxPeople = table.getMaxNumberOfPeople();
 
@@ -274,7 +274,7 @@ public class DatabaseProcessing {
 
     public boolean deleteTable(Restaurant restaurant, Table table) {
         try {
-            connection.createStatement().execute("DELETE FROM restaurantdatabase.tables WHERE table_id = " + table.getTableId() + ";");
+            connection.createStatement().execute("DELETE FROM restaurantdatabase.tables WHERE table_id = " + table.getTableID() + ";");
             return true;
         } catch (SQLException sqlException) {
             return false;

@@ -3,6 +3,7 @@ package reservationsystem.testing;
 
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.user.User;
+import de.tum.in.ase.insertteamnamehere.util.Coord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +22,9 @@ public class RestaurantTesting {
 
     @BeforeEach
     public void setup() {
-        testRestaurant = new Restaurant("Test", "TES", null, "nowhere Lane 11",
+        testRestaurant = new Restaurant("Test", null, "nowhere Lane 11",
                 RestaurantType.PIZZA, PriceCategory.EXPENSIVE, null, null);
-        testUser = new User("Test User", new RestaurantService());
+        testUser = new User("Test User", new RestaurantService(testUser), new Coord(110, 120));
     }
 
 
@@ -42,7 +43,7 @@ public class RestaurantTesting {
             timeSlots.add(timeslot);
         }
         assertThrows(IllegalArgumentException.class, () -> {
-            Restaurant restaurant = new Restaurant("Test", "TES", null, "nowhere Lane 11",
+            Restaurant restaurant = new Restaurant("Test", null, "nowhere Lane 11",
                     RestaurantType.PIZZA, PriceCategory.EXPENSIVE, null, timeSlots);
         });
     }
@@ -56,7 +57,7 @@ public class RestaurantTesting {
             timeSlots.add(timeslot);
         }
         assertThrows(IllegalArgumentException.class, () -> {
-            Restaurant restaurant = new Restaurant("Test", "TES", null, "nowhere Lane 11",
+            Restaurant restaurant = new Restaurant("Test", null, "nowhere Lane 11",
                     RestaurantType.PIZZA, PriceCategory.EXPENSIVE, null, timeSlots);
         });
     }
@@ -65,10 +66,11 @@ public class RestaurantTesting {
     //reserveTable ****************************************************************************************
     @Test
     public void testReserveTable() {
-        UUID id = UUID.randomUUID();
+        String id = "TEST";
+        UUID reservationID = UUID.randomUUID();
         Table table = new Table(4, id);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
-        testRestaurant.reserveTable(testUser, table, timeSlot, 4, id, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
+        testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
         assertTrue(table.isReserved());
         assertEquals(GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())), testRestaurant.getReservations().get(0).getDate());
         assertEquals(id, testRestaurant.getReservations().get(0).getID());
@@ -77,23 +79,25 @@ public class RestaurantTesting {
 
     @Test
     public void testReserveReservedTable() {
-        UUID id = UUID.randomUUID();
+        String id = "ID";
+        UUID reservationID = UUID.randomUUID();
         Table table = new Table(4, id);
         table.setReserved(true);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
-            testRestaurant.reserveTable(testUser, table, timeSlot, 4, id, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
+            testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
         });
         assertEquals(0, testRestaurant.getReservations().size());
     }
 
     @Test
     public void testReserveTableTooManyPeople() {
-        UUID id = UUID.randomUUID();
+        String id = "EIST";
+        UUID reservationID = UUID.randomUUID();
         Table table = new Table(5, id);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
-            testRestaurant.reserveTable(testUser, table, timeSlot, 6, id, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
+            testRestaurant.reserveTable(testUser, table, timeSlot, 6, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
         });
         assertEquals(0, testRestaurant.getReservations().size());
     }

@@ -29,7 +29,7 @@ public class Restaurant {
 
     public Restaurant(String name, Coord location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
-        this.restaurantId = restaurantId;
+        this.restaurantID = restaurantID;
         this.location = location;
         this.address = address;
         this.restaurantType = new ArrayList<>();
@@ -252,14 +252,6 @@ public class Restaurant {
         this.website = website;
     }
 
-    public String getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
     public List<Reservation> getReservations() {
         return reservations;
     }
@@ -293,7 +285,7 @@ public class Restaurant {
     }
 
 
-    public Object getRestaurantID() {
+    public UUID getRestaurantID() {
         return restaurantID;
     }
 
@@ -309,7 +301,7 @@ public class Restaurant {
         this.averageRating = averageRating;
     }
 
-    public float getAverageRating(){
+    public Double getAverageRating() {
         return getAverageRating(ratings);
     }
 
