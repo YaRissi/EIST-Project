@@ -103,6 +103,7 @@ public class RestaurantObject {
         VBox.setMargin(writeReview, new Insets(0, 30, 5, 10));
 
         Text reviews = new Text("Reviews (" + restaurant.getReviews().size() + ")");
+        VBox.setMargin(reviews, new Insets(0, 0,10,0));
         reviews.setFont(new Font(17));
 
         VBox reviewSection = new VBox();
@@ -124,8 +125,9 @@ public class RestaurantObject {
                 reviewSection.getChildren().add(1, createReviewObject(review));
                 restaurant.addReview(review);
                 reviews.setText("Reviews (" + restaurant.getReviews().size() + ")");
-                VBox.setMargin(reviews, new Insets(0, 0,10,0));
                 content.getChildren().remove(warning);
+                writeName.clear();
+                writeReview.clear();
             } catch (IllegalArgumentException exception) {
                 if (!content.getChildren().contains(warning)) {
                     content.getChildren().add(12, warning);
