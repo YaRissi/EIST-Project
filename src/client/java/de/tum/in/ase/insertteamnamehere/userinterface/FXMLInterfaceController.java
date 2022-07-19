@@ -2,6 +2,7 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.user.User;
+import de.tum.in.ase.insertteamnamehere.util.JSONParse;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,8 @@ import java.net.URL;
 import java.util.*;
 
 public class FXMLInterfaceController implements Initializable {
-
+    @FXML
+    public Button LoginButton;
     @FXML
     private Button button;
     // Alle Check Boxen
@@ -217,6 +219,20 @@ public class FXMLInterfaceController implements Initializable {
         stage.show();
     }
 
+    public void openToLogin(ActionEvent event) throws IOException {
+        URL myFXML = getClass().getClassLoader().getResource("fxml/login.fxml");
+        FXMLLoader loader = new FXMLLoader(myFXML);
+        Parent root = (Parent) loader.load();
+        Stage stageOld = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stageOld.close();
+        Stage stage = new Stage();
+        stage.setTitle("Login");
+        Scene scene = new Scene(root, 400, 200);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
@@ -231,7 +247,26 @@ public class FXMLInterfaceController implements Initializable {
         sortingOrderChoiceBox.getItems().addAll(null, SortingOptions.SortingOrder.ASCENDING,
                 SortingOptions.SortingOrder.DESCENDING);
 
-        interfaceService.setRestaurants(createRandomRestaurants());
+        //interfaceService.setRestaurants(createRandomRestaurants());
+        JSONParse jsonParse = new JSONParse();
+        /*try {
+            jsonParse.clearJson();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Database database = new Database();
+        database.addAllRestaurants();
+        for (Restaurant r:database.getRestaurants()) {
+            r.setRatings(createRandomRating());
+            jsonParse.writeJson(r);
+        }
+        for (Restaurant r:createRandomRestaurants()) {
+            jsonParse.writeJson(r);
+        }
+        System.out.println(createRandomRestaurants());*/
+
+        interfaceService.setRestaurants(jsonParse.parseRestaurant());
+
 
     }
 
@@ -277,6 +312,9 @@ public class FXMLInterfaceController implements Initializable {
                 case 10 -> listOfRestaurantTypes.add(RestaurantType.BAR_RESTAURANT);
                 case 11 -> listOfRestaurantTypes.add(RestaurantType.CAFE);
                 case 12 -> listOfRestaurantTypes.add(RestaurantType.VEGETARIAN);
+                case 13 -> listOfRestaurantTypes.add(RestaurantType.BURGER);
+                case 14 -> listOfRestaurantTypes.add(RestaurantType.PIZZA);
+                case 15 -> listOfRestaurantTypes.add(RestaurantType.SUSHI_BAR);
                 case 16 -> listOfRestaurantTypes.add(RestaurantType.NOODLE_BAR);
                 case 17 -> listOfRestaurantTypes.add(RestaurantType.VIETNAMESE);
                 default -> {

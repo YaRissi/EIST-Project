@@ -2,12 +2,13 @@ package de.tum.in.ase.insertteamnamehere.model;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private List<Restaurant> restaurants;
+    private List<Restaurant> restaurants = new ArrayList<>();
 
-    private void addAllRestaurants() {
+    public void addAllRestaurants() {
         //Die zwei auskommentierten Zahlen nach den Objekten sind Koordinaten --> je nach Implementierung der Karte evtl. später für Location nutzbar
 
         //1
