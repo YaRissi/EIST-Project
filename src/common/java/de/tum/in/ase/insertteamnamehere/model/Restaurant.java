@@ -15,7 +15,7 @@ public class Restaurant {
     private Set<Table> tables;
     private Coord location;
     private String address;
-    private List<String> reviews;
+    private List<Review> reviews;
     private List<Integer> ratings;
     private PriceCategory priceCategory;
     private List<List<TimeSlot>> openingTimes;
@@ -108,15 +108,15 @@ public class Restaurant {
         this.location = location;
     }
 
-    public List<String> getReviews() {
+    public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<String> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 
-    public void addReview(String review) {
+    public void addReview(Review review) {
         reviews.add(review);
     }
 

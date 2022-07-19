@@ -1,14 +1,20 @@
 package de.tum.in.ase.insertteamnamehere.userinterface;
 
 import de.tum.in.ase.insertteamnamehere.model.Restaurant;
+import de.tum.in.ase.insertteamnamehere.model.Review;
 import de.tum.in.ase.insertteamnamehere.model.Table;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class RestaurantObject {
@@ -16,7 +22,7 @@ public class RestaurantObject {
     public static void display(Restaurant restaurant) throws IOException {
         Stage stage = new Stage();
         BorderPane borderPane = new BorderPane();
-        borderPane.setPadding(new Insets(5,5,5,5));
+        borderPane.setPadding(new Insets(5, 5, 5, 5));
         Region region = new Region();
         region.setPrefWidth(50);
 
@@ -32,28 +38,34 @@ public class RestaurantObject {
 
         VBox content = new VBox();
         Text restaurantName = new Text(restaurant.getName());
-        restaurantName.setStyle("-fx-font: 24 arial;");
+        restaurantName.setFont(new Font(24));
         VBox.setMargin(restaurantName, new Insets(5, 10, 5, 10));
 
         HBox pictures = new HBox();
 
-        /* FileInputStream fileInputStream =
-                new FileInputStream("src/client/java/de/tum/in/ase/insertteamnamehere/userinterface/pictures/restaurant-clipart-7-transparent.png");
+        FileInputStream fileInputStream =
+                new FileInputStream("src/client/resources/pictures/restaurant-clipart-7-transparent.png");
         ImageView imageView = new ImageView(new Image(fileInputStream));
         imageView.setFitHeight(75);
         imageView.setFitWidth(75);
-        pictures.getChildren().add(imageView); */
+        pictures.getChildren().add(imageView);
 
         Text rating = new Text("Rating: " + restaurant.getAverageRating());
+        VBox.setMargin(rating, new Insets(10, 10, 5, 10));
         Text address = new Text("Address: " + restaurant.getAddress());
+        VBox.setMargin(address, new Insets(0, 10, 5, 10));
         Text priceClass = new Text("Price " + restaurant.getPriceCategory().toString());
+        VBox.setMargin(priceClass, new Insets(0, 10, 5, 10));
         Text openingTimes = new Text("Opening Times: ");
+        VBox.setMargin(openingTimes, new Insets(0, 10, 5, 10));
         Text description = new Text("Description:\nDies hier ist ein tolles Restaurant mit einem Rating von "
                 + restaurant.getAverageRating());
+        VBox.setMargin(description, new Insets(0, 10, 5, 10));
 
+        // TODO Implement showTableButton (delete comments if no need)
         // ListView<VBox> tables = new ListView<>();
-        Button showTables = new Button("Show tables");
-        showTables.setOnAction(e -> {
+        Button showTablesButton = new Button("Show tables");
+        showTablesButton.setOnAction(e -> {
             /* tables.getItems().clear();
             /* tables.getItems().clear();
             for(Table table : restaurant.getTables()) {
@@ -61,24 +73,69 @@ public class RestaurantObject {
             }
             } */
         });
+        HBox.setMargin(showTablesButton, new Insets(0, 0, 0, 10));
+
+        HBox buttonBox = new HBox();
 
         Button toReservationButton = new Button("To Reservation");
         toReservationButton.setOnAction(e -> {
 
         });
+        HBox.setMargin(toReservationButton, new Insets(0, 10, 0, 5));
 
         Button toWebsiteButton = new Button("To Website");
         toWebsiteButton.setOnAction(e -> {
 
         });
+        VBox.setMargin(toWebsiteButton, new Insets(5, 0, 10, 10));
 
-        Text reviews = new Text("Reviews");
+        buttonBox.getChildren().addAll(showTablesButton, toReservationButton);
+
+        Text postYourReview = new Text("Post your own review");
+        VBox.setMargin(postYourReview, new Insets(0, 0, 5, 10));
+        TextField writeName = new TextField();
+        writeName.setPromptText("Type your name");
+        writeName.setMaxWidth(100);
+        VBox.setMargin(writeName, new Insets(0, 0, 5, 10));
         TextField writeReview = new TextField();
+        writeReview.setPromptText("Write your review");
+        writeName.setMaxWidth(250);
+        VBox.setMargin(writeReview, new Insets(0, 30, 5, 10));
+
+        Text reviews = new Text("Reviews (" + restaurant.getReviews().size() + ")");
+        reviews.setFont(new Font(17));
+
+        VBox reviewSection = new VBox();
+        reviewSection.getChildren().add(reviews);
+        for (Review review : restaurant.getReviews()) {
+            reviewSection.getChildren().add(createReviewObject(review));
+        }
+        reviewSection.setPadding(new Insets(10, 10, 10, 10));
+
+        Label warning = new Label("One of you inputs is empty!");
+        VBox.setMargin(warning, new Insets(0, 0, 5, 10));
+        warning.setTextFill(Color.RED);
+
         Button postButton = new Button("Post");
+        VBox.setMargin(postButton, new Insets(0, 30, 5, 10));
+        postButton.setOnAction(e -> {
+            Review review = new Review(writeName.getText(), writeReview.getText());
+            try {
+                reviewSection.getChildren().add(1, createReviewObject(review));
+                restaurant.addReview(review);
+                reviews.setText("Reviews (" + restaurant.getReviews().size() + ")");
+                VBox.setMargin(reviews, new Insets(0, 0,10,0));
+                content.getChildren().remove(warning);
+            } catch (IllegalArgumentException exception) {
+                if (!content.getChildren().contains(warning)) {
+                    content.getChildren().add(12, warning);
+                }
+            }
+        });
 
         content.getChildren().addAll(restaurantName, pictures, rating, address,
-                priceClass, description, openingTimes, showTables, toReservationButton, toWebsiteButton,
-                reviews, writeReview, postButton);
+                priceClass, description, openingTimes, buttonBox, toWebsiteButton,
+                postYourReview, writeName, writeReview, postButton, reviewSection);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToHeight(true);
@@ -94,8 +151,16 @@ public class RestaurantObject {
         stage.show();
     }
 
-    public static void createCommentObject() {
-
+    public static VBox createReviewObject(Review review) {
+        if (review.getName().isEmpty() || review.getContent().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        VBox reviewBox = new VBox();
+        Text name = new Text(review.getName() + " posted:");
+        name.setFont(new Font(15));
+        Text content = new Text("\"" + review.getContent() + "\"" + "\n");
+        reviewBox.getChildren().addAll(name, content);
+        return reviewBox;
     }
 
     public static VBox createTableObject(Table table) {

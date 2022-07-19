@@ -231,6 +231,8 @@ public class FXMLInterfaceController implements Initializable {
         sortingOrderChoiceBox.getItems().addAll(SortingOptions.SortingOrder.ASCENDING,
                 SortingOptions.SortingOrder.DESCENDING);
 
+        interfaceService.setRestaurants(createRandomRestaurants());
+
     }
 
 
@@ -246,6 +248,7 @@ public class FXMLInterfaceController implements Initializable {
             dummy.setRatings(createRandomRating());
             dummy.setAverageRating(dummy.getAverageRating(dummy.getRatings()));
             dummy.setRestaurantType(restaurantTypes);
+            dummy.setReviews(createRandomReviews());
             dummyList.add(dummy);
         }
         return dummyList;
@@ -342,7 +345,7 @@ public class FXMLInterfaceController implements Initializable {
         return name + "Restaurant";
     }
 
-    public static Set<Table> createRandomTables() {
+    private static Set<Table> createRandomTables() {
         int min = 1;
         int max = 10;
         Random random = new Random();
@@ -353,6 +356,68 @@ public class FXMLInterfaceController implements Initializable {
         }
         return listOfTables;
     }
+
+    private static List<Review> createRandomReviews() {
+        List<Review> reviews = new ArrayList<>();
+        int min = 1;
+        int max = 5;
+        Random random = new Random();
+        int numberOfReviews = random.nextInt(max + min) + min;
+
+        for(int i = 0; i<numberOfReviews; i++) {
+            reviews.add(new Review(createRandomName(), createRandomContent()));
+        }
+        return reviews;
+    }
+
+    private static String createRandomName() {
+        int min = 1;
+        int max = 5;
+        Random random = new Random();
+        int randomName = random.nextInt(max + min) + min;
+        switch (randomName) {
+            case 1 -> {
+                return "Bob der Baumeister";
+            }
+            case 2 -> {
+                return "Mickey Mouse";
+            }
+            case 3 -> {
+                return "The Power Rangers";
+            }
+            case 4 -> {
+                return "Donald Duck";
+            }
+            default -> {
+                return "EIST";
+            }
+        }
+    }
+
+    private static String createRandomContent() {
+        int min = 1;
+        int max = 5;
+        Random random = new Random();
+        int randomName = random.nextInt(max + min) + min;
+        switch (randomName) {
+            case 1 -> {
+                return "War super lecker!";
+            }
+            case 2 -> {
+                return "Würde ich jedem empfehlen!";
+            }
+            case 3 -> {
+                return "War ein bisschen zu salzig...";
+            }
+            case 4 -> {
+                return "Die Ente war gut c:";
+            }
+            default -> {
+                return "EIST ist ein tolles Fach!";
+            }
+        }
+    }
+
 }
 
 
