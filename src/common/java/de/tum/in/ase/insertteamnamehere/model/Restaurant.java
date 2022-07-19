@@ -29,7 +29,7 @@ public class Restaurant {
 
     public Restaurant(String name, Coord location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
-        this.restaurantID = restaurantID;
+        this.restaurantID = UUID.randomUUID();
         this.location = location;
         this.address = address;
         this.restaurantType = new ArrayList<>();
@@ -62,11 +62,13 @@ public class Restaurant {
     public float getAverageRating(List<Integer> ratings) {
         int size = ratings.size();
         if (size == 0) {
-            return (float) Double.NaN;
+            return averageRating;
         }
         double allRatings = ratings.stream().reduce(Integer::sum).get();
-        return (float) (allRatings / size);
+        if(!Float.isNaN(averageRating)) averageRating= (float) ((averageRating + (allRatings / size)) / 2);
+        return averageRating;
     }
+
 
     public String getName() {
         return name;

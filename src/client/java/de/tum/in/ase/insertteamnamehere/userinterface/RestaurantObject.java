@@ -3,6 +3,7 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 import de.tum.in.ase.insertteamnamehere.model.Review;
 import de.tum.in.ase.insertteamnamehere.model.Table;
+import de.tum.in.ase.insertteamnamehere.util.JSONParse;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -124,6 +125,7 @@ public class RestaurantObject {
             try {
                 reviewSection.getChildren().add(1, createReviewObject(review));
                 restaurant.addReview(review);
+                new JSONParse().writeJson(restaurant);
                 reviews.setText("Reviews (" + restaurant.getReviews().size() + ")");
                 content.getChildren().remove(warning);
                 writeName.clear();
