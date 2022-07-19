@@ -227,8 +227,8 @@ public class FXMLInterfaceController implements Initializable {
         spinnerValueFactoryDistance.setValue(0);
         distanceSpinner.setValueFactory(spinnerValueFactoryDistance);
 
-        priceClassChoiceBox.getItems().addAll(PriceCategory.AFFORDABLE, PriceCategory.AVERAGE, PriceCategory.EXPENSIVE);
-        sortingOrderChoiceBox.getItems().addAll(SortingOptions.SortingOrder.ASCENDING,
+        priceClassChoiceBox.getItems().addAll(null, PriceCategory.AFFORDABLE, PriceCategory.AVERAGE, PriceCategory.EXPENSIVE);
+        sortingOrderChoiceBox.getItems().addAll(null, SortingOptions.SortingOrder.ASCENDING,
                 SortingOptions.SortingOrder.DESCENDING);
 
         interfaceService.setRestaurants(createRandomRestaurants());
@@ -396,7 +396,7 @@ public class FXMLInterfaceController implements Initializable {
 
     private static String createRandomContent() {
         int min = 1;
-        int max = 5;
+        int max = 6;
         Random random = new Random();
         int randomName = random.nextInt(max + min) + min;
         switch (randomName) {
@@ -411,6 +411,9 @@ public class FXMLInterfaceController implements Initializable {
             }
             case 4 -> {
                 return "Die Ente war gut c:";
+            }
+            case 5 -> {
+                return "Wursti die Wurst XD";
             }
             default -> {
                 return "EIST ist ein tolles Fach!";
