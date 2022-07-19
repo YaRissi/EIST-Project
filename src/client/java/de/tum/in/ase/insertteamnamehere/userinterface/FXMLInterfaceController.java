@@ -26,12 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class FXMLInterfaceController implements Initializable, MapComponentInitializedListener {
-
-    @FXML
-    public GoogleMapView MapView = new GoogleMapView();
-
-    private List<Restaurant> searchResult;
+public class FXMLInterfaceController implements Initializable {
 
     @FXML
     private Button button;
@@ -237,45 +232,8 @@ public class FXMLInterfaceController implements Initializable, MapComponentIniti
         sortingOrderChoiceBox.getItems().addAll(SortingOptions.SortingOrder.ASCENDING,
                 SortingOptions.SortingOrder.DESCENDING);
 
-        MapView.addMapInitializedListener(this);
     }
 
-    @Override
-    public void mapInitialized() {
-        LatLong joeSmithLocation = new LatLong(48.13534994382753, 11.579664625269427);
-
-
-        //Set the initial properties of the map.
-        MapOptions mapOptions = new MapOptions();
-
-        mapOptions.center(new LatLong(48.13534994382753, 11.579664625269427))
-                .mapType(MapTypeIdEnum.ROADMAP)
-                .overviewMapControl(false)
-                .panControl(false)
-                .rotateControl(false)
-                .scaleControl(false)
-                .streetViewControl(false)
-                .zoomControl(false)
-                .zoom(12);
-
-        GoogleMap map = MapView.createMap(mapOptions);
-
-        //Add markers to the map
-        for (Restaurant r : searchResult) {
-            LatLong position = new LatLong(r.getLocation().getLat(), r.getLocation().getLon());
-
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(position);
-
-            Marker newMarker = new Marker(markerOptions);
-            map.addMarker(newMarker);
-
-            InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-            infoWindowOptions.content(r.getName() + "\n" + r.getAddress() + "\n" + r.getWebsite() + "\n" + r.getAverageRating());
-            InfoWindow fredWilkeInfoWindow = new InfoWindow(infoWindowOptions);
-            fredWilkeInfoWindow.open(map, newMarker);
-        }
-    }
 
     public static List<Restaurant> createRandomRestaurants() {
         int min = 16;
