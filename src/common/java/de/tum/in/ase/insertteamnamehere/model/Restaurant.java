@@ -23,6 +23,7 @@ public class Restaurant {
     private String website;
     private Collection<Reservation> reservations;
     private boolean open;
+    private float averageRating;
 
     private int correspondence;
 
@@ -283,6 +284,10 @@ public class Restaurant {
 
     public float getAverageRating(){
         return getAverageRating(ratings);
+    }
+
+    public void setAverageRating(float averageRating) {
+        this.averageRating = averageRating;
     }
 
 }

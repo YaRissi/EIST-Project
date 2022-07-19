@@ -98,6 +98,9 @@ public class RestaurantService {
     }
 
     public List<Restaurant> filterType(SortingOptions.SortingOrder sortingOrder, List<RestaurantType> types){
+        if (types.isEmpty()) {
+            return restaurants;
+        }
         List<Restaurant> resultList = new ArrayList<>();
         for(Restaurant r : restaurants){
             for(RestaurantType t : r.getRestaurantType()){
@@ -130,9 +133,15 @@ public class RestaurantService {
         return resultList;
     }
 
-    public List<Restaurant> filterPrize(SortingOptions.SortingOrder sortingOrder, PriceCategory priceCategory){
+    public List<Restaurant> filterPrize(List<Restaurant> listOfRestaurants, SortingOptions.SortingOrder sortingOrder, PriceCategory priceCategory){
+        if (listOfRestaurants.isEmpty()) {
+            listOfRestaurants.addAll(restaurants);
+        }
+        if (priceCategory == null) {
+            return listOfRestaurants;
+        }
         List<Restaurant> resultList = new ArrayList<>();
-        for(Restaurant r : restaurants){
+        for(Restaurant r : listOfRestaurants){
             if(r.getPriceCategory().equals(priceCategory)){
                 resultList.add(r);
             }
@@ -156,9 +165,15 @@ public class RestaurantService {
         return resultList;
     }
 
-    public List<Restaurant> filterRating(SortingOptions.SortingOrder sortingOrder, int minRating){
+    public List<Restaurant> filterRating(List<Restaurant> listOfRestaurants, SortingOptions.SortingOrder sortingOrder, int minRating){
+        if (listOfRestaurants.isEmpty()) {
+            listOfRestaurants.addAll(restaurants);
+        }
+        if (minRating == 0) {
+            return listOfRestaurants;
+        }
         List<Restaurant> resultList = new ArrayList<>();
-        for(Restaurant r: restaurants){
+        for(Restaurant r: listOfRestaurants){
             if(r.getAverageRating(r.getRatings()) >= minRating){
                 resultList.add(r);
             }
@@ -199,6 +214,11 @@ public class RestaurantService {
 
     //---------------------------------- Weitere Funktionen -------------------------------------------
 
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
 
-
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
 }
