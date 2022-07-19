@@ -1,8 +1,5 @@
 package de.tum.in.ase.insertteamnamehere.userinterface;
 
-import com.dlsc.gmapsfx.GoogleMapView;
-import com.dlsc.gmapsfx.MapComponentInitializedListener;
-import com.dlsc.gmapsfx.javascript.object.*;
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
@@ -212,6 +209,8 @@ public class FXMLInterfaceController implements Initializable {
         URL myFXML = getClass().getClassLoader().getResource("fxml/MapView.fxml");
         FXMLLoader loader = new FXMLLoader(myFXML);
         Parent root = (Parent) loader.load();
+        FXMLMapViewController mapViewController = loader.getController();
+        mapViewController.initMapAndControls();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

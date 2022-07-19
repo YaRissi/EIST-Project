@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import com.dlsc.gmapsfx.*?>
+<?import com.sothawo.mapjfx.MapView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="616.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLMapViewController">
-   <children>
-      <GoogleMapView fx:id="MapView" prefHeight="750.0" prefWidth="761.0" AnchorPane.bottomAnchor="-185.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-441.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button fx:id="backToResultView" mnemonicParsing="false" onAction="#switchToResultView" prefHeight="29.0" prefWidth="162.0" text="Back to Restaurant List" />
-         </children></GoogleMapView>
-      <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="26.0" layoutY="29.0" prefHeight="478.0" prefWidth="221.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="88.0" BorderPane.alignment="CENTER">
-      </VBox>
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLMapViewController">
+   <top>
+      <Button text="Back to list" onAction="#switchToResultView" BorderPane.alignment="TOP_LEFT"/>
+   </top>
+   <center>
+      <MapView fx:id="mapView" BorderPane.alignment="CENTER"/>
+   </center>
+   <bottom>
+      <!-- botto controls here -->
+   </bottom>
+   <left>
+      <!-- left controls here -->
+   </left>
+</BorderPane>

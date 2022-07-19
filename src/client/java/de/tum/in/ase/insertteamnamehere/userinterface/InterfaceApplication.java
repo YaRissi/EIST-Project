@@ -13,6 +13,7 @@ public class InterfaceApplication extends Application {
         private Stage stage;
         private Scene scene;
         private Parent root;
+
         @Override
         public void start(Stage primaryStage) throws Exception {
             URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
