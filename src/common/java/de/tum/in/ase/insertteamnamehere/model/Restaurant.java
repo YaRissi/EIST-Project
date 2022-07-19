@@ -3,7 +3,6 @@ package de.tum.in.ase.insertteamnamehere.model;
 import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.Coord;
 
-import java.awt.*;
 import java.time.*;
 import java.util.*;
 import java.util.List;
@@ -23,9 +22,10 @@ public class Restaurant {
     private String website;
     private List<Reservation> reservations;
     private boolean open;
+    private float averageRating;
 
     private int correspondence;
-    private int averageRating;
+    //private int averageRating;
 
     public Restaurant(String name, Coord location, String address, RestaurantType restaurantType, PriceCategory priceCategory, Set<Table> tables, List<List<TimeSlot>> openingTimes) {
         this.name = name;
@@ -59,13 +59,13 @@ public class Restaurant {
         }
     }
 
-    public Double getAverageRating(List<Integer> ratings) {
+    public float getAverageRating(List<Integer> ratings) {
         int size = ratings.size();
         if (size == 0) {
-            return Double.NaN;
+            return (float) Double.NaN;
         }
         double allRatings = ratings.stream().reduce(Integer::sum).get();
-        return allRatings / size;
+        return (float) (allRatings / size);
     }
 
     public String getName() {
@@ -297,12 +297,16 @@ public class Restaurant {
         return correspondence;
     }
 
-    public void setAverageRating(int averageRating) {
+    /*public void setAverageRating(int averageRating) {
         this.averageRating = averageRating;
+    }*/
+
+    public float getAverageRating() {
+        return getAverageRating(ratings);
     }
 
-    public Double getAverageRating() {
-        return getAverageRating(ratings);
+    public void setAverageRating(float averageRating) {
+        this.averageRating = averageRating;
     }
 
 }
