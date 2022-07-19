@@ -23,7 +23,7 @@ public class JSONParse {
     public List<TimeSlot> getTimes(Restaurant restaurant, int index) {
         List<TimeSlot> timeSlots = new ArrayList<>();
         int size = restaurant.getOpeningTimes().size();
-        if (size != 0 && size - 1 > index) {
+        if (size != 0 && size > index) {
             return restaurant.getOpeningTimes().get(index);
         }
         return timeSlots;
@@ -52,18 +52,17 @@ public class JSONParse {
         restaurantDetails.put("Friday", dataProcessing.convertOpeningToString(getTimes(restaurant, 4)));
         restaurantDetails.put("Saturday", dataProcessing.convertOpeningToString(getTimes(restaurant, 5)));
         restaurantDetails.put("Sunday", dataProcessing.convertOpeningToString(getTimes(restaurant, 6)));
+        restaurantDetails.put("Rating", String.valueOf(restaurant.getAverageRating()));
+        restaurantDetails.put("Reviews", dataProcessing.convertReviewstoString(restaurant.getReviews()));
 
-        //if(!Float.isNaN(restaurant.getAverageRating()))
-        restaurantDetails.put("Review", String.valueOf(restaurant.getAverageRating()));
-        //else restaurantDetails.put("Review", "")
+        //System.out.println(restaurant.getOpeningTimes().get(6));
+
 
         restaurantObject.put(restaurant.getRestaurantID().toString(), restaurantDetails);
 
         try (FileWriter file = new FileWriter("src/client/resources/data/database.json")) {
-
             file.write(restaurantObject.toJSONString());
             file.flush();
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,7 +122,8 @@ public class JSONParse {
             String Friday = jsonObject.get("Friday").toString();
             String Saturday = jsonObject.get("Saturday").toString();
             String Sunday = jsonObject.get("Sunday").toString();
-            String review = jsonObject.get("Review").toString();
+            String rating = jsonObject.get("Rating").toString();
+            String reviews = jsonObject.get("Reviews").toString();
 
             List<RestaurantType> restaurantTypes = dataProcessing.getRestaurantTypeFromString(restaurantType);
             Coord coord;
@@ -144,9 +144,10 @@ public class JSONParse {
             }
             dataProcessing.addAllTimeSlotstoRestaurant(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, restaurant);
             restaurant.setRestaurantID(id);
+            dataProcessing.addAllReviewsToRestaurtant(reviews,restaurant);
 
-            if (!review.isBlank()) {
-                restaurant.setAverageRating(Float.parseFloat(review));
+            if (!rating.isBlank()) {
+                restaurant.setAverageRating(Float.parseFloat(rating));
             }
             restaurantList.add(restaurant);
         }

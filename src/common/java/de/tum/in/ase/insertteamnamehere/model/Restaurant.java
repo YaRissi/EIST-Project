@@ -32,6 +32,7 @@ public class Restaurant {
         this.restaurantID = UUID.randomUUID();
         this.location = location;
         this.address = address;
+        averageRating = Float.NaN;
         this.restaurantType = new ArrayList<>();
         this.restaurantType.add(restaurantType);
         this.priceCategory = priceCategory;
@@ -66,6 +67,7 @@ public class Restaurant {
         }
         double allRatings = ratings.stream().reduce(Integer::sum).get();
         if(!Float.isNaN(averageRating)) averageRating= (float) ((averageRating + (allRatings / size)) / 2);
+        else averageRating = (float) ((allRatings / size)/ 2);
         return averageRating;
     }
 
