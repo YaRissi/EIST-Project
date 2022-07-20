@@ -24,7 +24,7 @@ configurations {
 
 dependencies {
 
-    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     serverImplementation 'org.springframework.boot:spring-boot-starter-web'
 
     clientImplementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
 
     implementation('org.springframework.boot:spring-boot-starter-mail')
-    implementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation('com.sothawo:mapjfx:3.1.0')
 
 }
@@ -56,17 +56,6 @@ sourceSets {
         }
 
     }
-    client {
-        java {
-            srcDir 'src/client/java'
-        }
-        resources {
-            srcDir 'src/client/resources'
-        }
-        compileClasspath += common.output
-        runtimeClasspath += common.output
-
-    }
     server {
         java {
             srcDir 'src/reservationsystem/server/java'
@@ -78,6 +67,19 @@ sourceSets {
         runtimeClasspath += common.output
 
     }
+    client {
+        java {
+            srcDir 'src/client/java'
+        }
+        resources {
+            srcDir 'src/client/resources'
+        }
+        compileClasspath += common.output
+        runtimeClasspath += common.output
+        compileClasspath += server.output
+        runtimeClasspath += server.output
+
+    }
 
 
     test {
@@ -87,7 +89,20 @@ sourceSets {
         resources {
             'src/test/resources'
         }
+        compileClasspath += common.output
+        runtimeClasspath += common.output
+        compileClasspath += client.output
+        runtimeClasspath += client.output
+        compileClasspath += server.output
+        runtimeClasspath += server.output
+
     }
+
+}
+
+test {
+    defaultCharacterEncoding = 'UTF-8'
+    useJUnitPlatform()
 }
 
 
