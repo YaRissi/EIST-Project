@@ -121,7 +121,7 @@ public class Restaurant {
     }
 
     public void addReview(Review review) {
-        reviews.add(review);
+        reviews.add(0, review);
     }
 
     public List<Integer> getRatings() {

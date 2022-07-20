@@ -15,8 +15,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class RestaurantObject {
 
@@ -55,24 +60,16 @@ public class RestaurantObject {
         VBox.setMargin(rating, new Insets(10, 10, 5, 10));
         Text address = new Text("Address: " + restaurant.getAddress());
         VBox.setMargin(address, new Insets(0, 10, 5, 10));
-        Text priceClass = new Text("Price " + restaurant.getPriceCategory().toString());
+        Text priceClass = new Text("Price: " + restaurant.getPriceCategory().toString());
         VBox.setMargin(priceClass, new Insets(0, 10, 5, 10));
         Text openingTimes = new Text("Opening Times: ");
         VBox.setMargin(openingTimes, new Insets(0, 10, 5, 10));
-        Text description = new Text("Description:\nDies hier ist ein tolles Restaurant mit einem Rating von "
-                + restaurant.getAverageRating());
-        VBox.setMargin(description, new Insets(0, 10, 5, 10));
+
 
         // TODO Implement showTableButton (delete comments if no need)
-        // ListView<VBox> tables = new ListView<>();
-        Button showTablesButton = new Button("Show tables");
+        /* Button showTablesButton = new Button("Show tables");
         showTablesButton.setOnAction(e -> {
-            /* tables.getItems().clear();
-            /* tables.getItems().clear();
-            for(Table table : restaurant.getTables()) {
-                tables.getItems().add(createTableObject(table));
-            }
-            } */
+
         });
         HBox.setMargin(showTablesButton, new Insets(0, 0, 0, 10));
 
@@ -82,15 +79,36 @@ public class RestaurantObject {
         toReservationButton.setOnAction(e -> {
 
         });
-        HBox.setMargin(toReservationButton, new Insets(0, 10, 0, 5));
+        HBox.setMargin(toReservationButton, new Insets(0, 10, 0, 5)); */
 
         Button toWebsiteButton = new Button("To Website");
         toWebsiteButton.setOnAction(e -> {
+            URL url;
+            try {
+                String restaurantURL = restaurant.getWebsite();
+                url = new URL(restaurantURL);
+                URLConnection connection = url.openConnection();
 
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream()));
+
+                String inputLine;
+                while ((inputLine = reader.readLine()) != null) {
+                    System.out.println(inputLine);
+                }
+                reader.close();
+
+                System.out.println("Done");
+
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            } catch (NullPointerException exception) {
+                System.out.println("The URL was null...");
+            }
         });
         VBox.setMargin(toWebsiteButton, new Insets(5, 0, 10, 10));
 
-        buttonBox.getChildren().addAll(showTablesButton, toReservationButton);
+        // buttonBox.getChildren().addAll(showTablesButton, toReservationButton);
 
         Text postYourReview = new Text("Post your own review");
         VBox.setMargin(postYourReview, new Insets(0, 0, 5, 10));
@@ -138,7 +156,7 @@ public class RestaurantObject {
         });
 
         content.getChildren().addAll(restaurantName, pictures, rating, address,
-                priceClass, description, openingTimes, buttonBox, toWebsiteButton,
+                priceClass, openingTimes, toWebsiteButton,
                 postYourReview, writeName, writeReview, postButton, reviewSection);
 
         ScrollPane scrollPane = new ScrollPane();
@@ -148,7 +166,6 @@ public class RestaurantObject {
         borderPane.setCenter(scrollPane);
 
         Scene scene = new Scene(borderPane, 576.0, 617.0);
-
 
         stage.setTitle(restaurant.getName());
         stage.setScene(scene);
