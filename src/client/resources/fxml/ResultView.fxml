@@ -15,8 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="679.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLInterfaceController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLInterfaceController">
     <top>
         <VBox prefHeight="90.0" prefWidth="874.0" BorderPane.alignment="CENTER">
             <children>
@@ -81,6 +80,11 @@
             <content>
                 <VBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="599.0" prefWidth="128.0" BorderPane.alignment="CENTER">
                     <children>
+                        <Button fx:id="applyButton" mnemonicParsing="false" onAction="#handleApplyButtonEvent" prefHeight="24.0" prefWidth="131.0" text="Apply">
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="20.0" right="20.0" top="17.0" />
+                            </VBox.margin>
+                        </Button>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Restaurant">
                             <VBox.margin>
                                 <Insets bottom="5.0" left="10.0" top="10.0" />
@@ -190,49 +194,73 @@
                         <Insets bottom="5.0" left="10.0" top="5.0" />
                      </VBox.margin>
                   </ChoiceBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sorting Options">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="10.0" left="10.0" top="10.0" />
-                            </VBox.margin>
-                        </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min. Rating">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="10.0" />
+                        <Insets bottom="5.0" left="10.0" top="10.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                   <Spinner fx:id="minRatingSpinner" prefHeight="26.0" prefWidth="58.0">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="10.0" />
+                        <Insets bottom="5.0" left="10.0" top="5.0" />
                      </VBox.margin>
                   </Spinner>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distance in km">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="10.0" />
+                        <Insets bottom="5.0" left="10.0" top="10.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
-                  <Spinner fx:id="distanceSpinner" prefHeight="26.0" prefWidth="58.0">
+                  <Spinner fx:id="distanceSpinner" editable="true" prefHeight="26.0" prefWidth="58.0">
                      <VBox.margin>
                         <Insets bottom="5.0" left="10.0" />
                      </VBox.margin>
                   </Spinner>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Free Time Slots">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <ChoiceBox fx:id="startTimeChoiceBox" prefHeight="0.0" prefWidth="103.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" top="5.0" />
+                     </VBox.margin>
+                  </ChoiceBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Time">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <ChoiceBox fx:id="endTimeChoiceBox" prefHeight="0.0" prefWidth="103.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" top="5.0" />
+                     </VBox.margin>
+                  </ChoiceBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sorting Order">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="10.0" />
+                        <Insets bottom="5.0" left="10.0" top="10.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                   <ChoiceBox fx:id="sortingOrderChoiceBox" prefHeight="0.0" prefWidth="103.0">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="10.0" />
+                        <Insets bottom="20.0" left="10.0" />
                      </VBox.margin>
                   </ChoiceBox>
-                        <Button fx:id="applyButton" mnemonicParsing="false" onAction="#handleApplyButtonEvent" prefHeight="24.0" prefWidth="131.0" text="Apply">
-                            <VBox.margin>
-                                <Insets bottom="15.0" left="20.0" right="20.0" top="17.0" />
-                            </VBox.margin>
-                        </Button>
                     </children>
                     <opaqueInsets>
                         <Insets />
