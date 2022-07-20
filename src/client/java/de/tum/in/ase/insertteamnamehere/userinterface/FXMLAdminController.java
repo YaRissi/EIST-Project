@@ -1,7 +1,5 @@
 package de.tum.in.ase.insertteamnamehere.userinterface;
 
-import com.github.cliftonlabs.json_simple.JsonException;
-import de.tum.in.ase.insertteamnamehere.controller.RestaurantController;
 import de.tum.in.ase.insertteamnamehere.model.PriceCategory;
 import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 import de.tum.in.ase.insertteamnamehere.model.RestaurantType;
@@ -26,12 +24,10 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class FXMLAdminController implements Initializable {
 
@@ -61,35 +57,20 @@ public class FXMLAdminController implements Initializable {
     public TextField Saturday;
     @FXML
     public TextField Sunday;
-    @FXML
-    public TextField usernameADD;
-    @FXML
-    public TextField passwordADD;
+
 
     @FXML
     public TextField website;
 
     @FXML
     public VBox restaurantList;
+    @FXML
+    public TextField rating;
 
 
     @FXML
     private ChoiceBox<RestaurantType> restaurantType = new ChoiceBox<>();
 
-    @FXML
-    private Button login;
-
-    @FXML
-    private Button loginasguest;
-
-    @FXML
-    private Button loginbutton;
-
-    @FXML
-    private TextField username;
-
-    @FXML
-    private TextField password;
 
     @FXML
     private ChoiceBox<PriceCategory> priceClassChoiceBox = new ChoiceBox<>();
@@ -106,17 +87,6 @@ public class FXMLAdminController implements Initializable {
         }
     }
 
-    public void login(ActionEvent event) throws IOException, JsonException, NoSuchAlgorithmException {
-        String usernameText = username.getText();
-        String passwordText = password.getText();
-        Credentials credentials = new Credentials();
-        if (credentials.checkLogin(usernameText, passwordText)) {
-            switchToFromSmallToAdminView(event);
-        } else {
-            alert("Wrong username or password");
-        }
-
-    }
 
     public EventHandler<ActionEvent> showRestaurantDetails(ActionEvent event, Restaurant restaurant) {
 
@@ -126,6 +96,7 @@ public class FXMLAdminController implements Initializable {
             TextField ypositionInfo = new TextField();
             TextField adresseInfo = new TextField();
             TextField websiteInfo = new TextField();
+            TextField ratingInfo = new TextField();
             ChoiceBox<RestaurantType> restaurantTypeInfo = new ChoiceBox<>();
             ChoiceBox<PriceCategory> priceClassChoiceBoxInfo = new ChoiceBox<>();
             restaurantTypeInfo.getItems().addAll(RestaurantType.values());
@@ -147,7 +118,7 @@ public class FXMLAdminController implements Initializable {
             hBox.getChildren().addAll(button, button1);
 
             VBox vBox = new VBox();
-            vBox.getChildren().addAll(restaurantInfoName, xpositionInfo, ypositionInfo, adresseInfo
+            vBox.getChildren().addAll(restaurantInfoName, xpositionInfo, ypositionInfo, adresseInfo, websiteInfo, ratingInfo
                     , restaurantTypeInfo, priceClassChoiceBoxInfo, tablesInfo, MondayInfo, TuesdayInfo
                     , WednesdayInfo, ThursdayInfo, FridayInfo, SaturdayInfo, SundayInfo, hBox);
 
@@ -163,6 +134,11 @@ public class FXMLAdminController implements Initializable {
             adresseInfo.setPromptText("Adress");
             websiteInfo.setText(restaurant.getWebsite());
             websiteInfo.setPromptText("Website");
+            if (!Float.isNaN(restaurant.getAverageRating())) {
+                ratingInfo.setText(String.valueOf(restaurant.getAverageRating()));
+            }
+
+            ratingInfo.setPromptText("Rating");
             restaurantTypeInfo.setValue(restaurant.getRestaurantType().get(0));
             priceClassChoiceBoxInfo.setValue(restaurant.getPriceCategory());
             DataProcessing dataProcessing = new DataProcessing();
@@ -192,7 +168,7 @@ public class FXMLAdminController implements Initializable {
             button.setOnAction(s -> {
                 addRestaurantInfo(event, restaurantInfoName, xpositionInfo, ypositionInfo
                         , adresseInfo, restaurantTypeInfo, priceClassChoiceBoxInfo
-                        , tablesInfo, websiteInfo, MondayInfo, TuesdayInfo
+                        , tablesInfo, websiteInfo, ratingInfo, MondayInfo, TuesdayInfo
                         , WednesdayInfo, ThursdayInfo, FridayInfo
                         , SaturdayInfo, SundayInfo, restaurant.getRestaurantID());
                 stage.close();
@@ -236,26 +212,24 @@ public class FXMLAdminController implements Initializable {
     public void addRestaurantDashboard(ActionEvent event) {
         addRestaurant(event, restaurantName, xposition, yposition
                 , adresse, restaurantType, priceClassChoiceBox
-                , tables, website, Monday, Tuesday
+                , tables, website,rating, Monday, Tuesday
                 , Wednesday, Thursday, Friday
                 , Saturday, Sunday, null);
         try {
             showAllRestaurant(event);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void addRestaurantInfo(ActionEvent event, TextField restaurantName, TextField xposition, TextField yposition
             , TextField adresse, ChoiceBox<RestaurantType> restaurantType, ChoiceBox<PriceCategory> priceClassChoiceBox
-            , TextField tables, TextField website, TextField Monday, TextField Tuesday
+            , TextField tables, TextField website,TextField rating, TextField Monday, TextField Tuesday
             , TextField Wednesday, TextField Thursday, TextField Friday
             , TextField Saturday, TextField Sunday, UUID id) {
         addRestaurant(event, restaurantName, xposition, yposition
                 , adresse, restaurantType, priceClassChoiceBox
-                , tables, website, Monday, Tuesday
+                , tables, website, rating, Monday, Tuesday
                 , Wednesday, Thursday, Friday
                 , Saturday, Sunday, id);
 
@@ -263,17 +237,20 @@ public class FXMLAdminController implements Initializable {
 
     public void addRestaurant(ActionEvent event, TextField restaurantName, TextField xposition, TextField yposition
             , TextField adresse, ChoiceBox<RestaurantType> restaurantType, ChoiceBox<PriceCategory> priceClassChoiceBox
-            , TextField tables, TextField website, TextField Monday, TextField Tuesday
+            , TextField tables, TextField website, TextField rating, TextField Monday, TextField Tuesday
             , TextField Wednesday, TextField Thursday, TextField Friday
             , TextField Saturday, TextField Sunday, UUID id) {
         try {
             DataProcessing dataProcessing = new DataProcessing();
             String restaurantNameT = restaurantName.getText();
             if (restaurantNameT.isBlank()) alert("RestaurantName is blank");
-            float xpositionT = Float.parseFloat(xposition.getText());
-            float ypositionT = Float.parseFloat(yposition.getText());
+            float ypositionT = Float.NaN;
+            float xpositionT = Float.NaN;
+            if(!xposition.getText().isBlank()) xpositionT = Float.parseFloat(xposition.getText());
+            if(!xposition.getText().isBlank()) ypositionT = Float.parseFloat(yposition.getText());
             String adresseT = adresse.getText();
             if (adresseT.isBlank()) alert("Adress is blank");
+            String ratingT = rating.getText();
             RestaurantType restaurantTypeT = restaurantType.getValue();
             if (restaurantTypeT == null) alert("RestaurantType is blank");
             PriceCategory priceCategoryT = priceClassChoiceBox.getValue();
@@ -281,9 +258,14 @@ public class FXMLAdminController implements Initializable {
             String tablesT = tables.getText();
             Set<Table> tableSet = dataProcessing.getTablesFromString(tablesT);
             if (tableSet == null) alert("Tables are incorrect or missing");
-            Restaurant restaurant = new Restaurant(restaurantNameT, new Coord(xpositionT, ypositionT), adresseT, restaurantTypeT, priceCategoryT, tableSet, null);
+            Coord coord = null;
+            if(!Float.isNaN(ypositionT))coord = new Coord(xpositionT, ypositionT);
+            Restaurant restaurant = new Restaurant(restaurantNameT,coord, adresseT, restaurantTypeT, priceCategoryT, tableSet, null);
             String websiteT = website.getText();
-            if (websiteT != null && websiteT.isBlank()) restaurant.setWebsite(websiteT);
+            System.out.println(websiteT);
+            System.out.println(ratingT);
+            if (!websiteT.isBlank()) restaurant.setWebsite(websiteT);
+            System.out.println("RESTAURANT:"+restaurant.getWebsite());
             String mondayT = Monday.getText();
             String TuesdayT = Tuesday.getText();
             String WednesdayT = Wednesday.getText();
@@ -293,9 +275,12 @@ public class FXMLAdminController implements Initializable {
             String SundayT = Sunday.getText();
             dataProcessing.addAllTimeSlotstoRestaurant(mondayT, TuesdayT, WednesdayT, ThursdayT
                     , FridayT, SaturdayT, SundayT, restaurant);
+
+            if(!ratingT.isBlank()) restaurant.setAverageRating(Float.parseFloat(ratingT));
             //REST-Api funktioniert noch nicht ganz
             // restaurantController.addRestaurant(restaurant);
             if (id != null) restaurant.setRestaurantID(id);
+            alertInfo(restaurant.getName()+" was added successfully!");
             JSONParse jsonParse = new JSONParse();
             jsonParse.writeJson(restaurant);
 
@@ -322,39 +307,17 @@ public class FXMLAdminController implements Initializable {
         throw new NullPointerException();
     }
 
-    public void addAdmin(ActionEvent actionEvent) throws NoSuchAlgorithmException, IOException {
-        String username = usernameADD.getText();
-        String password = passwordADD.getText();
-
-        Credentials credentials = new Credentials();
-
-        credentials.addLogin(username, password);
-        switchToFromSmallToAdminView(actionEvent);
-    }
-
-    public void switchToMapView(ActionEvent event) throws IOException {
-        URL myFXML = getClass().getClassLoader().getResource("fxml/MapView.fxml");
-        switchFXML(myFXML, event);
-    }
-
-    public void openToLogin(ActionEvent event) throws IOException {
-        URL myFXML = getClass().getClassLoader().getResource("fxml/login.fxml");
-        openNewSmallWindow(myFXML, "Login", event);
+    public void alertInfo(String alertMessage) throws NullPointerException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText("Success!");
+        alert.setContentText(alertMessage);
+        alert.showAndWait();
     }
 
     public void openToAddAdmin(ActionEvent event) throws IOException {
         URL myFXML = getClass().getClassLoader().getResource("fxml/AddUser.fxml");
         openNewSmallWindow(myFXML, "Admin management", event);
-    }
-
-    public void switchToFromSmallToAdminView(ActionEvent event) throws IOException {
-        URL myFXML = getClass().getClassLoader().getResource("fxml/AdminView.fxml");
-        openNewBigWindow(myFXML, "Reservation System", event);
-    }
-
-    public void switchToFromSmallToResultView(ActionEvent event) throws IOException {
-        URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
-        openNewBigWindow(myFXML, "Reservation System", event);
     }
 
     public void switchToResultView(ActionEvent event) throws IOException {
@@ -367,18 +330,6 @@ public class FXMLAdminController implements Initializable {
         Parent root = (Parent) loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void openNewBigWindow(URL myFXML, String title, ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(myFXML);
-        Parent root = (Parent) loader.load();
-        Stage stageOld = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stageOld.close();
-        Stage stage = new Stage();
-        stage.setTitle(title);
-        Scene scene = new Scene(root, 880.0, 673.0);
         stage.setScene(scene);
         stage.show();
     }
@@ -399,5 +350,12 @@ public class FXMLAdminController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         priceClassChoiceBox.getItems().addAll(PriceCategory.values());
         restaurantType.getItems().addAll(RestaurantType.values());
+        try {
+            showAllRestaurant(new ActionEvent());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

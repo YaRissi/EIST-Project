@@ -1,9 +1,6 @@
 package de.tum.in.ase.insertteamnamehere.util;
 
-import de.tum.in.ase.insertteamnamehere.model.Restaurant;
-import de.tum.in.ase.insertteamnamehere.model.RestaurantType;
-import de.tum.in.ase.insertteamnamehere.model.Table;
-import de.tum.in.ase.insertteamnamehere.model.TimeSlot;
+import de.tum.in.ase.insertteamnamehere.model.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.DayOfWeek;
@@ -110,5 +107,25 @@ public class DataProcessing {
             stringBuilder.append(timeSlot.getOpen().toString()).append("-").append(timeSlot.getClosed().toString()).append(",");
         }
         return StringUtils.chop(stringBuilder.toString());
+    }
+
+    public String convertReviewstoString(List<Review> reviews){
+        if(reviews.isEmpty()) return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Review review : reviews) {
+            stringBuilder.append(review.getName()).append("~").append(review.getContent()).append("§");
+        }
+        return StringUtils.chop(stringBuilder.toString());
+    }
+
+    public void addAllReviewsToRestaurtant(String input, Restaurant restaurant){
+        List<Review> reviews = new ArrayList<>();
+        if(!input.isBlank()){
+            for(String review:input.split("§")){
+                Review review1 = new Review(review.split("~")[0],review.split("~")[1]);
+                reviews.add(review1);
+            }
+        }
+        restaurant.setReviews(reviews);
     }
 }

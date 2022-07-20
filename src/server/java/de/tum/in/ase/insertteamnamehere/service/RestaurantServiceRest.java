@@ -18,7 +18,7 @@ public class RestaurantServiceRest {
     public Restaurant saveRestaurant(Restaurant restaurant){
         var optionalRestaurant = restaurantList.stream().filter(existingRestaurant -> existingRestaurant.getRestaurantID().equals(restaurant.getRestaurantID())).findFirst();
         if (optionalRestaurant.isEmpty()){
-            restaurant.setRestaurantID(UUID.randomUUID());
+            //restaurant.setRestaurantID(UUID.randomUUID());
             restaurantList.add(restaurant);
             return restaurant;
         }else {
