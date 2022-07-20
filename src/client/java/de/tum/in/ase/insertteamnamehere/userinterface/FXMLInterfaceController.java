@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.*;
 
 public class FXMLInterfaceController implements Initializable {
@@ -77,6 +78,10 @@ public class FXMLInterfaceController implements Initializable {
     private Spinner<Integer> minRatingSpinner;
     @FXML
     private Spinner<Integer> distanceSpinner;
+    @FXML
+    private ChoiceBox<LocalTime> startTimeChoiceBox;
+    @FXML
+    private ChoiceBox<LocalTime> endTimeChoiceBox;
 
     // Search Bar
     @FXML
@@ -118,8 +123,13 @@ public class FXMLInterfaceController implements Initializable {
     }
 
     @FXML
-    public void handleShowAllButton(ActionEvent event) {
-        resultView.getChildren().clear();
+    public void handleShowAllButton(ActionEvent event) { //ShowAllButton shows concrete Restaurants
+        resultView.getChildren().clear();;
+
+        //interfaceService.initialiseRestaurants();
+        //for (Restaurant restaurant : interfaceService.getRestaurants()) {
+            //resultView.getChildren().add(createRestaurantObject(restaurant));
+        //}
         showOnlyFiftyRestaurants(interfaceService.getRestaurants(), resultView);
     }
 
@@ -165,10 +175,12 @@ public class FXMLInterfaceController implements Initializable {
 
         listOfRestaurants = interfaceService.filterRating(listOfRestaurants, sortingOrder, minRating);
         // TODO Implement Filter Distance and Opening Times
-           /*
-            if (sortField.equals(SortingOptions.SortField.DISTANCE)) {
-                listOfRestaurants = interfaceService.filterRating(null, 0);
-            }
+
+        int maxDistance = distanceSpinner.getValue();
+
+        listOfRestaurants = interfaceService.filterDistance(listOfRestaurants, sortingOrder, maxDistance);
+
+        /*
             if (sortField.equals(SortingOptions.SortField.FREE_TIME_SLOTS)) {
                 listOfRestaurants = interfaceService.filterRating(null, 0);
             }
@@ -176,8 +188,6 @@ public class FXMLInterfaceController implements Initializable {
 
         resultView.getChildren().clear();
         showOnlyFiftyRestaurants(listOfRestaurants, resultView);
-
-        System.out.println("Funktioniert... noch nicht! Apply!!! :D");
     }
 
     private static Pane createRestaurantObject(Restaurant restaurant) {
@@ -255,6 +265,7 @@ public class FXMLInterfaceController implements Initializable {
         sortingOrderChoiceBox.getItems().addAll(null, SortingOptions.SortingOrder.ASCENDING,
                 SortingOptions.SortingOrder.DESCENDING);
 
+
         //interfaceService.setRestaurants(createRandomRestaurants());
         JSONParse jsonParse = new JSONParse();
         /*try {
@@ -275,7 +286,7 @@ public class FXMLInterfaceController implements Initializable {
         }
         System.out.println(createRandomRestaurants());*/
 
-        interfaceService.setRestaurants(jsonParse.parseRestaurant());
+        //interfaceService.setRestaurants(jsonParse.parseRestaurant());
     }
 
 }

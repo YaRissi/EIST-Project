@@ -5,6 +5,7 @@ public class Review {
     private String name;
     private String content;
     private int numberOfLikes;
+    private int rating;
 
     public Review(String name, String content) {
         this.name = name;
@@ -32,5 +33,13 @@ public class Review {
     }
     public void setNumberOfLikes(int numberOfLikes) {
         this.numberOfLikes = numberOfLikes;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }
