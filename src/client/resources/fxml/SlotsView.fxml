@@ -2,8 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DialogPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
@@ -12,23 +11,19 @@
     <header>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="480.0" text="Slots for your chosen day are still available during the following times:" />
-            <TableView layoutY="25.0" prefHeight="175.0" prefWidth="480.0">
-              <columns>
-                <TableColumn prefWidth="478.6666564941406" text="Slots" />
-              </columns>
-            </TableView>
+            <TextField prefHeight="25.0" prefWidth="522.0" text="Slots for your chosen day are still available during the following times:" />
+            <ListView fx:id="timeSlotListView" layoutY="25.0" prefHeight="175.0" prefWidth="522.0" />
          </children>
       </AnchorPane>
     </header>
     <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="480.0">
          <children>
-            <TextField layoutY="36.0" />
-            <TextField layoutX="183.0" layoutY="36.0" prefHeight="25.0" prefWidth="156.0" AnchorPane.rightAnchor="183.0" />
+            <TextField fx:id="start" layoutY="36.0" />
+            <TextField fx:id="end" layoutX="183.0" layoutY="36.0" prefHeight="25.0" prefWidth="156.0" AnchorPane.rightAnchor="183.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please format your time entries as follows: hh:mm, e.g. 18:30" AnchorPane.topAnchor="-10.0" />
-            <Text layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start:" wrappingWidth="43.45184135437012" />
-            <Text layoutX="173.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End:" wrappingWidth="22.529296875" />
+            <Text fx:id="start" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start:" wrappingWidth="43.45184135437012" />
+            <Text fx:id="end" layoutX="173.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End:" wrappingWidth="22.529296875" />
             <Button fx:id="makeAReservation" layoutX="367.0" layoutY="36.0" mnemonicParsing="false" text="Make a Reservation" />
          </children>
       </AnchorPane>

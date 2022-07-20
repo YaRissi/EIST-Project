@@ -1,14 +1,12 @@
 package de.tum.in.ase.insertteamnamehere.util;
 
-import de.tum.in.ase.insertteamnamehere.model.PriceCategory;
-import de.tum.in.ase.insertteamnamehere.model.Restaurant;
-import de.tum.in.ase.insertteamnamehere.model.RestaurantType;
-import de.tum.in.ase.insertteamnamehere.model.TimeSlot;
+import de.tum.in.ase.insertteamnamehere.model.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -142,7 +140,13 @@ public class JSONParse {
             Restaurant restaurant = new Restaurant(name, coord, adress
                     , restaurantType1, PriceCategory.valueOf(priceCategory),
                     dataProcessing.getTablesFromString(Tables), null);
+
             restaurant.setWebsite(website);
+
+            Iterator<Table> iterator = restaurant.getTables().iterator();
+            for(int i = 0; i < restaurant.getTables().size(); i++) {
+                iterator.next().setRestaurant(restaurant);
+            }
 
             if (restaurantTypes.size() > 1) {
                 restaurant.addRestaurantType(restaurantTypes.get(1));
