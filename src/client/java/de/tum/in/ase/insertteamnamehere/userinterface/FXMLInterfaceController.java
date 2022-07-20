@@ -118,8 +118,13 @@ public class FXMLInterfaceController implements Initializable {
     }
 
     @FXML
-    public void handleShowAllButton(ActionEvent event) {
-        resultView.getChildren().clear();
+    public void handleShowAllButton(ActionEvent event) { //ShowAllButton shows concrete Restaurants
+        resultView.getChildren().clear();;
+
+        //interfaceService.initialiseRestaurants();
+        //for (Restaurant restaurant : interfaceService.getRestaurants()) {
+            //resultView.getChildren().add(createRestaurantObject(restaurant));
+        //}
         showOnlyFiftyRestaurants(interfaceService.getRestaurants(), resultView);
     }
 
@@ -275,7 +280,7 @@ public class FXMLInterfaceController implements Initializable {
         }
         System.out.println(createRandomRestaurants());*/
 
-        interfaceService.setRestaurants(jsonParse.parseRestaurant());
+        //interfaceService.setRestaurants(jsonParse.parseRestaurant());
     }
 
 }
