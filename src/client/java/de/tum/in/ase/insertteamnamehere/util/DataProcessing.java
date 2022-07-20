@@ -113,7 +113,7 @@ public class DataProcessing {
         if(reviews.isEmpty()) return "";
         StringBuilder stringBuilder = new StringBuilder();
         for (Review review : reviews) {
-            stringBuilder.append(review.getName()).append(":").append(review.getContent()).append(",");
+            stringBuilder.append(review.getName()).append("~").append(review.getContent()).append("§");
         }
         return StringUtils.chop(stringBuilder.toString());
     }
@@ -121,8 +121,8 @@ public class DataProcessing {
     public void addAllReviewsToRestaurtant(String input, Restaurant restaurant){
         List<Review> reviews = new ArrayList<>();
         if(!input.isBlank()){
-            for(String review:input.split(",")){
-                Review review1 = new Review(review.split(":")[0],review.split(":")[1]);
+            for(String review:input.split("§")){
+                Review review1 = new Review(review.split("~")[0],review.split("~")[1]);
                 reviews.add(review1);
             }
         }

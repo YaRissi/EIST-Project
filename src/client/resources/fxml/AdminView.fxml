@@ -136,7 +136,7 @@
                 </Text>
                 <Button mnemonicParsing="false" onAction="#showAllRestaurant" text="Refresh">
                     <HBox.margin>
-                        <Insets left="230.0" top="100.0" />
+                        <Insets bottom="5.0" left="165.0" top="95.0" />
                     </HBox.margin>
                 </Button>
             </children>

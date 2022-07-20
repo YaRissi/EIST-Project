@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -257,7 +258,9 @@ public class FXMLInterfaceController implements Initializable {
         Database database = new Database();
         database.addAllRestaurants();
         for (Restaurant r:database.getRestaurants()) {
+            r.setTables(createRandomTables());
             r.setRatings(createRandomRating());
+            r.setReviews(createRandomReviews());
             jsonParse.writeJson(r);
         }
         for (Restaurant r:createRandomRestaurants()) {

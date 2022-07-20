@@ -168,7 +168,7 @@ public class FXMLAdminController implements Initializable {
             button.setOnAction(s -> {
                 addRestaurantInfo(event, restaurantInfoName, xpositionInfo, ypositionInfo
                         , adresseInfo, restaurantTypeInfo, priceClassChoiceBoxInfo
-                        , tablesInfo, websiteInfo, MondayInfo, TuesdayInfo
+                        , tablesInfo, websiteInfo, ratingInfo, MondayInfo, TuesdayInfo
                         , WednesdayInfo, ThursdayInfo, FridayInfo
                         , SaturdayInfo, SundayInfo, restaurant.getRestaurantID());
                 stage.close();
@@ -212,26 +212,24 @@ public class FXMLAdminController implements Initializable {
     public void addRestaurantDashboard(ActionEvent event) {
         addRestaurant(event, restaurantName, xposition, yposition
                 , adresse, restaurantType, priceClassChoiceBox
-                , tables, website, Monday, Tuesday
+                , tables, website,rating, Monday, Tuesday
                 , Wednesday, Thursday, Friday
                 , Saturday, Sunday, null);
         try {
             showAllRestaurant(event);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void addRestaurantInfo(ActionEvent event, TextField restaurantName, TextField xposition, TextField yposition
             , TextField adresse, ChoiceBox<RestaurantType> restaurantType, ChoiceBox<PriceCategory> priceClassChoiceBox
-            , TextField tables, TextField website, TextField Monday, TextField Tuesday
+            , TextField tables, TextField website,TextField rating, TextField Monday, TextField Tuesday
             , TextField Wednesday, TextField Thursday, TextField Friday
             , TextField Saturday, TextField Sunday, UUID id) {
         addRestaurant(event, restaurantName, xposition, yposition
                 , adresse, restaurantType, priceClassChoiceBox
-                , tables, website, Monday, Tuesday
+                , tables, website, rating, Monday, Tuesday
                 , Wednesday, Thursday, Friday
                 , Saturday, Sunday, id);
 
@@ -239,15 +237,17 @@ public class FXMLAdminController implements Initializable {
 
     public void addRestaurant(ActionEvent event, TextField restaurantName, TextField xposition, TextField yposition
             , TextField adresse, ChoiceBox<RestaurantType> restaurantType, ChoiceBox<PriceCategory> priceClassChoiceBox
-            , TextField tables, TextField website, TextField Monday, TextField Tuesday
+            , TextField tables, TextField website, TextField rating, TextField Monday, TextField Tuesday
             , TextField Wednesday, TextField Thursday, TextField Friday
             , TextField Saturday, TextField Sunday, UUID id) {
         try {
             DataProcessing dataProcessing = new DataProcessing();
             String restaurantNameT = restaurantName.getText();
             if (restaurantNameT.isBlank()) alert("RestaurantName is blank");
-            float xpositionT = Float.parseFloat(xposition.getText());
-            float ypositionT = Float.parseFloat(yposition.getText());
+            float ypositionT = Float.NaN;
+            float xpositionT = Float.NaN;
+            if(!xposition.getText().isBlank()) xpositionT = Float.parseFloat(xposition.getText());
+            if(!xposition.getText().isBlank()) ypositionT = Float.parseFloat(yposition.getText());
             String adresseT = adresse.getText();
             if (adresseT.isBlank()) alert("Adress is blank");
             String ratingT = rating.getText();
@@ -258,9 +258,14 @@ public class FXMLAdminController implements Initializable {
             String tablesT = tables.getText();
             Set<Table> tableSet = dataProcessing.getTablesFromString(tablesT);
             if (tableSet == null) alert("Tables are incorrect or missing");
-            Restaurant restaurant = new Restaurant(restaurantNameT, new Coord(xpositionT, ypositionT), adresseT, restaurantTypeT, priceCategoryT, tableSet, null);
+            Coord coord = null;
+            if(!Float.isNaN(ypositionT))coord = new Coord(xpositionT, ypositionT);
+            Restaurant restaurant = new Restaurant(restaurantNameT,coord, adresseT, restaurantTypeT, priceCategoryT, tableSet, null);
             String websiteT = website.getText();
-            if (websiteT != null && websiteT.isBlank()) restaurant.setWebsite(websiteT);
+            System.out.println(websiteT);
+            System.out.println(ratingT);
+            if (!websiteT.isBlank()) restaurant.setWebsite(websiteT);
+            System.out.println("RESTAURANT:"+restaurant.getWebsite());
             String mondayT = Monday.getText();
             String TuesdayT = Tuesday.getText();
             String WednesdayT = Wednesday.getText();
@@ -268,7 +273,6 @@ public class FXMLAdminController implements Initializable {
             String FridayT = Friday.getText();
             String SaturdayT = Saturday.getText();
             String SundayT = Sunday.getText();
-            System.out.println(SundayT);
             dataProcessing.addAllTimeSlotstoRestaurant(mondayT, TuesdayT, WednesdayT, ThursdayT
                     , FridayT, SaturdayT, SundayT, restaurant);
 
