@@ -7,6 +7,10 @@ import de.tum.in.ase.insertteamnamehere.util.JSONParse;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -15,13 +19,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.awt.*;
+import java.io.*;
+import java.net.*;
 
 public class RestaurantObject {
 
@@ -82,28 +82,14 @@ public class RestaurantObject {
         HBox.setMargin(toReservationButton, new Insets(0, 10, 0, 5)); */
 
         Button toWebsiteButton = new Button("To Website");
+        // restaurant.setWebsite("https://www.youtube.com/");
         toWebsiteButton.setOnAction(e -> {
-            URL url;
             try {
-                String restaurantURL = restaurant.getWebsite();
-                url = new URL(restaurantURL);
-                URLConnection connection = url.openConnection();
+                Desktop desk = Desktop.getDesktop();
+                desk.browse(new URI("https://www.youtube.com/"));
 
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()));
-
-                String inputLine;
-                while ((inputLine = reader.readLine()) != null) {
-                    System.out.println(inputLine);
-                }
-                reader.close();
-
-                System.out.println("Done");
-
-            } catch (IOException exception) {
+            } catch (IOException | URISyntaxException exception) {
                 exception.printStackTrace();
-            } catch (NullPointerException exception) {
-                System.out.println("The URL was null...");
             }
         });
         VBox.setMargin(toWebsiteButton, new Insets(5, 0, 10, 10));
@@ -120,15 +106,21 @@ public class RestaurantObject {
         writeReview.setPromptText("Write your review");
         writeName.setMaxWidth(250);
         VBox.setMargin(writeReview, new Insets(0, 30, 5, 10));
+        Spinner<Integer> reviewRating = new Spinner<>();
+        SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
+        spinnerValueFactory.setValue(5);
+        reviewRating.setValueFactory(spinnerValueFactory);
+        reviewRating.setMaxWidth(50);
+        VBox.setMargin(reviewRating, new Insets(0, 0, 5, 10));
 
         Text reviews = new Text("Reviews (" + restaurant.getReviews().size() + ")");
-        VBox.setMargin(reviews, new Insets(0, 0,10,0));
+        VBox.setMargin(reviews, new Insets(0, 0, 10, 0));
         reviews.setFont(new Font(17));
 
         VBox reviewSection = new VBox();
         reviewSection.getChildren().add(reviews);
         for (Review review : restaurant.getReviews()) {
-            reviewSection.getChildren().add(createReviewObject(review));
+            reviewSection.getChildren().add(createReviewObject(review, review.getRating()));
         }
         reviewSection.setPadding(new Insets(10, 10, 10, 10));
 
@@ -141,14 +133,15 @@ public class RestaurantObject {
         postButton.setOnAction(e -> {
             Review review = new Review(writeName.getText(), writeReview.getText());
             try {
-                reviewSection.getChildren().add(1, createReviewObject(review));
+                reviewSection.getChildren().add(1, createReviewObject(review, reviewRating.getValue()));
+                review.setRating(reviewRating.getValue());
                 restaurant.addReview(review);
                 new JSONParse().writeJson(restaurant);
                 reviews.setText("Reviews (" + restaurant.getReviews().size() + ")");
                 content.getChildren().remove(warning);
                 writeName.clear();
                 writeReview.clear();
-            } catch (IllegalArgumentException exception) {
+            } catch (IllegalArgumentException | FileNotFoundException exception) {
                 if (!content.getChildren().contains(warning)) {
                     content.getChildren().add(12, warning);
                 }
@@ -157,7 +150,7 @@ public class RestaurantObject {
 
         content.getChildren().addAll(restaurantName, pictures, rating, address,
                 priceClass, openingTimes, toWebsiteButton,
-                postYourReview, writeName, writeReview, postButton, reviewSection);
+                postYourReview, writeName, writeReview, reviewRating, postButton, reviewSection);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToHeight(true);
@@ -172,15 +165,31 @@ public class RestaurantObject {
         stage.show();
     }
 
-    public static VBox createReviewObject(Review review) {
+    public static VBox createReviewObject(Review review, int reviewRating) throws FileNotFoundException {
         if (review.getName().isEmpty() || review.getContent().isEmpty()) {
             throw new IllegalArgumentException();
         }
         VBox reviewBox = new VBox();
         Text name = new Text(review.getName() + " posted:");
         name.setFont(new Font(15));
-        Text content = new Text("\"" + review.getContent() + "\"" + "\n");
-        reviewBox.getChildren().addAll(name, content);
+        VBox.setMargin(name, new Insets(0, 0, 5, 0));
+        Text content = new Text("\"" + review.getContent() + "\"");
+        content.setFont(new Font(14));
+        Label rating = new Label("This user rated this restaurant with " + reviewRating + " stars.");
+        VBox.setMargin(rating, new Insets(7, 0, 0, 0));
+        rating.setTextFill(Color.GREY);
+        HBox hBox = new HBox();
+        Button likeButton = new Button("Like");
+        Label numberOfLikes = new Label(review.getNumberOfLikes() + " user liked this comment!");
+        numberOfLikes.setTextFill(Color.GREY);
+        likeButton.setOnAction(e -> {
+            review.setNumberOfLikes(review.getNumberOfLikes()+1);
+            numberOfLikes.setText(review.getNumberOfLikes() + " user liked this comment!");
+        });
+        HBox.setMargin(likeButton, new Insets(0, 0, 0,5));
+        hBox.setPadding(new Insets(5, 0, 15, 0));
+        hBox.getChildren().addAll(numberOfLikes, likeButton);
+        reviewBox.getChildren().addAll(name, content, rating, hBox);
         return reviewBox;
     }
 
