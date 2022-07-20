@@ -1,15 +1,15 @@
 package de.tum.in.ase.insertteamnamehere.userinterface;
 
-import de.tum.in.ase.insertteamnamehere.controller.ReservationController;
-import de.tum.in.ase.insertteamnamehere.controller.RestaurantController;
 import de.tum.in.ase.insertteamnamehere.model.Reservation;
 import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 import de.tum.in.ase.insertteamnamehere.model.Table;
 import de.tum.in.ase.insertteamnamehere.model.TimeSlot;
+import de.tum.in.ase.insertteamnamehere.service.ReservationService;
 import de.tum.in.ase.insertteamnamehere.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,11 +21,10 @@ import java.time.LocalTime;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class FXMLReservationController {
 
-    private ReservationController reservationController;
+    private final ReservationService reservationService = new ReservationService();
 
     @FXML
     private Button goToSlotsView;
@@ -58,7 +57,6 @@ public class FXMLReservationController {
     @FXML
     private DatePicker datePicker;
 
-    private final RestaurantController restaurantController = new RestaurantController();
 
     private void handleGoToSlotsView(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -101,11 +99,6 @@ public class FXMLReservationController {
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(Integer.getInteger(startTime.split(":")[0]), Integer.getInteger(startTime.split(":")[0])),
                 LocalTime.of(Integer.getInteger(endTime.split(":")[0]), Integer.getInteger(endTime.split(":")[1])));
         Reservation reservation = new Reservation(user, timeSlot, table, table.getMaxNumberOfPeople(), UUID.randomUUID(), gregorianCalendar);
-        reservationController.addReservation(reservation, new Consumer<List<Reservation>>() {
-            @Override
-            public void accept(List<Reservation> reservations) {
-                //TODO
-            }
-        });
+        reservationService.saveReservation(reservation);
     }
 }

@@ -8,17 +8,17 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLReservationController">
    <children>
-      <VBox layoutX="489.0" layoutY="7.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <DatePicker />
-         </children>
-      </VBox>
-      <TableView layoutX="99.0" prefHeight="400.0" prefWidth="501.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView accessibleRole="BUTTON" accessibleRoleDescription="Choose Slot" layoutX="100.0" prefHeight="400.0" prefWidth="501.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn prefWidth="75.0" text="Table" />
             <TableColumn prefWidth="109.99993896484375" text="Number of Seats" />
             <TableColumn fx:id="chooseSlotButtonColumn" prefWidth="314.33331298828125" text="Slots" />
         </columns>
       </TableView>
+      <VBox layoutX="489.0" layoutY="7.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <DatePicker />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
