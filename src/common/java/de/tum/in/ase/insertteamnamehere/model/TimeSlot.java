@@ -8,8 +8,12 @@ public class TimeSlot {
     private LocalTime closed;
 
     public TimeSlot(LocalTime open, LocalTime closed) {
-        setOpen(open.getHour(), open.getMinute());
-        setClosed(closed.getHour(), closed.getMinute());
+        if(open.compareTo(closed) < 0) {
+            setOpen(open.getHour(), open.getMinute());
+            setClosed(closed.getHour(), closed.getMinute());
+        } else {
+            throw new IllegalArgumentException("The start of the slot should be before the end of the slot!");
+        }
     }
 
     public LocalTime getOpen() {
@@ -68,5 +72,15 @@ public class TimeSlot {
             }
         }
         return false;
+    }
+
+    public TimeSlot isInBounds(List<TimeSlot> timeSlots) {
+        for(int i = 0; i < timeSlots.size(); i++) {
+            TimeSlot current = timeSlots.get(i);
+            if(this.getOpen().compareTo(current.getOpen()) >= 0 && this.getClosed().compareTo(current.getClosed()) <= 0) {
+                return current;
+            }
+        }
+        return null;
     }
 }
