@@ -24,6 +24,7 @@ public class TableService {
     public Table saveTable(Table table) {
         var optionalTable = tableList.stream().filter(existingTable -> existingTable.getTableID().equals(table.getTableID())).findFirst();
         if (optionalTable.isEmpty()) {
+            //table.setTableID(UUID.randomUUID());
             tableList.add(table);
             return table;
         } else {
