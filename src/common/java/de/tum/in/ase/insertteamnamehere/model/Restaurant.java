@@ -128,6 +128,7 @@ public class Restaurant {
     }
 
     public void addReview(Review review) {
+        addRating(review.getRating());
         reviews.add(0, review);
     }
 
