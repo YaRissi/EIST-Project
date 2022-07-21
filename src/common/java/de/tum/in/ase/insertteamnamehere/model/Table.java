@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class Table {
     private boolean reserved;
     private final String tableID;
+    private UUID tableUUID;
 
     private Restaurant restaurant;
 
@@ -85,4 +86,10 @@ public class Table {
         return availableTimes;
     }
 
+    public UUID getTableUUID() {
+        return tableUUID;
+    }
+    public void setTableUUID(UUID tableUUID) {
+        this.tableUUID = tableUUID;
+    }
 }

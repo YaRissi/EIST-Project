@@ -24,7 +24,7 @@ public class TableService {
     public Table saveTable(Table table) {
         var optionalTable = tableList.stream().filter(existingTable -> existingTable.getTableID().equals(table.getTableID())).findFirst();
         if (optionalTable.isEmpty()) {
-            table.setTableID(UUID.randomUUID());
+            table.setTableUUID(UUID.randomUUID());
             tableList.add(table);
             return table;
         } else {
@@ -36,7 +36,7 @@ public class TableService {
     }
 
     public void deleteTable(UUID tableID) {
-        this.tableList.removeIf(table -> table.getTableID().equals(tableID));
+        this.tableList.removeIf(table -> table.getTableUUID().equals(tableID));
 
     }
 
