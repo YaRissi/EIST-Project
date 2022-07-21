@@ -14,10 +14,13 @@ import java.util.Locale;
 public class RestaurantService {
     private List<Restaurant> restaurants;
     private User user;
+    private Database database;
 
     public RestaurantService(User user){
         //restaurants = new ArrayList<>();
         this.user = user;
+        this.database = new Database();
+        this.restaurants = database.getRestaurants();
     }
 
 

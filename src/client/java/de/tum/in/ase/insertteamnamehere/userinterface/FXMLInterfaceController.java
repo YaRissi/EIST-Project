@@ -130,10 +130,10 @@ public class FXMLInterfaceController implements Initializable {
         //for (Restaurant restaurant : interfaceService.getRestaurants()) {
             //resultView.getChildren().add(createRestaurantObject(restaurant));
         //}
-        Database database = new Database();
-        System.out.println("Database loaded");
-        System.out.printf(database.getRestaurants().toString());
-        showOnlyFiftyRestaurants(new Database().getRestaurants(), resultView);
+        //Database database = new Database();
+        //System.out.println("Database loaded");
+        //System.out.printf(database.getRestaurants().toString());
+        showOnlyFiftyRestaurants(interfaceService.getRestaurants(), resultView);
         //showOnlyFiftyRestaurants(interfaceService.getRestaurants(), resultView);
     }
 
