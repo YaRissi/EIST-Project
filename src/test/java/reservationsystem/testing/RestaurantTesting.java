@@ -66,22 +66,19 @@ public class RestaurantTesting {
     //reserveTable ****************************************************************************************
     @Test
     public void testReserveTable() {
-        String id = "TEST";
         UUID reservationID = UUID.randomUUID();
-        Table table = new Table(4, id);
+        Table table = new Table(4, testRestaurant);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
         assertTrue(table.isReserved());
         assertEquals(GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())), testRestaurant.getReservations().get(0).getDate());
-        assertEquals(id, testRestaurant.getReservations().get(0).getID());
         assertEquals(timeSlot, testRestaurant.getReservations().get(0).getTimeslot());
     }
 
     @Test
     public void testReserveReservedTable() {
-        String id = "ID";
         UUID reservationID = UUID.randomUUID();
-        Table table = new Table(4, id);
+        Table table = new Table(4, testRestaurant);
         table.setReserved(true);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
@@ -92,9 +89,8 @@ public class RestaurantTesting {
 
     @Test
     public void testReserveTableTooManyPeople() {
-        String id = "EIST";
         UUID reservationID = UUID.randomUUID();
-        Table table = new Table(5, id);
+        Table table = new Table(5, testRestaurant);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
             testRestaurant.reserveTable(testUser, table, timeSlot, 6, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));

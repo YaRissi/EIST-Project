@@ -23,7 +23,7 @@ public class DataProcessing {
             int id = 0;
             for (String s : table) {
                 if (s.contains(" ")) s = s.split(" ")[0];
-                Table table1 = new Table(Integer.parseInt(s), String.valueOf(id));
+                Table table1 = new Table(Integer.parseInt(s), null);
                 tables.add(table1);
                 id++;
             }

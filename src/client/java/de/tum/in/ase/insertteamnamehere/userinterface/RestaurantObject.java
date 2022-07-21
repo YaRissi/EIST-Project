@@ -4,7 +4,9 @@ import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 import de.tum.in.ase.insertteamnamehere.model.Review;
 import de.tum.in.ase.insertteamnamehere.model.Table;
 import de.tum.in.ase.insertteamnamehere.util.JSONParse;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -66,20 +68,20 @@ public class RestaurantObject {
         VBox.setMargin(openingTimes, new Insets(0, 10, 5, 10));
 
 
-        // TODO Implement showTableButton (delete comments if no need)
-        /* Button showTablesButton = new Button("Show tables");
+        Button showTablesButton = new Button("Show tables");
         showTablesButton.setOnAction(e -> {
-
+            Stage stage1 = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            Scene scene = null;
+            try {
+                scene = new Scene(new FXMLLoader(RestaurantObject.class.getClassLoader().getResource("fxml/TablesView.fxml")).load());
+            } catch (IOException ioException) {
+                throw new RuntimeException(ioException);
+            }
+            stage1.setScene(scene);
+            stage1.show();
         });
-        HBox.setMargin(showTablesButton, new Insets(0, 0, 0, 10));
+        VBox.setMargin(showTablesButton, new Insets(0, 0, 0, 10));
 
-        HBox buttonBox = new HBox();
-
-        Button toReservationButton = new Button("To Reservation");
-        toReservationButton.setOnAction(e -> {
-
-        });
-        HBox.setMargin(toReservationButton, new Insets(0, 10, 0, 5)); */
 
         Button toWebsiteButton = new Button("To Website");
         // restaurant.setWebsite("https://www.youtube.com/");
@@ -149,7 +151,7 @@ public class RestaurantObject {
         });
 
         content.getChildren().addAll(restaurantName, pictures, rating, address,
-                priceClass, openingTimes, toWebsiteButton,
+                priceClass, openingTimes, toWebsiteButton, showTablesButton,
                 postYourReview, writeName, writeReview, reviewRating, postButton, reviewSection);
 
         ScrollPane scrollPane = new ScrollPane();

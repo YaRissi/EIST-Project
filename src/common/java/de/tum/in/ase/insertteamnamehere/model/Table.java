@@ -7,17 +7,17 @@ import java.util.stream.Collectors;
 
 public class Table {
     private boolean reserved;
-    private final String tableID;
-    private UUID tableUUID;
+    private final UUID tableID;
 
     private Restaurant restaurant;
 
     private final int maxNumberOfPeople;
 
-    public Table(int maxNumberOfPeople, String tableID) {
+    public Table(int maxNumberOfPeople, Restaurant restaurant) {
         this.maxNumberOfPeople = maxNumberOfPeople;
+        this.restaurant = restaurant;
         this.reserved = false;
-        this.tableID = tableID;
+        this.tableID = UUID.randomUUID();
     }
 
     public int getMaxNumberOfPeople() {
@@ -33,9 +33,10 @@ public class Table {
     }
 
 
-    public String getTableID() {
+    public UUID getTableID() {
         return tableID;
     }
+
 
     public boolean addReservation(Reservation reservation) {
         return restaurant.getReservations().add(reservation);
@@ -46,6 +47,13 @@ public class Table {
 
     public List<Reservation> getReservationsForTable() {
         return restaurant.getReservations().stream().filter(r -> r.getTable().getTableID().equals(this.getTableID())).collect(Collectors.toList());
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public List<TimeSlot> getAvailableTimeSlots(LocalDate date) {
@@ -86,10 +94,4 @@ public class Table {
         return availableTimes;
     }
 
-    public UUID getTableUUID() {
-        return tableUUID;
-    }
-    public void setTableUUID(UUID tableUUID) {
-        this.tableUUID = tableUUID;
-    }
 }

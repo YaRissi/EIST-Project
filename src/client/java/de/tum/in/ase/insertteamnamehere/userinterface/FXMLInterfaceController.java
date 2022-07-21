@@ -3,6 +3,7 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.JSONParse;
+import de.tum.in.ase.insertteamnamehere.util.RestaurantFactory;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,8 +30,6 @@ import java.util.*;
 public class FXMLInterfaceController implements Initializable {
     @FXML
     public Button LoginButton;
-    @FXML
-    private Button button;
     // Alle Check Boxen
     @FXML
     private CheckBox barRestaurantCheckBox;
@@ -265,8 +264,7 @@ public class FXMLInterfaceController implements Initializable {
         sortingOrderChoiceBox.getItems().addAll(null, SortingOptions.SortingOrder.ASCENDING,
                 SortingOptions.SortingOrder.DESCENDING);
 
-
-        //interfaceService.setRestaurants(createRandomRestaurants());
+        //interfaceService.setRestaurants(RestaurantFactory.createRandomRestaurants());
         JSONParse jsonParse = new JSONParse();
         /*try {
             jsonParse.clearJson();

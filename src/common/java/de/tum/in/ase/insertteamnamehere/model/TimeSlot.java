@@ -8,12 +8,8 @@ public class TimeSlot {
     private LocalTime closed;
 
     public TimeSlot(LocalTime open, LocalTime closed) {
-        if(open.compareTo(closed) < 0) {
-            setOpen(open.getHour(), open.getMinute());
-            setClosed(closed.getHour(), closed.getMinute());
-        } else {
-            throw new IllegalArgumentException("The start of the slot should be before the end of the slot!");
-        }
+        setOpen(open.getHour(), open.getMinute());
+        setClosed(closed.getHour(), closed.getMinute());
     }
 
     public LocalTime getOpen() {

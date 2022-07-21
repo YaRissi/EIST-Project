@@ -125,7 +125,7 @@ public class RestaurantFactory {
         int numberOfTables = random.nextInt(max + min) + min;
         Set<Table> listOfTables = new HashSet<>();
         for (int i = 0; i < numberOfTables; i++) {
-            listOfTables.add(new Table(random.nextInt(max + min) + min, "" + i));
+            listOfTables.add(new Table(random.nextInt(max + min) + min, createRandomRestaurants().get(0)));
         }
         return listOfTables;
     }
