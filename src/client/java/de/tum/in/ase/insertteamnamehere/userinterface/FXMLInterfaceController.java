@@ -260,34 +260,38 @@ public class FXMLInterfaceController implements Initializable {
     public void openUserInfo(ActionEvent event) throws IOException {
         Text title = new Text("User Information");
         title.setFont(Font.font(36));
+        VBox.setMargin(title,new Insets(5,0,0,100));
         TextField firstname = new TextField();
         firstname.setMaxWidth(333);
         firstname.setMaxHeight(25);
         firstname.setText(user.getName().split(" ")[0]);
+        firstname.setPromptText("First Name");
+        VBox.setMargin(firstname, new Insets(25,0,15,70));
         TextField lastname = new TextField();
         lastname.setMaxWidth(333);
         lastname.setMaxHeight(25);
         lastname.setText(user.getName().split(" ")[1]);
+        lastname.setPromptText("Last Name");
+        VBox.setMargin(lastname, new Insets(0,0,15,70));
         TextField email = new TextField();
         email.setMaxWidth(333);
         email.setMaxHeight(25);
         email.setText(user.getEmail());
+        email.setPromptText("E-Mail");
+        VBox.setMargin(email, new Insets(0,0,15,70));
         Button button = new Button();
         button.setMaxWidth(44);
         button.setMaxHeight(25);
         button.setText("Enter");
+        VBox.setMargin(button, new Insets(15,0,0,200));
         VBox vBox = new VBox();
 
-        vBox.getChildren().addAll(firstname, lastname, email, button);
 
-        BorderPane borderPane = new BorderPane();
+        vBox.getChildren().addAll(title, firstname, lastname, email, button);
 
-
-        borderPane.topProperty().set(title);
-        borderPane.centerProperty().set(vBox);
         Stage stage = new Stage();
         stage.setTitle("User Info");
-        Scene scene = new Scene(borderPane, 350, 155);
+        Scene scene = new Scene(vBox, 473, 279);
         stage.setScene(scene);
         stage.show();
         button.setOnAction(p -> {
