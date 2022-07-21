@@ -2,8 +2,7 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.user.User;
-import de.tum.in.ase.insertteamnamehere.util.JSONParse;
-import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
+import de.tum.in.ase.insertteamnamehere.util.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.event.ActionEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class FXMLInterfaceController implements Initializable {
     @FXML
@@ -102,7 +103,8 @@ public class FXMLInterfaceController implements Initializable {
     @FXML
     private VBox resultView;
 
-    private final User user = new User("Bob", null, null);
+    private User user = new Credentials().readUser();
+
     private final RestaurantService interfaceService = new RestaurantService(user);
 
 
@@ -124,11 +126,12 @@ public class FXMLInterfaceController implements Initializable {
 
     @FXML
     public void handleShowAllButton(ActionEvent event) { //ShowAllButton shows concrete Restaurants
-        resultView.getChildren().clear();;
+        resultView.getChildren().clear();
+        ;
 
         //interfaceService.initialiseRestaurants();
         //for (Restaurant restaurant : interfaceService.getRestaurants()) {
-            //resultView.getChildren().add(createRestaurantObject(restaurant));
+        //resultView.getChildren().add(createRestaurantObject(restaurant));
         //}
         //Database database = new Database();
         //System.out.println("Database loaded");
@@ -254,6 +257,70 @@ public class FXMLInterfaceController implements Initializable {
         stage.show();
     }
 
+    public void openUserInfo(ActionEvent event) throws IOException {
+        Text title = new Text("User Information");
+        title.setFont(Font.font(36));
+        TextField firstname = new TextField();
+        firstname.setMaxWidth(333);
+        firstname.setMaxHeight(25);
+        firstname.setText(user.getName().split(" ")[0]);
+        TextField lastname = new TextField();
+        lastname.setMaxWidth(333);
+        lastname.setMaxHeight(25);
+        lastname.setText(user.getName().split(" ")[1]);
+        TextField email = new TextField();
+        email.setMaxWidth(333);
+        email.setMaxHeight(25);
+        email.setText(user.getEmail());
+        Button button = new Button();
+        button.setMaxWidth(44);
+        button.setMaxHeight(25);
+        button.setText("Enter");
+        VBox vBox = new VBox();
+
+        vBox.getChildren().addAll(firstname, lastname, email, button);
+
+        BorderPane borderPane = new BorderPane();
+
+
+        borderPane.topProperty().set(title);
+        borderPane.centerProperty().set(vBox);
+        Stage stage = new Stage();
+        stage.setTitle("User Info");
+        Scene scene = new Scene(borderPane, 350, 155);
+        stage.setScene(scene);
+        stage.show();
+        button.setOnAction(p -> {
+            String firstnameText = firstname.getText();
+            String lastnameText = lastname.getText();
+            String emailText = email.getText();
+
+            if (firstnameText.isBlank() || lastnameText.isBlank()) alert("Please enter you first and last name");
+
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
+
+            Pattern pat = Pattern.compile(emailRegex);
+            if (emailText.isBlank() || !pat.matcher(emailText).matches()) alert("Please enter a valid email");
+
+            user = new User(firstnameText + " " + lastnameText, null, new Coord((float) 48.2656027, (float) 11.6709969));
+
+            user.setEmail(emailText);
+
+            new Credentials().writeUser(user);
+
+            stage.close();
+        });
+    }
+
+    public void alert(String alertMessage) throws NullPointerException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText("An Error occured!");
+        alert.setContentText(alertMessage);
+        alert.showAndWait();
+        throw new NullPointerException();
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -277,20 +344,18 @@ public class FXMLInterfaceController implements Initializable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Database database = new Database();
-        database.addAllRestaurants();
-        for (Restaurant r:database.getRestaurants()) {
-            r.setTables(createRandomTables());
-            r.setRatings(createRandomRating());
-            r.setReviews(createRandomReviews());
+        for (Restaurant r : interfaceService.getRestaurants()) {
+            r.setTables(RestaurantFactory.createRandomTables(r));
+            r.setRatings(RestaurantFactory.createRandomRating());
+            r.setReviews(RestaurantFactory.createRandomReviews());
             jsonParse.writeJson(r);
         }
-        for (Restaurant r:createRandomRestaurants()) {
+        for (Restaurant r : RestaurantFactory.createRandomRestaurants()) {
+            r.setOpeningTimes(Restaurant.generateOpeningTimes());
+            r.setLocation(Restaurant.generaterandomCoord());
             jsonParse.writeJson(r);
-        }
-        System.out.println(createRandomRestaurants());*/
-
-        //interfaceService.setRestaurants(jsonParse.parseRestaurant());
+        }*/
+        interfaceService.setRestaurants(jsonParse.parseRestaurant());
     }
 
 }

@@ -143,9 +143,8 @@ public class JSONParse {
 
             restaurant.setWebsite(website);
 
-            Iterator<Table> iterator = restaurant.getTables().iterator();
-            for(int i = 0; i < restaurant.getTables().size(); i++) {
-                iterator.next().setRestaurant(restaurant);
+            for (Table table:restaurant.getTables()) {
+                table.setRestaurant(restaurant);
             }
 
             if (restaurantTypes.size() > 1) {

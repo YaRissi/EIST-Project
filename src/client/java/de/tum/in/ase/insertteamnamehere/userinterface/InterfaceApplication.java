@@ -16,11 +16,11 @@ public class InterfaceApplication extends Application {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-            URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
+            URL myFXML = getClass().getClassLoader().getResource("fxml/UserLoginView.fxml");
             FXMLLoader loader = new FXMLLoader(myFXML);
             root = (Parent) loader.load();
             primaryStage.setTitle("Reservation System");
-            primaryStage.setScene(new Scene(root, 880.0, 673.0));
+            primaryStage.setScene(new Scene(root, 473, 279));
             primaryStage.show();
         }
 

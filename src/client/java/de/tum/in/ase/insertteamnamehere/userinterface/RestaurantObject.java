@@ -123,7 +123,7 @@ public class RestaurantObject {
         VBox reviewSection = new VBox();
         reviewSection.getChildren().add(reviews);
         for (Review review : restaurant.getReviews()) {
-            reviewSection.getChildren().add(createReviewObject(review, review.getRating()));
+            reviewSection.getChildren().add(createReviewObject(review, review.getRating(),restaurant));
         }
         reviewSection.setPadding(new Insets(10, 10, 10, 10));
 
@@ -136,7 +136,7 @@ public class RestaurantObject {
         postButton.setOnAction(e -> {
             Review review = new Review(writeName.getText(), writeReview.getText());
             try {
-                reviewSection.getChildren().add(1, createReviewObject(review, reviewRating.getValue()));
+                reviewSection.getChildren().add(1, createReviewObject(review, reviewRating.getValue(),restaurant));
                 review.setRating(reviewRating.getValue());
                 restaurant.addReview(review);
                 new JSONParse().writeJson(restaurant);
@@ -168,7 +168,7 @@ public class RestaurantObject {
         stage.show();
     }
 
-    public static VBox createReviewObject(Review review, int reviewRating) throws FileNotFoundException {
+    public static VBox createReviewObject(Review review, int reviewRating,Restaurant restaurant) throws FileNotFoundException {
         if (review.getName().isEmpty() || review.getContent().isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -187,6 +187,8 @@ public class RestaurantObject {
         numberOfLikes.setTextFill(Color.GREY);
         likeButton.setOnAction(e -> {
             review.setNumberOfLikes(review.getNumberOfLikes()+1);
+            restaurant.updateReview(review);
+            new JSONParse().writeJson(restaurant);
             numberOfLikes.setText(review.getNumberOfLikes() + " user liked this comment!");
         });
         HBox.setMargin(likeButton, new Insets(0, 0, 0,5));

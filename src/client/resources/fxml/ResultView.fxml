@@ -22,25 +22,37 @@
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <ImageView fitHeight="97.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
-                            <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#openToLogin" prefHeight="25.0" prefWidth="92.0" text="Login">
-                     <HBox.margin>
-                        <Insets left="-130.0" right="40.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
                         <VBox prefHeight="89.0" prefWidth="738.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation System">
-                                    <font>
-                                        <Font size="36.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="30.0" left="10.0" top="10.0" />
-                                    </VBox.margin>
-                                </Text>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation System">
+                                          <font>
+                                              <Font size="36.0" />
+                                          </font>
+                                      </Text>
+                              <VBox prefHeight="48.0" prefWidth="126.0">
+                                 <children>
+                                              <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#openToLogin" prefHeight="25.0" prefWidth="67.0" text="Login">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="40.0" top="-5.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="UserButton" mnemonicParsing="false" onAction="#openUserInfo" prefHeight="25.0" prefWidth="108.0" text="Change User Info" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="270.0" />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="35.0" top="5.0" />
+                           </VBox.margin>
+                        </HBox>
                                   <Region prefHeight="26.0" prefWidth="143.0" />
                                 <HBox prefHeight="28.0" prefWidth="738.0">
                                     <children>
-                                        <TextField fx:id="searchBar" prefHeight="26.0" prefWidth="482.0" promptText="Search for restaurant">
+                                        <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="465.0" promptText="Search for restaurant">
                                             <HBox.margin>
                                                 <Insets right="5.0" />
                                             </HBox.margin>
@@ -50,12 +62,12 @@
                                                 <Insets right="5.0" />
                                             </HBox.margin>
                                         </Button>
-                                        <Button fx:id="showAllButton" mnemonicParsing="false" onAction="#handleShowAllButton" text="Show all">
+                                        <Button fx:id="showAllButton" mnemonicParsing="false" onAction="#handleShowAllButton" prefHeight="25.0" prefWidth="68.0" text="Show all">
                                             <HBox.margin>
                                                 <Insets right="5.0" />
                                             </HBox.margin>
                                         </Button>
-                              <Button fx:id="mapViewButton" mnemonicParsing="false" onAction="#switchToMapView" text="Show on map" />
+                              <Button fx:id="mapViewButton" mnemonicParsing="false" onAction="#switchToMapView" prefHeight="25.0" prefWidth="94.0" text="Show on map" />
                                     </children>
                                     <VBox.margin>
                                         <Insets />

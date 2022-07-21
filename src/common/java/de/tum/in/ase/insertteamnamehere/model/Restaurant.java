@@ -119,6 +119,13 @@ public class Restaurant {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+    public void updateReview(Review review){
+        if(reviews.contains(review)){
+            int index = reviews.indexOf(review);
+            Review review1 = reviews.remove(index);
+            reviews.add(index,review1);
+        }
+    }
 
     public void addReview(Review review) {
         reviews.add(0, review);
