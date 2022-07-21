@@ -10,7 +10,7 @@ public class DatabaseProcessing {
     private List<Restaurant> restaurants;
     Connection connection;
 
-
+/*
     public List<Restaurant> getRestaurants() throws SQLException {
         ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM restaurantdatabase.restaurants;");
         return buildRestaurants(resultSet);
