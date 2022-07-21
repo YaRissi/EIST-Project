@@ -313,4 +313,35 @@ public class Restaurant {
         this.averageRating = averageRating;
     }
 
+    // method that returns randomly generated opening times for a restaurant
+    public static List<List<TimeSlot>> generateOpeningTimes() {
+        List<List<TimeSlot>> openingTimes = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            openingTimes.add(new ArrayList<>());
+        }
+        for (int i = 0; i < 7; i++) {
+            int start = (int) (Math.random() * 10 + 8); // opening time can be between 8 and 18
+            int opening_duration = (int) (Math.random() * 12); //opening time can be up to 12 hrs
+            if (start + opening_duration >23) {
+                start = start % 12; //making sure that the opening time never goes into the next day
+            }
+            int end = start + opening_duration; // closing
+            openingTimes.get(i).add(new TimeSlot(LocalTime.of(start, 0), LocalTime.of(end, 0)));
+        }
+        return openingTimes;
+    }
+    public static Coord generaterandomCoord() {
+        double lat = Math.random() * (48.21626225946803-48.0896257744711) + 48.0896257744711 ; // latitude can be between 48.0896257744711 and 48.21626225946803
+        double lon = Math.random() * (11.627819238042054-11.4582178133556) +11.4582178133556; // Longitude can be between -180 and 180
+        return new Coord((float)lat, (float) lon);
+
+        // Coordinates should be between 48.21626225946803, 11.627819238042054
+        //48.0896257744711, 11.4582178133556
+    }
+
+
+
+
+
+
 }
