@@ -15,9 +15,11 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FXMLSlotsController implements Initializable {
 
@@ -25,6 +27,12 @@ public class FXMLSlotsController implements Initializable {
     private Text start;
     @FXML
     private Text end;
+
+    @FXML
+    private TextField startInput;
+
+    @FXML
+    private TextField endInput;
     @FXML
     private Button makeAReservation = new Button("Make a Reservation");
 
@@ -37,11 +45,14 @@ public class FXMLSlotsController implements Initializable {
 
     private static List<Reservation> reservations = new ArrayList<>();
 
+    private Table openedTable;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         JSONParse jsonParse = new JSONParse();
         restaurantService.setRestaurants(jsonParse.parseRestaurant());
         ActionEvent actionEvent = FXMLReservationController.getShowAvailableSlotsPressed();
+        handleMakeReservationEvent();
         initializeAvailableSlots(actionEvent);
     }
 
@@ -57,6 +68,8 @@ public class FXMLSlotsController implements Initializable {
                 Table currentTable = iterator.next();
                 if(String.valueOf(currentTable.getTableID()).equals(idDate[0])) {
                     table = currentTable;
+                    openedTable = table;
+                    break;
                 }
             }
         }
@@ -69,16 +82,18 @@ public class FXMLSlotsController implements Initializable {
         timeSlotListView.getItems().clear();
         List<TimeSlot> slots = table.getAvailableTimeSlots(date);
         timeSlotListView.getItems().addAll(slots);
+        timeSlotListView.setVisible(true);
     }
 
-    private void handleMakeReservationEvent(User user, Restaurant restaurant, Table table, LocalDate date, ActionEvent actionEvent) {
+    private void handleMakeReservationEvent() {
         makeAReservation.setOnAction(event -> {
-            String startTime = start.getText();
-            String endTime = end.getText();
-            TimeSlot timeSlot = new TimeSlot(LocalTime.of(Integer.getInteger(startTime.split(":")[0]), Integer.getInteger(startTime.split(":")[0])),
-                    LocalTime.of(Integer.getInteger(endTime.split(":")[0]), Integer.getInteger(endTime.split(":")[1])));
-            Reservation reservation = new Reservation(user, timeSlot, table, table.getMaxNumberOfPeople(), UUID.randomUUID(), date);
+            String startTime = startInput.getText();
+            String endTime = endInput.getText();
+            TimeSlot timeSlot = new TimeSlot(LocalTime.of(Integer.parseInt(startTime.split(":")[0]), Integer.parseInt(startTime.split(":")[1])),
+                    LocalTime.of(Integer.parseInt(endTime.split(":")[0]), Integer.parseInt(endTime.split(":")[1])));
+            Reservation reservation = new Reservation(new Credentials().readUser(), timeSlot, openedTable, openedTable.getMaxNumberOfPeople(), UUID.randomUUID(), FXMLReservationController.getDateChosen());
             reservationService.saveReservation(reservation);
+            reservations.add(reservation);
         });
     }
 
@@ -86,12 +101,19 @@ public class FXMLSlotsController implements Initializable {
         return reservations;
     }
 
-    public static void deleteReservation(Reservation reservation){
+    public static void deleteReservation(Reservation reservation) {
         reservations.remove(reservation);
     }
 
-    public static void addReservation(Reservation reservation){
+    public static void addReservation(Reservation reservation) {
         reservations.add(reservation);
     }
 
+    public void setOpenedTable(Table openedTable) {
+        this.openedTable = openedTable;
+    }
+
+    public Table getOpenedTable() {
+        return openedTable;
+    }
 }

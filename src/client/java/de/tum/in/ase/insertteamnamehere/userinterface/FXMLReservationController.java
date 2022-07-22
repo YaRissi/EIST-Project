@@ -2,12 +2,9 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.service.ReservationService;
-import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.Credentials;
 import de.tum.in.ase.insertteamnamehere.util.JSONParse;
-import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 import javafx.event.ActionEvent;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,20 +28,20 @@ public class FXMLReservationController implements Initializable {
     @FXML
     private VBox tablesBox;
 
-    @FXML
-    private ListView<TimeSlot> timeSlotListView;
 
     @FXML
     private DatePicker datePicker = new DatePicker();
 
     private static ActionEvent showAvailableSlotsPressed;
 
+    private static LocalDate dateChosen;
+
     public void initializeTables(ActionEvent actionEvent) {
 
         Button pressedButton = (Button) actionEvent.getSource();
         Restaurant restaurant;
         Optional<Restaurant> optionalRestaurant = restaurantService.getRestaurants().stream().filter(r -> r.getName().equals(pressedButton.getId())).findAny();
-        if(optionalRestaurant.isPresent()) {
+        if (optionalRestaurant.isPresent()) {
             restaurant = optionalRestaurant.get();
         } else {
             return;
@@ -57,7 +54,7 @@ public class FXMLReservationController implements Initializable {
             String dateAsString = datePicker.editorProperty().getValue().getText();
             String[] monthDayYear = dateAsString.split("/");
             LocalDate date = LocalDate.of(Integer.parseInt(monthDayYear[2]), Integer.parseInt(monthDayYear[1]), Integer.parseInt(monthDayYear[0]));
-
+            dateChosen = date;
 
             Iterator<Table> iterator = tables.iterator();
             for(int i = 0; i < tables.size(); i++) {
@@ -109,4 +106,11 @@ public class FXMLReservationController implements Initializable {
         initializeTables(actionEvent);
     }
 
+    public static void setDateChosen(LocalDate date) {
+        dateChosen = date;
+    }
+
+    public static LocalDate getDateChosen() {
+        return dateChosen;
+    }
 }
