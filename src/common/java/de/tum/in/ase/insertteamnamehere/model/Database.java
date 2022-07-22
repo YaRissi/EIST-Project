@@ -33,6 +33,7 @@ public class Database {
         addRestaurant(r5);
         Restaurant r6 = new Restaurant
                 ("Garchinger Augustiner",Restaurant.generaterandomCoord(),"Freisinger Landstraße 4",RestaurantType.GERMAN,PriceCategory.AVERAGE,null,Restaurant.generateOpeningTimes());
+        r6.setWebsite("http://garchinger-augustiner.com/");
         addRestaurant(r6);
         Restaurant r7 = new Restaurant
                 ("Poseidon",Restaurant.generaterandomCoord(),"Freisinger Landtraße 3",RestaurantType.BURGER,PriceCategory.EXPENSIVE,null,Restaurant.generateOpeningTimes());
@@ -175,6 +176,7 @@ public class Database {
         tacoCompany.addOpeningTimes(LocalTime.of(9, 30), LocalTime.of(20, 0), DayOfWeek.THURSDAY);
         tacoCompany.addOpeningTimes(LocalTime.of(9, 30), LocalTime.of(20, 0), DayOfWeek.FRIDAY);
         tacoCompany.addOpeningTimes(LocalTime.of(9, 30), LocalTime.of(20, 0), DayOfWeek.SATURDAY);
+        tacoCompany.setWebsite("https://www.taco-company-muenchen.de/contact");
         restaurants.add(tacoCompany);
 
 
