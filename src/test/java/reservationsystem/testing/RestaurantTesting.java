@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.*;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,7 +70,7 @@ public class RestaurantTesting {
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, LocalDate.now());
         assertTrue(table.isReserved());
-        assertEquals(GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())), testRestaurant.getReservations().get(0).getDate());
+        assertEquals(LocalDate.now(), testRestaurant.getReservations().get(0).getDate());
         assertEquals(timeSlot, testRestaurant.getReservations().get(0).getTimeslot());
     }
 
@@ -116,7 +115,7 @@ public class RestaurantTesting {
     public void testGetAverageRatingNoRatings() {
         List<Integer> ratings = new ArrayList<>();
 
-        assertEquals(Double.NaN, testRestaurant.getAverageRating(ratings));
+        assertEquals(0.0, testRestaurant.getAverageRating(ratings));
     }
 
     //addRestaurantType *************************************************************************************
@@ -127,12 +126,13 @@ public class RestaurantTesting {
     }
 
     @Test
-    public void testAddRestaurantTypeBiggerTwo() {
+    public void testAddRestaurantTypeBiggerThree() {
         testRestaurant.addRestaurantType(RestaurantType.ITALIAN);
+        testRestaurant.addRestaurantType(RestaurantType.VEGETARIAN);
         assertThrows(IllegalArgumentException.class, () -> {
             testRestaurant.addRestaurantType(RestaurantType.VEGETARIAN);
         });
-        assertEquals(2, testRestaurant.getRestaurantType().size());
+        assertEquals(3, testRestaurant.getRestaurantType().size());
     }
 
     //addOpeningTimes ***************************************************************************************
