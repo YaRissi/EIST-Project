@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
@@ -260,30 +261,30 @@ public class FXMLInterfaceController implements Initializable {
     public void openUserInfo(ActionEvent event) throws IOException {
         Text title = new Text("User Information");
         title.setFont(Font.font(36));
-        VBox.setMargin(title,new Insets(5,0,0,100));
+        VBox.setMargin(title, new Insets(5, 0, 0, 100));
         TextField firstname = new TextField();
         firstname.setMaxWidth(333);
         firstname.setMaxHeight(25);
         firstname.setText(user.getName().split(" ")[0]);
         firstname.setPromptText("First Name");
-        VBox.setMargin(firstname, new Insets(25,0,15,70));
+        VBox.setMargin(firstname, new Insets(25, 0, 15, 70));
         TextField lastname = new TextField();
         lastname.setMaxWidth(333);
         lastname.setMaxHeight(25);
         lastname.setText(user.getName().split(" ")[1]);
         lastname.setPromptText("Last Name");
-        VBox.setMargin(lastname, new Insets(0,0,15,70));
+        VBox.setMargin(lastname, new Insets(0, 0, 15, 70));
         TextField email = new TextField();
         email.setMaxWidth(333);
         email.setMaxHeight(25);
         email.setText(user.getEmail());
         email.setPromptText("E-Mail");
-        VBox.setMargin(email, new Insets(0,0,15,70));
+        VBox.setMargin(email, new Insets(0, 0, 15, 70));
         Button button = new Button();
         button.setMaxWidth(44);
         button.setMaxHeight(25);
         button.setText("Enter");
-        VBox.setMargin(button, new Insets(15,0,0,200));
+        VBox.setMargin(button, new Insets(15, 0, 0, 200));
         VBox vBox = new VBox();
 
 
@@ -299,12 +300,14 @@ public class FXMLInterfaceController implements Initializable {
             String lastnameText = lastname.getText();
             String emailText = email.getText();
 
-            if (firstnameText.isBlank() || lastnameText.isBlank()) alert("Please enter you first and last name");
+            if (firstnameText.isBlank() || lastnameText.isBlank())
+                FXMLAdminController.alert("Please enter you first and last name");
 
             String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
 
             Pattern pat = Pattern.compile(emailRegex);
-            if (emailText.isBlank() || !pat.matcher(emailText).matches()) alert("Please enter a valid email");
+            if (emailText.isBlank() || !pat.matcher(emailText).matches())
+                FXMLAdminController.alert("Please enter a valid email");
 
             user = new User(firstnameText + " " + lastnameText, null, new Coord((float) 48.2656027, (float) 11.6709969));
 
@@ -315,16 +318,6 @@ public class FXMLInterfaceController implements Initializable {
             stage.close();
         });
     }
-
-    public void alert(String alertMessage) throws NullPointerException {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error");
-        alert.setHeaderText("An Error occured!");
-        alert.setContentText(alertMessage);
-        alert.showAndWait();
-        throw new NullPointerException();
-    }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -369,12 +362,12 @@ public class FXMLInterfaceController implements Initializable {
         FXMLInterfaceController.searchResult = searchResult;
     }
 
-    public VBox getResultView(){
+    public VBox getResultView() {
         return resultView;
     }
 
-    public void fillResultView(List<Restaurant> restaurants){
-        for(Restaurant r: restaurants){
+    public void fillResultView(List<Restaurant> restaurants) {
+        for (Restaurant r : restaurants) {
             resultView.getChildren().add(createRestaurantObject(r));
         }
     }

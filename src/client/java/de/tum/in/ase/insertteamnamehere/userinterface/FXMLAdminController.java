@@ -298,7 +298,7 @@ public class FXMLAdminController implements Initializable {
         });
     }*/
 
-    public void alert(String alertMessage) throws NullPointerException {
+    public static void alert(String alertMessage) throws NullPointerException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText("An Error occured!");
@@ -307,7 +307,7 @@ public class FXMLAdminController implements Initializable {
         throw new NullPointerException();
     }
 
-    public void alertInfo(String alertMessage) throws NullPointerException {
+    public static void alertInfo(String alertMessage) throws NullPointerException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");
         alert.setHeaderText("Success!");
