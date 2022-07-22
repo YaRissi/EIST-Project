@@ -16,7 +16,7 @@ public class InterfaceApplication extends Application {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-            URL myFXML = getClass().getClassLoader().getResource("fxml/UserLoginView.fxml");
+            URL myFXML = getClass().getClassLoader().getResource("fxml/ResultView.fxml");
             FXMLLoader loader = new FXMLLoader(myFXML);
             root = (Parent) loader.load();
             primaryStage.setTitle("Reservation System");

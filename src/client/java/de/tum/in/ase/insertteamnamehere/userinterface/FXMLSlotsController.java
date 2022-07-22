@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.Date;
@@ -21,9 +22,9 @@ import java.util.*;
 public class FXMLSlotsController implements Initializable {
 
     @FXML
-    private TextField start;
+    private Text start;
     @FXML
-    private TextField end;
+    private Text end;
     @FXML
     private Button makeAReservation = new Button("Make a Reservation");
 
@@ -47,6 +48,7 @@ public class FXMLSlotsController implements Initializable {
     private void initializeAvailableSlots(ActionEvent actionEvent) {
         Button pressedButton = (Button) actionEvent.getSource();
         String[] idDate = pressedButton.getId().split(";");
+        timeSlotListView.getItems().clear();
         Table table = null;
         for(int i = 0; i < restaurantService.getRestaurants().size(); i++) {
             Restaurant current = restaurantService.getRestaurants().get(i);
@@ -64,7 +66,6 @@ public class FXMLSlotsController implements Initializable {
         String dateAsString = idDate[1];
         String[] monthDayYear = dateAsString.split("/");
         LocalDate date = LocalDate.of(Integer.parseInt(monthDayYear[2]), Integer.parseInt(monthDayYear[1]), Integer.parseInt(monthDayYear[0]));
-        timeSlotListView.getItems().clear();
         List<TimeSlot> slots = table.getAvailableTimeSlots(date);
         timeSlotListView.getItems().addAll(slots);
     }
