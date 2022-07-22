@@ -104,7 +104,7 @@ public class CalendarViewTemplate {
             }
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
             ap.setDate(calendarDate);
-            for(Reservation r: FXMLReservationController.getReservations()){
+            for(Reservation r: FXMLSlotsController.getReservations()){
                 if(calendarDate.equals(r.getDate())){
                     ap.setStyle("-fx-background-color: yellow");
                     ap.setReservation(r);
