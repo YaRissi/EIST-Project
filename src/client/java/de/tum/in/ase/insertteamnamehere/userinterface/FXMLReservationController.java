@@ -39,7 +39,6 @@ public class FXMLReservationController implements Initializable {
 
     private static ActionEvent showAvailableSlotsPressed;
 
-    private static List<Reservation> reservations = new ArrayList<>();
 
 
     public void initializeTables(ActionEvent actionEvent) {
@@ -109,15 +108,4 @@ public class FXMLReservationController implements Initializable {
         initializeTables(actionEvent);
     }
 
-    public static List<Reservation> getReservations(){
-        return reservations;
-    }
-
-    public static void deleteReservation(Reservation reservation){
-        reservations.remove(reservation);
-    }
-
-    public static void addReservation(Reservation reservation){
-        reservations.add(reservation);
-    }
 }

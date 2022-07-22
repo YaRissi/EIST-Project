@@ -34,6 +34,8 @@ public class FXMLSlotsController implements Initializable {
 
     private final RestaurantService restaurantService = new RestaurantService(new Credentials().readUser());
 
+    private static List<Reservation> reservations = new ArrayList<>();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         JSONParse jsonParse = new JSONParse();
@@ -71,12 +73,23 @@ public class FXMLSlotsController implements Initializable {
         makeAReservation.setOnAction(event -> {
             String startTime = start.getText();
             String endTime = end.getText();
-            GregorianCalendar gregorianCalendar = new GregorianCalendar();
-            gregorianCalendar.setTime(Date.valueOf(date));
             TimeSlot timeSlot = new TimeSlot(LocalTime.of(Integer.getInteger(startTime.split(":")[0]), Integer.getInteger(startTime.split(":")[0])),
                     LocalTime.of(Integer.getInteger(endTime.split(":")[0]), Integer.getInteger(endTime.split(":")[1])));
-            Reservation reservation = new Reservation(user, timeSlot, table, table.getMaxNumberOfPeople(), UUID.randomUUID(), gregorianCalendar);
+            Reservation reservation = new Reservation(user, timeSlot, table, table.getMaxNumberOfPeople(), UUID.randomUUID(), date);
             reservationService.saveReservation(reservation);
         });
     }
+
+    public static List<Reservation> getReservations(){
+        return reservations;
+    }
+
+    public static void deleteReservation(Reservation reservation){
+        reservations.remove(reservation);
+    }
+
+    public static void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
 }

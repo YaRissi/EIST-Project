@@ -37,7 +37,7 @@ public class CalendarFieldNode extends AnchorPane {
                 cancelButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        FXMLReservationController.deleteReservation(reservation);
+                        FXMLSlotsController.deleteReservation(reservation);
                         dialog.close();
                     }
                 });
