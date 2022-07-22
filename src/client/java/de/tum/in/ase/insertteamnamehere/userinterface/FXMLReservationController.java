@@ -31,11 +31,15 @@ public class FXMLReservationController implements Initializable {
     @FXML
     private VBox tablesBox;
 
+    @FXML
+    private ListView<TimeSlot> timeSlotListView;
 
     @FXML
     private DatePicker datePicker = new DatePicker();
 
     private static ActionEvent showAvailableSlotsPressed;
+
+    private static List<Reservation> reservations = new ArrayList<>();
 
 
     public void initializeTables(ActionEvent actionEvent) {
@@ -79,6 +83,7 @@ public class FXMLReservationController implements Initializable {
                     stage.show();
                 });
 
+
                 if(current.getAvailableTimeSlots(date).size() == 0) {
                     goToSlots.setVisible(false);
                 }
@@ -102,5 +107,17 @@ public class FXMLReservationController implements Initializable {
         restaurantService.setRestaurants(jsonParse.parseRestaurant());
         ActionEvent actionEvent = RestaurantObject.getShowTablesPressed();
         initializeTables(actionEvent);
+    }
+
+    public static List<Reservation> getReservations(){
+        return reservations;
+    }
+
+    public static void deleteReservation(Reservation reservation){
+        reservations.remove(reservation);
+    }
+
+    public static void addReservation(Reservation reservation){
+        reservations.add(reservation);
     }
 }

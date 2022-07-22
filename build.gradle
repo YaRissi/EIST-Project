@@ -39,6 +39,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-mail')
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation('com.sothawo:mapjfx:3.1.0')
+    //implementation('com.github.SirGoose3432:javafx-calendar:master-SNAPSHOT')
 
 }
 
