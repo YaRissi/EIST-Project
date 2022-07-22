@@ -4,6 +4,7 @@ import de.tum.in.ase.insertteamnamehere.model.Restaurant;
 import de.tum.in.ase.insertteamnamehere.model.Review;
 import de.tum.in.ase.insertteamnamehere.model.Table;
 import de.tum.in.ase.insertteamnamehere.util.JSONParse;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -26,6 +27,8 @@ import java.io.*;
 import java.net.*;
 
 public class RestaurantObject {
+
+    private static ActionEvent showTablesPressed;
 
     public static void display(Restaurant restaurant) throws IOException {
         Stage stage = new Stage();
@@ -69,7 +72,9 @@ public class RestaurantObject {
 
 
         Button showTablesButton = new Button("Show tables");
+        showTablesButton.setId(restaurant.getName());
         showTablesButton.setOnAction(e -> {
+            showTablesPressed = e;
             Stage stage1 = (Stage) ((Node) e.getSource()).getScene().getWindow();
             Scene scene = null;
             try {
@@ -77,6 +82,7 @@ public class RestaurantObject {
             } catch (IOException ioException) {
                 throw new RuntimeException(ioException);
             }
+
             stage1.setScene(scene);
             stage1.show();
         });
@@ -204,6 +210,10 @@ public class RestaurantObject {
         Text maxPersons = new Text("Max. Person: " + table.getMaxNumberOfPeople());
         tableObject.getChildren().addAll(tableID, maxPersons);
         return tableObject;
+    }
+
+    public static ActionEvent getShowTablesPressed() {
+        return showTablesPressed;
     }
 
 }
