@@ -99,7 +99,6 @@ public class FXMLInterfaceController implements Initializable {
     private Button mapViewButton;
     @FXML
     private Button showAllButton;
-
     @FXML
     private VBox resultView;
 
@@ -107,14 +106,18 @@ public class FXMLInterfaceController implements Initializable {
 
     private final RestaurantService interfaceService = new RestaurantService(user);
 
+    private static List<Restaurant> searchResult = new ArrayList<>();
+
 
     @FXML
     private void handleSearchButtonEvent(ActionEvent event) {
+        searchResult.clear();
         resultView.getChildren().clear();
         String input = searchBar.getText();
         List<Restaurant> listOfRestaurants = new ArrayList<>();
         try {
             listOfRestaurants = interfaceService.search(input);
+            searchResult = listOfRestaurants;
         } catch (IllegalArgumentException e) {
             Text emptyMessage = new Text("No search results found...");
             resultView.getChildren().add(emptyMessage);
@@ -361,6 +364,25 @@ public class FXMLInterfaceController implements Initializable {
         }*/
         interfaceService.setRestaurants(jsonParse.parseRestaurant());
     }
+
+    public static List<Restaurant> getSearchResult() {
+        return searchResult;
+    }
+
+    public static void setSearchResult(List<Restaurant> searchResult) {
+        FXMLInterfaceController.searchResult = searchResult;
+    }
+
+    public VBox getResultView(){
+        return resultView;
+    }
+
+    public void fillResultView(List<Restaurant> restaurants){
+        for(Restaurant r: restaurants){
+            resultView.getChildren().add(createRestaurantObject(r));
+        }
+    }
+
 
 }
 

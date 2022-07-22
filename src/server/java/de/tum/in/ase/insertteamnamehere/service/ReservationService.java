@@ -35,8 +35,6 @@ public class ReservationService {
 
     public void deleteReservation(UUID ID) {
         this.reservations.removeIf(q -> q.getID().equals(ID));
-
-
     }
 
     public List<Reservation> getAllReservations() {

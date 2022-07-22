@@ -76,7 +76,7 @@ public class RestaurantService {
         return results;
     }
 
-    //Location Parameter benötigt
+    //Alle Filter Methoden
     public List<Restaurant> filterDistance(List<Restaurant> listOfRestaurants, SortingOptions.SortingOrder sortingOrder, int maxDistance) {
         if (listOfRestaurants.isEmpty()) {
             listOfRestaurants.addAll(restaurants);

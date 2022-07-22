@@ -49,7 +49,7 @@ public class Restaurant {
         reservations = new ArrayList<>();
     }
 
-    public void reserveTable(User user, Table table, TimeSlot timeSlot, int NumberOfPeople, UUID ID, GregorianCalendar date) {
+    public void reserveTable(User user, Table table, TimeSlot timeSlot, int NumberOfPeople, UUID ID, LocalDate date) {
         if (table.isReserved()) {
             throw new IllegalArgumentException("This table is already reserved, please pick another!");
         }else if(NumberOfPeople > table.getMaxNumberOfPeople())
