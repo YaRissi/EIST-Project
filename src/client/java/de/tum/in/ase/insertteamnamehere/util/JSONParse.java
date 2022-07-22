@@ -39,7 +39,7 @@ public class JSONParse {
         restaurantDetails.put("adress", String.valueOf(restaurant.getAddress()));
         restaurantDetails.put("RestaurantType", dataProcessing.convertRestaurtantTyptoString(restaurant.getRestaurantType()));
         restaurantDetails.put("PriceCategory", restaurant.getPriceCategory().toString());
-        restaurantDetails.put("Tables", dataProcessing.convertTablesToString(restaurant.getTables()));
+        restaurantDetails.put("Tables", dataProcessing.convertTablesToStringDatabase(restaurant.getTables()));
         restaurantDetails.put("Monday", dataProcessing.convertOpeningToString(getTimes(restaurant, 0)));
         restaurantDetails.put("Tuesday", dataProcessing.convertOpeningToString(getTimes(restaurant, 1)));
         restaurantDetails.put("Wednesday", dataProcessing.convertOpeningToString(getTimes(restaurant, 2)));
@@ -134,7 +134,7 @@ public class JSONParse {
 
             if (restaurantTypes.size() > 0) restaurantType1 = restaurantTypes.get(0);
 
-            Set<Table> tableSet = dataProcessing.getTablesFromString(Tables);
+            Set<Table> tableSet = dataProcessing.getTablesFromStringDatabase(Tables);
             Restaurant restaurant = new Restaurant(name, coord, adress
                     , restaurantType1, PriceCategory.valueOf(priceCategory),
                     tableSet, null);

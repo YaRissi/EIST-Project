@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class Table {
     private boolean reserved;
-    private final UUID tableID;
+    private UUID tableID;
 
     private Restaurant restaurant;
 
@@ -37,6 +37,9 @@ public class Table {
         return tableID;
     }
 
+    public void setTableID(UUID tableID) {
+        this.tableID = tableID;
+    }
 
     public boolean addReservation(Reservation reservation) {
         return restaurant.getReservations().add(reservation);

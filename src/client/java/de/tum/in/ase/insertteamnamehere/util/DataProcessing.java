@@ -5,10 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DataProcessing {
 
@@ -23,6 +20,21 @@ public class DataProcessing {
             for (String s : table) {
                 if (s.contains(" ")) s = s.split(" ")[0];
                 Table table1 = new Table(Integer.parseInt(s), null);
+                tables.add(table1);
+            }
+            return tables;
+        }
+        return null;
+    }
+
+    public Set<Table> getTablesFromStringDatabase(String input) throws NumberFormatException {
+        if (!input.isBlank()) {
+            String[] table = input.split("§");
+            Set<Table> tables = new HashSet<>();
+            for (String s : table) {
+                String[] parts = s.split("-");
+                Table table1 = new Table(Integer.parseInt(parts[5]), null);
+                table1.setTableID(UUID.fromString(parts[0]+"-"+parts[1]+"-"+parts[2]+"-"+parts[3]+"-"+parts[4]));
                 tables.add(table1);
             }
             return tables;
@@ -93,6 +105,17 @@ public class DataProcessing {
         if (tableSet != null) {
             for (Table table : tableSet) {
                 stringBuilder.append(table.getMaxNumberOfPeople()).append("-");
+            }
+            return StringUtils.chop(stringBuilder.toString());
+        }
+        return "";
+    }
+
+    public String convertTablesToStringDatabase(Set<Table> tableSet) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (tableSet != null) {
+            for (Table table : tableSet) {
+                stringBuilder.append(table.getTableID().toString()).append("-").append(table.getMaxNumberOfPeople()).append("§");
             }
             return StringUtils.chop(stringBuilder.toString());
         }

@@ -85,7 +85,12 @@ public class Restaurant {
     }
 
     public void setRestaurantType(List<RestaurantType> restaurantType) {
-        this.restaurantType = restaurantType;
+        if (restaurantType.size() >= 2) {
+            throw new IllegalArgumentException("You cannot set more than two restaurant types!");
+        } else {
+            this.restaurantType = restaurantType;
+        }
+
     }
 
     public void addRestaurantType(RestaurantType restaurantType) {

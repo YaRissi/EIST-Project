@@ -42,7 +42,7 @@ public class FXMLLoginController {
         String lastnameText = lastname.getText();
         String emailText = email.getText();
 
-        if (firstnameText.isBlank() || lastnameText.isBlank()) alert("Please enter you first and last name");
+        if (firstnameText.isBlank() || lastnameText.isBlank()) FXMLAdminController.alert("Please enter you first and last name");
 
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                             "[a-zA-Z0-9_+&*-]+)*@" +
@@ -50,7 +50,7 @@ public class FXMLLoginController {
                             "A-Z]{2,7}$";
 
         Pattern pat = Pattern.compile(emailRegex);
-        if (emailText.isBlank() || !pat.matcher(emailText).matches()) alert("Please enter a valid email");
+        if (emailText.isBlank() || !pat.matcher(emailText).matches()) FXMLAdminController.alert("Please enter a valid email");
 
         User user = new User(firstnameText + " " + lastnameText, null, new Coord((float) 48.2656027, (float) 11.6709969));
 
@@ -77,7 +77,7 @@ public class FXMLLoginController {
         if (credentials.checkLogin(usernameText, passwordText)) {
             switchToFromSmallToAdminView(event);
         } else {
-            alert("Wrong username or password");
+            FXMLAdminController.alert("Wrong username or password");
         }
 
     }
@@ -114,13 +114,4 @@ public class FXMLLoginController {
         stage.show();
     }
 
-
-    public void alert(String alertMessage) throws NullPointerException {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error");
-        alert.setHeaderText("An Error occured!");
-        alert.setContentText(alertMessage);
-        alert.showAndWait();
-        throw new NullPointerException();
-    }
 }
