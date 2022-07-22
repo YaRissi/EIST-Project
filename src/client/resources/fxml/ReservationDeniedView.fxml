@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<DialogPane prefHeight="64.0" prefWidth="273.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox prefHeight="102.0" prefWidth="278.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Unfortunately, the chosen timeslot was not valid."/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please try again."/>
+         </children>
+      </VBox>
+   </content>
+</DialogPane>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<DialogPane prefHeight="55.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your reservation has been confirmed."/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="We'll see you soon!"/>
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" top="5.0"/>
+         </padding>
+      </VBox>
+   </content>
+</DialogPane>

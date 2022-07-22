@@ -2,24 +2,25 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.service.ReservationService;
-import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.Credentials;
 import de.tum.in.ase.insertteamnamehere.util.JSONParse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class FXMLSlotsController implements Initializable {
 
@@ -29,10 +30,16 @@ public class FXMLSlotsController implements Initializable {
     private Text end;
 
     @FXML
+    private Text numberOfPeople;
+
+    @FXML
     private TextField startInput;
 
     @FXML
     private TextField endInput;
+
+    @FXML
+    private TextField numberOfPeopleInput;
     @FXML
     private Button makeAReservation = new Button("Make a Reservation");
 
@@ -89,11 +96,35 @@ public class FXMLSlotsController implements Initializable {
         makeAReservation.setOnAction(event -> {
             String startTime = startInput.getText();
             String endTime = endInput.getText();
+            String numPeople = numberOfPeopleInput.getText();
             TimeSlot timeSlot = new TimeSlot(LocalTime.of(Integer.parseInt(startTime.split(":")[0]), Integer.parseInt(startTime.split(":")[1])),
                     LocalTime.of(Integer.parseInt(endTime.split(":")[0]), Integer.parseInt(endTime.split(":")[1])));
-            Reservation reservation = new Reservation(new Credentials().readUser(), timeSlot, openedTable, openedTable.getMaxNumberOfPeople(), UUID.randomUUID(), FXMLReservationController.getDateChosen());
-            reservationService.saveReservation(reservation);
-            reservations.add(reservation);
+            if (timeSlot.isInBounds(openedTable.getRestaurant().getOpeningTimes().get(FXMLReservationController.getDateChosen().getDayOfWeek().getValue() - 1)) != null) {
+                Reservation reservation = new Reservation(new Credentials().readUser(), timeSlot, openedTable, Integer.parseInt(numPeople), UUID.randomUUID(), FXMLReservationController.getDateChosen());
+                reservationService.saveReservation(reservation);
+                reservations.add(reservation);
+
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene;
+                try {
+                    scene = new Scene(new FXMLLoader(getClass().getClassLoader().getResource("fxml/ReservationConfirmationView.fxml")).load());
+                } catch (IOException ioException) {
+                    throw new RuntimeException(ioException);
+                }
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene;
+                try {
+                    scene = new Scene(new FXMLLoader(getClass().getClassLoader().getResource("fxml/ReservationDeniedView.fxml")).load());
+                } catch (IOException ioException) {
+                    throw new RuntimeException(ioException);
+                }
+                stage.setScene(scene);
+                stage.show();
+            }
         });
     }
 
