@@ -69,7 +69,7 @@ public class RestaurantTesting {
         UUID reservationID = UUID.randomUUID();
         Table table = new Table(4, testRestaurant);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
-        testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
+        testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, LocalDate.now());
         assertTrue(table.isReserved());
         assertEquals(GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())), testRestaurant.getReservations().get(0).getDate());
         assertEquals(timeSlot, testRestaurant.getReservations().get(0).getTimeslot());
@@ -82,7 +82,7 @@ public class RestaurantTesting {
         table.setReserved(true);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
-            testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
+            testRestaurant.reserveTable(testUser, table, timeSlot, 4, reservationID, LocalDate.now());
         });
         assertEquals(0, testRestaurant.getReservations().size());
     }
@@ -93,7 +93,7 @@ public class RestaurantTesting {
         Table table = new Table(5, testRestaurant);
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(9, 30), LocalTime.of(10, 30));
         assertThrows(IllegalArgumentException.class, () -> {
-            testRestaurant.reserveTable(testUser, table, timeSlot, 6, reservationID, GregorianCalendar.from(ZonedDateTime.of(LocalDate.now(), timeSlot.getOpen(), ZoneId.systemDefault())));
+            testRestaurant.reserveTable(testUser, table, timeSlot, 6, reservationID, LocalDate.now());
         });
         assertEquals(0, testRestaurant.getReservations().size());
     }

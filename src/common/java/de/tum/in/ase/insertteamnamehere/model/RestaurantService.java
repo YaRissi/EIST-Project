@@ -4,7 +4,6 @@ import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.Coord;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 
-
 import java.awt.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -214,7 +213,7 @@ public class RestaurantService {
         for (Restaurant r : restaurants) {
             for (List<TimeSlot> a : r.getOpeningTimes()) {
                 for (TimeSlot t : a) {
-                    if (t.equals(timeslot)) {
+                    if (t.getOpen().equals(timeslot.getOpen()) && t.getClosed().equals(timeslot.getClosed())) {
                         resultList.add(r);
                     }
                 }
@@ -231,5 +230,9 @@ public class RestaurantService {
 
     public void setRestaurants(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
+    }
+
+    public void clear(){
+        restaurants.clear();
     }
 }
