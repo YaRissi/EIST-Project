@@ -98,7 +98,7 @@
                 <Button mnemonicParsing="false" onAction="#addRestaurantDashboard" text="Add Restaurant" />
             </children>
             <BorderPane.margin>
-                <Insets left="5.0" />
+                <Insets bottom="10.0" left="5.0" />
             </BorderPane.margin>
             <padding>
                 <Insets right="60.0" />
@@ -136,17 +136,20 @@
                 </Text>
                 <Button mnemonicParsing="false" onAction="#showAllRestaurant" text="Refresh">
                     <HBox.margin>
-                        <Insets bottom="5.0" left="165.0" top="95.0" />
+                        <Insets bottom="5.0" left="220.0" top="95.0" />
                     </HBox.margin>
                 </Button>
             </children>
         </HBox>
     </top>
     <center>
-        <ScrollPane fx:id="scrollPane" prefHeight="518.0" prefWidth="556.0" BorderPane.alignment="CENTER">
+        <ScrollPane fx:id="scrollPane" prefHeight="506.0" prefWidth="572.0" BorderPane.alignment="CENTER">
             <content>
                 <VBox fx:id="restaurantList" prefHeight="507.0" prefWidth="475.0" />
             </content>
+         <BorderPane.margin>
+            <Insets bottom="5.0" right="-60.0" />
+         </BorderPane.margin>
         </ScrollPane>
     </center>
 </BorderPane>

@@ -189,6 +189,7 @@ public class FXMLAdminController implements Initializable {
                     if (restaurants.get(index).getRestaurantID().equals(restaurant.getRestaurantID())) found = true;
                     else index++;
                 }
+                alertInfo(restaurants.get(index).getName()+"was removed successfully");
                 restaurants.remove(index);
                 try {
                     jsonParse.clearJson();
@@ -210,6 +211,7 @@ public class FXMLAdminController implements Initializable {
     }
 
     public void addRestaurantDashboard(ActionEvent event) {
+        alertInfo(restaurantName.getText()+" was added successfully!");
         addRestaurant(event, restaurantName, xposition, yposition
                 , adresse, restaurantType, priceClassChoiceBox
                 , tables, website,rating, Monday, Tuesday
@@ -227,6 +229,7 @@ public class FXMLAdminController implements Initializable {
             , TextField tables, TextField website,TextField rating, TextField Monday, TextField Tuesday
             , TextField Wednesday, TextField Thursday, TextField Friday
             , TextField Saturday, TextField Sunday, UUID id) {
+        alertInfo(restaurantName.getText()+" was updated successfully!");
         addRestaurant(event, restaurantName, xposition, yposition
                 , adresse, restaurantType, priceClassChoiceBox
                 , tables, website, rating, Monday, Tuesday
@@ -262,10 +265,7 @@ public class FXMLAdminController implements Initializable {
             if(!Float.isNaN(ypositionT))coord = new Coord(xpositionT, ypositionT);
             Restaurant restaurant = new Restaurant(restaurantNameT,coord, adresseT, restaurantTypeT, priceCategoryT, tableSet, null);
             String websiteT = website.getText();
-            System.out.println(websiteT);
-            System.out.println(ratingT);
             if (!websiteT.isBlank()) restaurant.setWebsite(websiteT);
-            System.out.println("RESTAURANT:"+restaurant.getWebsite());
             String mondayT = Monday.getText();
             String TuesdayT = Tuesday.getText();
             String WednesdayT = Wednesday.getText();
@@ -280,7 +280,7 @@ public class FXMLAdminController implements Initializable {
             //REST-Api funktioniert noch nicht ganz
             // restaurantController.addRestaurant(restaurant);
             if (id != null) restaurant.setRestaurantID(id);
-            alertInfo(restaurant.getName()+" was added successfully!");
+
             JSONParse jsonParse = new JSONParse();
             jsonParse.writeJson(restaurant);
 

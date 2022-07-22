@@ -20,12 +20,10 @@ public class DataProcessing {
         if (!input.isBlank()) {
             String[] table = input.split("-");
             Set<Table> tables = new HashSet<>();
-            int id = 0;
             for (String s : table) {
                 if (s.contains(" ")) s = s.split(" ")[0];
                 Table table1 = new Table(Integer.parseInt(s), null);
                 tables.add(table1);
-                id++;
             }
             return tables;
         }
@@ -109,20 +107,24 @@ public class DataProcessing {
         return StringUtils.chop(stringBuilder.toString());
     }
 
-    public String convertReviewstoString(List<Review> reviews){
-        if(reviews.isEmpty()) return "";
+    public String convertReviewstoString(List<Review> reviews) {
+        if (reviews.isEmpty()) return "";
         StringBuilder stringBuilder = new StringBuilder();
         for (Review review : reviews) {
-            stringBuilder.append(review.getName()).append("~").append(review.getContent()).append("§");
+            stringBuilder.append(review.getNumberOfLikes()).append("~").append(review.getName()).append("~").append(review.getContent()).append("§");
         }
         return StringUtils.chop(stringBuilder.toString());
     }
 
-    public void addAllReviewsToRestaurtant(String input, Restaurant restaurant){
+    public void addAllReviewsToRestaurtant(String input, Restaurant restaurant) {
         List<Review> reviews = new ArrayList<>();
-        if(!input.isBlank()){
-            for(String review:input.split("§")){
-                Review review1 = new Review(review.split("~")[0],review.split("~")[1]);
+        if (!input.isBlank()) {
+            for (String review : input.split("§")) {
+                Review review1;
+                if (review.split("~").length == 3) {
+                    review1 = new Review(review.split("~")[1], review.split("~")[2]);
+                    review1.setNumberOfLikes(Integer.parseInt(review.split("~")[0]));
+                }else review1 = new Review(review.split("~")[0], review.split("~")[1]);
                 reviews.add(review1);
             }
         }
