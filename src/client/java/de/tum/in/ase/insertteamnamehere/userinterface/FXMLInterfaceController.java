@@ -3,8 +3,8 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.JSONParse;
-import de.tum.in.ase.insertteamnamehere.util.RestaurantFactory;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
+import de.tum.in.ase.insertteamnamehere.util.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,11 +21,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class FXMLInterfaceController implements Initializable {
     @FXML
@@ -78,9 +79,9 @@ public class FXMLInterfaceController implements Initializable {
     @FXML
     private Spinner<Integer> distanceSpinner;
     @FXML
-    private ChoiceBox<LocalTime> startTimeChoiceBox;
+    private TextField startTimeChoiceBox;
     @FXML
-    private ChoiceBox<LocalTime> endTimeChoiceBox;
+    private TextField endTimeChoiceBox;
 
     // Search Bar
     @FXML
@@ -97,21 +98,25 @@ public class FXMLInterfaceController implements Initializable {
     private Button mapViewButton;
     @FXML
     private Button showAllButton;
-
     @FXML
     private VBox resultView;
 
-    private final User user = new User("Bob", null, null);
+    private User user = new Credentials().readUser();
+
     private final RestaurantService interfaceService = new RestaurantService(user);
+
+    private static List<Restaurant> searchResult = new ArrayList<>();
 
 
     @FXML
     private void handleSearchButtonEvent(ActionEvent event) {
+        searchResult.clear();
         resultView.getChildren().clear();
         String input = searchBar.getText();
         List<Restaurant> listOfRestaurants = new ArrayList<>();
         try {
             listOfRestaurants = interfaceService.search(input);
+            searchResult = listOfRestaurants;
         } catch (IllegalArgumentException e) {
             Text emptyMessage = new Text("No search results found...");
             resultView.getChildren().add(emptyMessage);
@@ -123,13 +128,17 @@ public class FXMLInterfaceController implements Initializable {
 
     @FXML
     public void handleShowAllButton(ActionEvent event) { //ShowAllButton shows concrete Restaurants
-        resultView.getChildren().clear();;
+        resultView.getChildren().clear();
 
         //interfaceService.initialiseRestaurants();
         //for (Restaurant restaurant : interfaceService.getRestaurants()) {
-            //resultView.getChildren().add(createRestaurantObject(restaurant));
+        //resultView.getChildren().add(createRestaurantObject(restaurant));
         //}
+        //Database database = new Database();
+        //System.out.println("Database loaded");
+        //System.out.printf(database.getRestaurants().toString());
         showOnlyFiftyRestaurants(interfaceService.getRestaurants(), resultView);
+        //showOnlyFiftyRestaurants(interfaceService.getRestaurants(), resultView);
     }
 
     public void handleApplyButtonEvent() {
@@ -173,17 +182,16 @@ public class FXMLInterfaceController implements Initializable {
         int minRating = minRatingSpinner.getValue();
 
         listOfRestaurants = interfaceService.filterRating(listOfRestaurants, sortingOrder, minRating);
-        // TODO Implement Filter Distance and Opening Times
 
         int maxDistance = distanceSpinner.getValue();
 
         listOfRestaurants = interfaceService.filterDistance(listOfRestaurants, sortingOrder, maxDistance);
 
-        /*
-            if (sortField.equals(SortingOptions.SortField.FREE_TIME_SLOTS)) {
-                listOfRestaurants = interfaceService.filterRating(null, 0);
-            }
-        } */
+        DateTimeFormatter parser = DateTimeFormatter.ofPattern("h[:mm]");
+        LocalTime startTime = LocalTime.parse(startTimeChoiceBox.getText(), parser);
+        LocalTime endTime = LocalTime.parse(endTimeChoiceBox.getText(), parser);
+
+        listOfRestaurants = interfaceService.filterTimeSlots(listOfRestaurants, sortingOrder, startTime, endTime);
 
         resultView.getChildren().clear();
         showOnlyFiftyRestaurants(listOfRestaurants, resultView);
@@ -249,6 +257,74 @@ public class FXMLInterfaceController implements Initializable {
         stage.show();
     }
 
+    public void openUserInfo(ActionEvent event) throws IOException {
+        Text title = new Text("User Information");
+        title.setFont(Font.font(36));
+        VBox.setMargin(title,new Insets(5,0,0,100));
+        TextField firstname = new TextField();
+        firstname.setMaxWidth(333);
+        firstname.setMaxHeight(25);
+        firstname.setText(user.getName().split(" ")[0]);
+        firstname.setPromptText("First Name");
+        VBox.setMargin(firstname, new Insets(25,0,15,70));
+        TextField lastname = new TextField();
+        lastname.setMaxWidth(333);
+        lastname.setMaxHeight(25);
+        lastname.setText(user.getName().split(" ")[1]);
+        lastname.setPromptText("Last Name");
+        VBox.setMargin(lastname, new Insets(0,0,15,70));
+        TextField email = new TextField();
+        email.setMaxWidth(333);
+        email.setMaxHeight(25);
+        email.setText(user.getEmail());
+        email.setPromptText("E-Mail");
+        VBox.setMargin(email, new Insets(0,0,15,70));
+        Button button = new Button();
+        button.setMaxWidth(44);
+        button.setMaxHeight(25);
+        button.setText("Enter");
+        VBox.setMargin(button, new Insets(15,0,0,200));
+        VBox vBox = new VBox();
+
+
+        vBox.getChildren().addAll(title, firstname, lastname, email, button);
+
+        Stage stage = new Stage();
+        stage.setTitle("User Info");
+        Scene scene = new Scene(vBox, 473, 279);
+        stage.setScene(scene);
+        stage.show();
+        button.setOnAction(p -> {
+            String firstnameText = firstname.getText();
+            String lastnameText = lastname.getText();
+            String emailText = email.getText();
+
+            if (firstnameText.isBlank() || lastnameText.isBlank()) alert("Please enter you first and last name");
+
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
+
+            Pattern pat = Pattern.compile(emailRegex);
+            if (emailText.isBlank() || !pat.matcher(emailText).matches()) alert("Please enter a valid email");
+
+            user = new User(firstnameText + " " + lastnameText, null, new Coord((float) 48.2656027, (float) 11.6709969));
+
+            user.setEmail(emailText);
+
+            new Credentials().writeUser(user);
+
+            stage.close();
+        });
+    }
+
+    public void alert(String alertMessage) throws NullPointerException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText("An Error occured!");
+        alert.setContentText(alertMessage);
+        alert.showAndWait();
+        throw new NullPointerException();
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -271,23 +347,37 @@ public class FXMLInterfaceController implements Initializable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Database database = new Database();
-        database.addAllRestaurants();
-        for (Restaurant r:database.getRestaurants()) {
-            r.setTables(createRandomTables());
-            r.setRatings(createRandomRating());
-            r.setReviews(createRandomReviews());
+        for (Restaurant r : interfaceService.getRestaurants()) {
+            r.setTables(RestaurantFactory.createRandomTables(r));
+            r.setRatings(RestaurantFactory.createRandomRating());
+            r.setReviews(RestaurantFactory.createRandomReviews());
             jsonParse.writeJson(r);
         }
-        for (Restaurant r:createRandomRestaurants()) {
+        for (Restaurant r : RestaurantFactory.createRandomRestaurants()) {
+            r.setOpeningTimes(Restaurant.generateOpeningTimes());
+            r.setLocation(Restaurant.generaterandomCoord());
             jsonParse.writeJson(r);
-        }
-        System.out.println(createRandomRestaurants());*/
-
-        //interfaceService.setRestaurants(jsonParse.parseRestaurant());
+        }*/
+        interfaceService.setRestaurants(jsonParse.parseRestaurant());
     }
 
+    public static List<Restaurant> getSearchResult() {
+        return searchResult;
+    }
+
+    public static void setSearchResult(List<Restaurant> searchResult) {
+        FXMLInterfaceController.searchResult = searchResult;
+    }
+
+    public VBox getResultView(){
+        return resultView;
+    }
+
+    public void fillResultView(List<Restaurant> restaurants){
+        for(Restaurant r: restaurants){
+            resultView.getChildren().add(createRestaurantObject(r));
+        }
+    }
+
+
 }
-
-
-
