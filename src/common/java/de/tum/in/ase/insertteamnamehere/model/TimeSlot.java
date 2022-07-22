@@ -71,12 +71,34 @@ public class TimeSlot {
     }
 
     public TimeSlot isInBounds(List<TimeSlot> timeSlots) {
-        for(int i = 0; i < timeSlots.size(); i++) {
+        for (int i = 0; i < timeSlots.size(); i++) {
             TimeSlot current = timeSlots.get(i);
-            if(this.getOpen().compareTo(current.getOpen()) >= 0 && this.getClosed().compareTo(current.getClosed()) <= 0) {
+            if (this.getOpen().compareTo(current.getOpen()) >= 0 && this.getClosed().compareTo(current.getClosed()) <= 0) {
                 return current;
             }
         }
         return null;
+    }
+
+    public String toString() {
+        String time = open.getHour() + ":";
+        if (open.getMinute() == 0) {
+            time = time + "00";
+        }
+        else if (open.getMinute() < 10) {
+            time = time + "0" + open.getMinute();
+        } else {
+            time = time + open.getMinute();
+        }
+        time = time + " - " + closed.getHour() + ":";
+        if (closed.getMinute() == 0) {
+            time = time + "00";
+        }
+        else if (closed.getMinute() < 10) {
+            time = time + "0" + closed.getMinute();
+        } else {
+            time = time + closed.getMinute();
+        }
+        return time;
     }
 }

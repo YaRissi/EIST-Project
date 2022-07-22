@@ -79,9 +79,9 @@ public class FXMLInterfaceController implements Initializable {
     @FXML
     private Spinner<Integer> distanceSpinner;
     @FXML
-    private TextField startTimeChoiceBox;
+    private TextField startTimeField;
     @FXML
-    private TextField endTimeChoiceBox;
+    private TextField endTimeField;
 
     // Search Bar
     @FXML
@@ -157,6 +157,30 @@ public class FXMLInterfaceController implements Initializable {
         if (chineseCheckBox.isSelected()) {
             restaurantTypesToSearch.add(RestaurantType.CHINESE);
         }
+        if (germanCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.GERMAN);
+        }
+        if (greekCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.GREEK);
+        }
+        if (indianCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.INDIAN);
+        }
+        if (italianCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.ITALIAN);
+        }
+        if (japaneseCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.JAPANESE);
+        }
+        if (mexicanCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.MEXICAN);
+        }
+        if (noodleBarCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.NOODLE_BAR);
+        }
+        if (pizzaCheckBox.isSelected()) {
+            restaurantTypesToSearch.add(RestaurantType.PIZZA);
+        }
         if (sushiBarCheckBox.isSelected()) {
             restaurantTypesToSearch.add(RestaurantType.SUSHI_BAR);
         }
@@ -187,11 +211,13 @@ public class FXMLInterfaceController implements Initializable {
 
         listOfRestaurants = interfaceService.filterDistance(listOfRestaurants, sortingOrder, maxDistance);
 
-        DateTimeFormatter parser = DateTimeFormatter.ofPattern("h[:mm]");
-        LocalTime startTime = LocalTime.parse(startTimeChoiceBox.getText(), parser);
-        LocalTime endTime = LocalTime.parse(endTimeChoiceBox.getText(), parser);
+        if (!startTimeField.getText().isEmpty() && !endTimeField.getText().isEmpty()) {
+            DateTimeFormatter parser = DateTimeFormatter.ofPattern("H:m");
+            LocalTime startTime = LocalTime.parse(startTimeField.getText(), parser);
+            LocalTime endTime = LocalTime.parse(endTimeField.getText(), parser);
 
-        listOfRestaurants = interfaceService.filterTimeSlots(listOfRestaurants, sortingOrder, startTime, endTime);
+            listOfRestaurants = interfaceService.filterTimeSlots(listOfRestaurants, sortingOrder, startTime, endTime);
+        }
 
         resultView.getChildren().clear();
         showOnlyFiftyRestaurants(listOfRestaurants, resultView);

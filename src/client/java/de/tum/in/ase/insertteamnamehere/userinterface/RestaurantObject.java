@@ -67,7 +67,7 @@ public class RestaurantObject {
         VBox.setMargin(address, new Insets(0, 10, 5, 10));
         Text priceClass = new Text("Price: " + restaurant.getPriceCategory().toString());
         VBox.setMargin(priceClass, new Insets(0, 10, 5, 10));
-        Text openingTimes = new Text("Opening Times: ");
+        Text openingTimes = new Text("Opening Times: \n" + restaurant.getOpeningTimes().toString());
         VBox.setMargin(openingTimes, new Insets(0, 10, 5, 10));
 
 
@@ -87,22 +87,26 @@ public class RestaurantObject {
         });
         VBox.setMargin(showTablesButton, new Insets(0, 0, 0, 10));
 
-
         Button toWebsiteButton = new Button("To Website");
         toWebsiteButton.setOnAction(e -> {
-            try {
-                Desktop desk = Desktop.getDesktop();
-                desk.browse(new URI(restaurant.getWebsite()));
+            if (!restaurant.getWebsite().isEmpty()) {
+                try {
+                    Desktop desk = Desktop.getDesktop();
+                    desk.browse(new URI(restaurant.getWebsite()));
 
-            } catch (IOException | URISyntaxException exception) {
-                exception.printStackTrace();
+                } catch (IOException | URISyntaxException exception) {
+                    exception.printStackTrace();
+                }
             }
         });
-        VBox.setMargin(toWebsiteButton, new Insets(5, 0, 10, 10));
+        HBox.setMargin(toWebsiteButton, new Insets(0, 0, 0, 10));
 
-        // buttonBox.getChildren().addAll(showTablesButton, toReservationButton);
+        HBox buttonBox = new HBox();
+        buttonBox.setPadding(new Insets(5, 0, 10, 10));
+        buttonBox.getChildren().addAll(showTablesButton, toWebsiteButton);
 
         Text postYourReview = new Text("Post your own review");
+        postYourReview.setFont(new Font(14));
         VBox.setMargin(postYourReview, new Insets(0, 0, 5, 10));
         TextField writeName = new TextField();
         writeName.setPromptText("Type your name");
@@ -112,6 +116,9 @@ public class RestaurantObject {
         writeReview.setPromptText("Write your review");
         writeName.setMaxWidth(250);
         VBox.setMargin(writeReview, new Insets(0, 30, 5, 10));
+        Label ownRating = new Label("Rate this restaurant!");
+        ownRating.setTextFill(Color.GREY);
+        VBox.setMargin(ownRating, new Insets(0, 0, 5, 10));
         Spinner<Integer> reviewRating = new Spinner<>();
         SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
         spinnerValueFactory.setValue(5);
@@ -155,8 +162,8 @@ public class RestaurantObject {
         });
 
         content.getChildren().addAll(restaurantName, pictures, rating, address,
-                priceClass, openingTimes, toWebsiteButton, showTablesButton,
-                postYourReview, writeName, writeReview, reviewRating, postButton, reviewSection);
+                priceClass, openingTimes, buttonBox, postYourReview, writeName,
+                writeReview, ownRating, reviewRating, postButton, reviewSection);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToHeight(true);
@@ -164,7 +171,7 @@ public class RestaurantObject {
         scrollPane.setContent(content);
         borderPane.setCenter(scrollPane);
 
-        Scene scene = new Scene(borderPane, 576.0, 617.0);
+        Scene scene = new Scene(borderPane, 600.0, 617.0);
 
         stage.setTitle(restaurant.getName());
         stage.setScene(scene);

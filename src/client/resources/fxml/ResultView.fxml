@@ -245,7 +245,7 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField fx:id="startTimeChoiceBox" promptText="h:mm">
+                  <TextField fx:id="startTimeField" nodeOrientation="LEFT_TO_RIGHT" promptText="h:mm">
                      <VBox.margin>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                      </VBox.margin>
@@ -255,7 +255,7 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField fx:id="endTimeChoiceBox" promptText="h:mm">
+                  <TextField fx:id="endTimeField" nodeOrientation="LEFT_TO_RIGHT" promptText="h:mm">
                      <VBox.margin>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                      </VBox.margin>
