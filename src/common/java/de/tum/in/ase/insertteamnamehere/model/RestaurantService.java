@@ -1,4 +1,5 @@
 package de.tum.in.ase.insertteamnamehere.model;
+
 import de.tum.in.ase.insertteamnamehere.user.User;
 import de.tum.in.ase.insertteamnamehere.util.Coord;
 import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
@@ -16,13 +17,12 @@ public class RestaurantService {
     private User user;
     private Database database;
 
-    public RestaurantService(User user){
+    public RestaurantService(User user) {
         //restaurants = new ArrayList<>();
         this.user = user;
         this.database = new Database();
         this.restaurants = database.getRestaurants();
     }
-
 
 
     public boolean addRestaurant(Restaurant restaurant) {
@@ -194,7 +194,7 @@ public class RestaurantService {
                     return (int) (r1.getAverageRating(r1.getRatings()) - r2.getAverageRating(r2.getRatings()));
                 }
             });
-        }  else if(sortingOrder == SortingOptions.SortingOrder.DESCENDING) {
+        } else if (sortingOrder == SortingOptions.SortingOrder.DESCENDING) {
             resultList.sort(new Comparator<Restaurant>() {
                 @Override
                 public int compare(Restaurant r1, Restaurant r2) {
@@ -205,7 +205,10 @@ public class RestaurantService {
         return resultList;
     }
 
-    public List<Restaurant> filterTimeSlots(SortingOptions.SortingOrder sortingOrder, LocalTime start, LocalTime end) {
+    public List<Restaurant> filterTimeSlots(List<Restaurant> listOfRestaurants, SortingOptions.SortingOrder sortingOrder, LocalTime start, LocalTime end) {
+        if (listOfRestaurants.isEmpty()) {
+            listOfRestaurants.addAll(restaurants);
+        }
         List<Restaurant> resultList = new ArrayList<>();
         TimeSlot timeslot = new TimeSlot(start, end);
         for (Restaurant r : restaurants) {

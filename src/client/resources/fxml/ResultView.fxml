@@ -245,21 +245,21 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Text>
-                  <ChoiceBox fx:id="startTimeChoiceBox" prefHeight="0.0" prefWidth="103.0">
+                  <TextField fx:id="startTimeChoiceBox" promptText="h:mm">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                      </VBox.margin>
-                  </ChoiceBox>
+                  </TextField>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Time">
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Text>
-                  <ChoiceBox fx:id="endTimeChoiceBox" prefHeight="0.0" prefWidth="103.0">
+                  <TextField fx:id="endTimeChoiceBox" promptText="h:mm">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                      </VBox.margin>
-                  </ChoiceBox>
+                  </TextField>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sorting Order">
                      <VBox.margin>
                         <Insets bottom="5.0" left="10.0" top="10.0" />

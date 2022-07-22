@@ -8,15 +8,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tum.in.ase.insertteamnamehere.userinterface.FXMLReservationController">
    <children>
-      <VBox fx:id="tablesBox" layoutX="104.0" prefHeight="400.0" prefWidth="496.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="See Tables below: ">
-               <VBox.margin>
-                  <Insets left="190.0" top="5.0" />
-               </VBox.margin>
-            </Text>
-         </children>
-      </VBox>
+      <VBox fx:id="tablesBox" layoutX="104.0" layoutY="39.0" prefHeight="361.0" prefWidth="496.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="39.0" />
       <VBox layoutX="489.0" layoutY="7.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please pick a date below to see available tables." wrappingWidth="99.76110076904297">
@@ -31,5 +23,6 @@
             </DatePicker>
          </children>
       </VBox>
+      <Text layoutX="307.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="See Tables below: " />
    </children>
 </AnchorPane>

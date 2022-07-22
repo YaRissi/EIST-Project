@@ -5,7 +5,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 public class JSONParse {
     private JSONObject restaurantObject = new JSONObject();
@@ -134,15 +137,15 @@ public class JSONParse {
 
             if (restaurantTypes.size() > 0) restaurantType1 = restaurantTypes.get(0);
 
-            Set<Table> tableSet = dataProcessing.getTablesFromString(Tables);
             Restaurant restaurant = new Restaurant(name, coord, adress
                     , restaurantType1, PriceCategory.valueOf(priceCategory),
-                    tableSet, null);
+                    dataProcessing.getTablesFromString(Tables), null);
 
             restaurant.setWebsite(website);
 
-            for (Table table:tableSet) {
-                table.setRestaurant(restaurant);
+            Iterator<Table> iterator = restaurant.getTables().iterator();
+            for(int i = 0; i < restaurant.getTables().size(); i++) {
+                iterator.next().setRestaurant(restaurant);
             }
 
             if (restaurantTypes.size() > 1) {

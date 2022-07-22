@@ -17,7 +17,6 @@ public class User {
     private Coord location;
 
     public User(String name, RestaurantService restaurantService, Coord location) {
-        userID = UUID.randomUUID();
         this.name = name;
         this.restaurantService = restaurantService;
         this.location = location;

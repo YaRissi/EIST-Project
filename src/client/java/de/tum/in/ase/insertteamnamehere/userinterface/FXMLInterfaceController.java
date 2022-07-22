@@ -2,6 +2,8 @@ package de.tum.in.ase.insertteamnamehere.userinterface;
 
 import de.tum.in.ase.insertteamnamehere.model.*;
 import de.tum.in.ase.insertteamnamehere.user.User;
+import de.tum.in.ase.insertteamnamehere.util.JSONParse;
+import de.tum.in.ase.insertteamnamehere.util.SortingOptions;
 import de.tum.in.ase.insertteamnamehere.util.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,25 +15,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.event.ActionEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class FXMLInterfaceController implements Initializable {
     @FXML
     public Button LoginButton;
-    @FXML
-    private Button button;
     // Alle Check Boxen
     @FXML
     private CheckBox barRestaurantCheckBox;
@@ -80,9 +79,9 @@ public class FXMLInterfaceController implements Initializable {
     @FXML
     private Spinner<Integer> distanceSpinner;
     @FXML
-    private ChoiceBox<LocalTime> startTimeChoiceBox;
+    private TextField startTimeChoiceBox;
     @FXML
-    private ChoiceBox<LocalTime> endTimeChoiceBox;
+    private TextField endTimeChoiceBox;
 
     // Search Bar
     @FXML
@@ -130,7 +129,6 @@ public class FXMLInterfaceController implements Initializable {
     @FXML
     public void handleShowAllButton(ActionEvent event) { //ShowAllButton shows concrete Restaurants
         resultView.getChildren().clear();
-        ;
 
         //interfaceService.initialiseRestaurants();
         //for (Restaurant restaurant : interfaceService.getRestaurants()) {
@@ -184,17 +182,16 @@ public class FXMLInterfaceController implements Initializable {
         int minRating = minRatingSpinner.getValue();
 
         listOfRestaurants = interfaceService.filterRating(listOfRestaurants, sortingOrder, minRating);
-        // TODO Implement Filter Distance and Opening Times
 
         int maxDistance = distanceSpinner.getValue();
 
         listOfRestaurants = interfaceService.filterDistance(listOfRestaurants, sortingOrder, maxDistance);
 
-        /*
-            if (sortField.equals(SortingOptions.SortField.FREE_TIME_SLOTS)) {
-                listOfRestaurants = interfaceService.filterRating(null, 0);
-            }
-        } */
+        DateTimeFormatter parser = DateTimeFormatter.ofPattern("h[:mm]");
+        LocalTime startTime = LocalTime.parse(startTimeChoiceBox.getText(), parser);
+        LocalTime endTime = LocalTime.parse(endTimeChoiceBox.getText(), parser);
+
+        listOfRestaurants = interfaceService.filterTimeSlots(listOfRestaurants, sortingOrder, startTime, endTime);
 
         resultView.getChildren().clear();
         showOnlyFiftyRestaurants(listOfRestaurants, resultView);
@@ -343,8 +340,7 @@ public class FXMLInterfaceController implements Initializable {
         sortingOrderChoiceBox.getItems().addAll(null, SortingOptions.SortingOrder.ASCENDING,
                 SortingOptions.SortingOrder.DESCENDING);
 
-
-        //interfaceService.setRestaurants(createRandomRestaurants());
+        //interfaceService.setRestaurants(RestaurantFactory.createRandomRestaurants());
         JSONParse jsonParse = new JSONParse();
         /*try {
             jsonParse.clearJson();
@@ -385,6 +381,3 @@ public class FXMLInterfaceController implements Initializable {
 
 
 }
-
-
-

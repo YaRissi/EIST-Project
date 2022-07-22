@@ -20,7 +20,7 @@ public class InterfaceApplication extends Application {
             FXMLLoader loader = new FXMLLoader(myFXML);
             root = (Parent) loader.load();
             primaryStage.setTitle("Reservation System");
-            primaryStage.setScene(new Scene(root, 473, 279));
+            primaryStage.setScene(new Scene(root, 880.0, 673.0));
             primaryStage.show();
         }
 

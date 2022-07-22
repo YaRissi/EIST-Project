@@ -14,8 +14,7 @@ public class RestaurantFactory {
         List<Restaurant> dummyList = new ArrayList<>();
         for (int i = 0; i < numberOfRestaurants; i++) {
             List<RestaurantType> restaurantTypes = createRandomRestaurantType();
-            Restaurant dummy = new Restaurant(createRandomRestaurantName(restaurantTypes), null, "" + i, null, createRandomPriceCategory(), null, null);
-            dummy.setTables(createRandomTables(dummy));
+            Restaurant dummy = new Restaurant(createRandomRestaurantName(restaurantTypes), null, "" + i, null, createRandomPriceCategory(), createRandomTables(), null);
             dummy.setRatings(createRandomRating());
             dummy.setAverageRating(dummy.getAverageRating(dummy.getRatings()));
             dummy.setRestaurantType(restaurantTypes);
@@ -119,14 +118,14 @@ public class RestaurantFactory {
         return name + "Restaurant";
     }
 
-    private static Set<Table> createRandomTables(Restaurant restaurant) {
+    private static Set<Table> createRandomTables() {
         int min = 1;
         int max = 10;
         Random random = new Random();
         int numberOfTables = random.nextInt(max + min) + min;
         Set<Table> listOfTables = new HashSet<>();
         for (int i = 0; i < numberOfTables; i++) {
-            listOfTables.add(new Table(random.nextInt(max + min) + min, restaurant));
+            listOfTables.add(new Table(random.nextInt(max + min) + min, createRandomRestaurants().get(0)));
         }
         return listOfTables;
     }
