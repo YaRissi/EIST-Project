@@ -34,6 +34,7 @@ between the endpoint and the server. The server handles the reservations und the
 costumer.
 ## Hardware/software mapping
 ![Hardware](resources/Hardware.png)
+
 When opening the software, the controller builds the user interface and forms a connection to the
 server, where all the information is being stored. With every click on the user interface, the
 controller fetches all needed information form the server and display them on the user’s screen. At
