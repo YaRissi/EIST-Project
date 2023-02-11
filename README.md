@@ -7,7 +7,7 @@
 
 This is a Reservationsystem for restaurants made in a class at the TUM.
 
-[![SubathonTimer](resources/Klassendiagram.png)](https://github.com/yarissi/EIST-Project)
+[![Klassendiagram](resources/Klassendiagram.png)](https://github.com/yarissi/EIST-Project)
 
 ## Introduction
 
@@ -33,6 +33,7 @@ The server subsystem is the backend and manages the resources and service for th
 between the endpoint and the server. The server handles the reservations und the reminders to the
 costumer.
 ## Hardware/software mapping
+![Hardware](resources\Hardware.png)
 When opening the software, the controller builds the user interface and forms a connection to the
 server, where all the information is being stored. With every click on the user interface, the
 controller fetches all needed information form the server and display them on the user’s screen. At
@@ -48,9 +49,3 @@ SHA256, so no one can easily access the dashboard. As a user you need to input y
 the beginning of opening the software, which are also getting stored in a text file without encryption.
 The user only has limited access and only see which restaurants exists and place a reservation at one
 of them. The reminders are getting send via a server as an email.
-
-
-
-
-
-See the [license](./LICENSE) document for the full text.
